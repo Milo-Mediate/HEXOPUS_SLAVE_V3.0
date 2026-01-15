@@ -1,0 +1,101 @@
+#include "callbacks.h"
+
+#include <stdbool.h>
+#include "global.h"
+#include "can_manager.h"
+#include "event_manager.h"
+#include "logging.h"
+#include "plot_manager.h"
+#include "serial_manager.h"
+
+
+static char data_to_send[100];
+
+// Rising edge handler
+void HAL_GPIO_EXTI_Rising_Callback(uint16_t GPIO_Pin) {
+
+}
+
+// Falling edge handler
+void HAL_GPIO_EXTI_Falling_Callback(uint16_t GPIO_Pin) {
+
+}
+
+/**
+ * @brief  UART RX complete callback.
+ * @param  huart UART handle pointer.
+ * @details Assembles CRLF-terminated command and calls @ref process_serial_data().
+ */
+void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart) {
+	if (huart->Instance == USART1) {
+		//on_new_serial_data();
+	}
+}
+
+/**
+ * @brief  FDCAN RX FIFO0 callback.
+ * @param  hfdcan FDCAN handle pointer.
+ * @param  RxFifo0ITs Interrupt flags.
+ * @details Retrieves CAN frame and calls @ref FDCANRx().
+ */
+
+void HAL_FDCAN_RxFifo0Callback(FDCAN_HandleTypeDef *hfdcan, uint32_t RxFifo0ITs) {
+	if ((RxFifo0ITs & FDCAN_IT_RX_FIFO0_NEW_MESSAGE) != RESET) {
+		/* Retreive Rx messages from RX FIFO0 */
+		if (HAL_FDCAN_GetRxMessage(hfdcan, FDCAN_RX_FIFO0, &RxHeader_, RxData_)
+				!= HAL_OK) {
+			/* Reception Error */
+			Error_Handler();
+		}
+		FDCANRx();
+		if (HAL_FDCAN_ActivateNotification(hfdcan,
+		FDCAN_IT_RX_FIFO0_NEW_MESSAGE, 0) != HAL_OK) {
+			/* Notification Error */
+			Error_Handler();
+		}
+	}
+}
+
+/**
+ * @brief  Timer period elapsed callback.
+ * @param  htim Timer handle pointer.
+ * @details TIM2 calls @ref check_slave_status(), TIM4 calls @ref plot_control().
+ */
+
+void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim) {
+	if (htim->Instance == TIM2) {
+
+	}
+}
+
+/**
+ * @brief ADC conversion complete callback.
+ *
+ * This callback is invoked by the HAL when the ADC DMA transfer
+ * has completed filling the entire conversion buffer.
+ *
+ * Typical use case:
+ * - ADC configured in scan mode with DMA enabled.
+ * - DMA transfer size matches the number of ADC channels.
+ * - Each invocation indicates that all elements of the ADC data buffer
+ *   contain fresh conversion results.
+ *
+ * In DMA circular mode, this callback is called at the end of each
+ * complete conversion sequence (i.e., once per full buffer update).
+ *
+ * @param hadc Pointer to the ADC handle that triggered the callback.
+ *
+ * @note This function increments a global update counter used to
+ *       signal the availability of new ADC samples to other parts
+ *       of the application (e.g., calibration routines).
+ * @note If data cache (D-Cache) is enabled on the MCU, ensure that
+ *       the ADC DMA buffer is placed in a non-cacheable memory region
+ *       or that the cache is properly invalidated before reading
+ *       the buffer contents.
+ */
+void HAL_ADC_ConvCpltCallback(ADC_HandleTypeDef *hadc)
+{
+	if (hadc->Instance == hadc1)
+		flag_adc_new_sample_ = true;
+}
+

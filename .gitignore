@@ -1,0 +1,37 @@
+# === STM32CubeIDE build output ===
+/Debug/
+/Release/*
+
+# Keep only the compiled ELF and BIN in Release
+!/Release/*.elf
+!/Release/*.bin
+
+# === STM32CubeMX and IDE config ===
+.mxproject
+.settings/
+.vscode/
+.idea/
+*.launch
+
+# === Generated metadata ===
+*.map
+*.list
+*.srec
+*.dmp
+
+# === OS / editor temporary files ===
+.DS_Store
+Thumbs.db
+*.swp
+*.bak
+*.tmp
+
+# === Keep all source and headers ===
+!Core/**
+!Drivers/**
+!Middlewares/**
+!USB_DEVICE/**
+!FATFS/**
+!FreeRTOS/**
+!TouchGFX/**
+!Utilities/**
