@@ -33,6 +33,7 @@
 /* USER CODE END 1 */
 
 /** Configure pins
+     PB12   ------> FDCAN2_RX
 */
 void MX_GPIO_Init(void)
 {
@@ -56,9 +57,6 @@ void MX_GPIO_Init(void)
 
   /*Configure GPIO pin Output Level */
   HAL_GPIO_WritePin(GPIOD, LTC1660_CLR_Pin|LTC1660_CS_Pin|TLC5916_CS_Pin|TLC5916_LE_Pin, GPIO_PIN_RESET);
-
-  /*Configure GPIO pin Output Level */
-  HAL_GPIO_WritePin(LED_SENSOR_GPIO_Port, LED_SENSOR_Pin, GPIO_PIN_RESET);
 
   /*Configure GPIO pins : XOR_RB_1_Pin XOR_RB_2_Pin */
   GPIO_InitStruct.Pin = XOR_RB_1_Pin|XOR_RB_2_Pin;
@@ -87,6 +85,14 @@ void MX_GPIO_Init(void)
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   HAL_GPIO_Init(RESET_INPUT_GPIO_Port, &GPIO_InitStruct);
 
+  /*Configure GPIO pin : FDCAN_AUX_RX_Pin */
+  GPIO_InitStruct.Pin = FDCAN_AUX_RX_Pin;
+  GPIO_InitStruct.Mode = GPIO_MODE_AF_PP;
+  GPIO_InitStruct.Pull = GPIO_NOPULL;
+  GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
+  GPIO_InitStruct.Alternate = GPIO_AF9_FDCAN2;
+  HAL_GPIO_Init(FDCAN_AUX_RX_GPIO_Port, &GPIO_InitStruct);
+
   /*Configure GPIO pin : XOR_RB_8_Pin */
   GPIO_InitStruct.Pin = XOR_RB_8_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_IT_RISING;
@@ -101,13 +107,6 @@ void MX_GPIO_Init(void)
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
   HAL_GPIO_Init(GPIOD, &GPIO_InitStruct);
-
-  /*Configure GPIO pin : LED_SENSOR_Pin */
-  GPIO_InitStruct.Pin = LED_SENSOR_Pin;
-  GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
-  GPIO_InitStruct.Pull = GPIO_NOPULL;
-  GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
-  HAL_GPIO_Init(LED_SENSOR_GPIO_Port, &GPIO_InitStruct);
 
   /*Configure GPIO pin : XOR_RB_10_Pin */
   GPIO_InitStruct.Pin = XOR_RB_10_Pin;

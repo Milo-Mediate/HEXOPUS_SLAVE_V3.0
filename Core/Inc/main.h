@@ -133,24 +133,24 @@ void Error_Handler(void);
 #define TLC5916_CS_GPIO_Port GPIOD
 #define TLC5916_LE_Pin GPIO_PIN_15
 #define TLC5916_LE_GPIO_Port GPIOD
+#define DIRECT_DDS_Pin GPIO_PIN_9
+#define DIRECT_DDS_GPIO_Port GPIOC
 #define FDCAN_RX_Pin GPIO_PIN_11
 #define FDCAN_RX_GPIO_Port GPIOA
 #define FDCAN_TX_Pin GPIO_PIN_12
 #define FDCAN_TX_GPIO_Port GPIOA
-#define LED_SENSOR_Pin GPIO_PIN_14
-#define LED_SENSOR_GPIO_Port GPIOA
+#define TLC5916_SCK_Pin GPIO_PIN_10
+#define TLC5916_SCK_GPIO_Port GPIOC
+#define TLC5916_MISO_Pin GPIO_PIN_11
+#define TLC5916_MISO_GPIO_Port GPIOC
+#define TLC5916_MOSI_Pin GPIO_PIN_12
+#define TLC5916_MOSI_GPIO_Port GPIOC
 #define LTC1660_SCK_Pin GPIO_PIN_3
 #define LTC1660_SCK_GPIO_Port GPIOD
 #define XOR_RB_10_Pin GPIO_PIN_7
 #define XOR_RB_10_GPIO_Port GPIOD
 #define XOR_RB_12_Pin GPIO_PIN_11
 #define XOR_RB_12_GPIO_Port GPIOG
-#define FDCAN_AUX_TX_Pin GPIO_PIN_6
-#define FDCAN_AUX_TX_GPIO_Port GPIOB
-#define I2C_SDA_Pin GPIO_PIN_7
-#define I2C_SDA_GPIO_Port GPIOB
-#define I2C_SCL_Pin GPIO_PIN_8
-#define I2C_SCL_GPIO_Port GPIOB
 
 /* USER CODE BEGIN Private defines */
 

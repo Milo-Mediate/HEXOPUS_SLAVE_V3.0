@@ -22,7 +22,6 @@
 #include "fdcan.h"
 #include "flash.h"
 #include "gpdma.h"
-#include "i2c.h"
 #include "icache.h"
 #include "spi.h"
 #include "tim.h"
@@ -103,8 +102,6 @@ int main(void)
   MX_GPDMA2_Init();
   MX_GPDMA1_Init();
   MX_FDCAN1_Init();
-  MX_FDCAN2_Init();
-  MX_I2C1_Init();
   MX_SPI3_Init();
   MX_USART1_UART_Init();
   MX_TIM2_Init();
@@ -117,6 +114,7 @@ int main(void)
   MX_TIM12_Init();
   MX_ADC1_Init();
   MX_ADC2_Init();
+  MX_TIM8_Init();
   /* USER CODE BEGIN 2 */
 
   /* USER CODE END 2 */
@@ -202,18 +200,7 @@ void PeriphCommonClock_Config(void)
 
   /** Initializes the peripherals clock
   */
-  PeriphClkInitStruct.PeriphClockSelection = RCC_PERIPHCLK_ADCDAC|RCC_PERIPHCLK_FDCAN
-                              |RCC_PERIPHCLK_SPI2|RCC_PERIPHCLK_SPI3;
-  PeriphClkInitStruct.PLL2.PLL2Source = RCC_PLL2_SOURCE_CSI;
-  PeriphClkInitStruct.PLL2.PLL2M = 1;
-  PeriphClkInitStruct.PLL2.PLL2N = 125;
-  PeriphClkInitStruct.PLL2.PLL2P = 5;
-  PeriphClkInitStruct.PLL2.PLL2Q = 10;
-  PeriphClkInitStruct.PLL2.PLL2R = 4;
-  PeriphClkInitStruct.PLL2.PLL2RGE = RCC_PLL2_VCIRANGE_2;
-  PeriphClkInitStruct.PLL2.PLL2VCOSEL = RCC_PLL2_VCORANGE_WIDE;
-  PeriphClkInitStruct.PLL2.PLL2FRACN = 0;
-  PeriphClkInitStruct.PLL2.PLL2ClockOut = RCC_PLL2_DIVQ;
+  PeriphClkInitStruct.PeriphClockSelection = RCC_PERIPHCLK_SPI2|RCC_PERIPHCLK_SPI3;
   PeriphClkInitStruct.PLL3.PLL3Source = RCC_PLL3_SOURCE_CSI;
   PeriphClkInitStruct.PLL3.PLL3M = 4;
   PeriphClkInitStruct.PLL3.PLL3N = 128;
@@ -224,7 +211,6 @@ void PeriphCommonClock_Config(void)
   PeriphClkInitStruct.PLL3.PLL3VCOSEL = RCC_PLL3_VCORANGE_WIDE;
   PeriphClkInitStruct.PLL3.PLL3FRACN = 0;
   PeriphClkInitStruct.PLL3.PLL3ClockOut = RCC_PLL3_DIVP;
-  PeriphClkInitStruct.FdcanClockSelection = RCC_FDCANCLKSOURCE_PLL2Q;
   PeriphClkInitStruct.Spi2ClockSelection = RCC_SPI2CLKSOURCE_PLL3P;
   PeriphClkInitStruct.Spi3ClockSelection = RCC_SPI3CLKSOURCE_PLL3P;
   if (HAL_RCCEx_PeriphCLKConfig(&PeriphClkInitStruct) != HAL_OK)
