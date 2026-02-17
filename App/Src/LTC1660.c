@@ -17,30 +17,23 @@
 #include "LTC1660.h"
 #include "serial_manager.h"
 #include "event_manager.h"
+#include "ADC_function.h"
+#include <assert.h>
 #include <stdbool.h>
 #include <stdio.h>   /* snprintf */
 #include <string.h>  /* memcpy */
 
-#define N_CH               8U
+#define DAC_RES            10U
 #define DAC_MIN            0U
-#define DAC_MAX            1023U
-#define ADC_MIN_TGT        250UL
-#define ADC_MAX_TGT        650UL
-#define SETTLE_MS          1U
-#define ADC_MEAN_SHIFT     7U
+#define DAC_MAX            ((1 << DAC_RES) - 1)
+#define ADC_MIN_TGT        450UL
+#define ADC_MAX_TGT        750UL
+#define SETTLE_MS          2U
 
-static uint32_t read_adc_mean(uint8_t sens) {
-	const uint8_t mean_samples = 1 << ADC_MEAN_SHIFT;
-	uint32_t sum = 0;
-	for (uint32_t i = 0; i < mean_samples; i++) {
-		while (flag_adc_new_sample_ == false) { /* spin */
-		}
-		flag_adc_new_sample_ = false;
 
-		sum += adc1_data_[sens];
-	}
-	return sum >> ADC_MEAN_SHIFT;
-}
+#define LTC1660_WD(channel, value) ((uint16_t) (((uint16_t) ((channel + 1) & 0x0F) << 12) | ((uint16_t) (value & 0x03FF) << 2)))
+// TODO: _Static_assert su questa macro
+
 
 /**
  * @brief Program a single LTC1660 channel with a 10-bit value.
@@ -50,21 +43,27 @@ static uint32_t read_adc_mean(uint8_t sens) {
  * - Builds the 16-bit frame manually with shifts/masks.
  * - Transmits one word via HAL SPI.
  */
-
-void set_dac_channel(SPI_HandleTypeDef *hspi, GPIO_TypeDef *cs_port,
-		uint16_t cs_pin, uint8_t channel, uint16_t value) {
-	// ToDo: inserire LOG
-	uint16_t txWord = 1U;
-	if ((channel > 0U) && (channel <= N_CH)) {
-		txWord = (uint16_t) (((uint16_t) (channel & 0x0F) << 12)
-				| ((uint16_t) (value & 0x03FF) << 2));
-		HAL_GPIO_WritePin(cs_port, cs_pin, GPIO_PIN_RESET);
-		HAL_Delay(SETTLE_MS);
-		(void) HAL_SPI_Transmit(hspi, (uint8_t*) &txWord, 1U, HAL_MAX_DELAY);
-		HAL_GPIO_WritePin(cs_port, cs_pin, GPIO_PIN_SET);
-		HAL_Delay(SETTLE_MS);
-	}
+bool set_dac_channel(DAC_t *dac, uint8_t channel, uint16_t new_value) {
+	if (channel > N_CH)
+		return false;
+	uint16_t txWord = LTC1660_WD(channel, new_value);
+	HAL_GPIO_WritePin(dac->cs_port, dac->cs_pin, GPIO_PIN_RESET);
+	HAL_Delay(SETTLE_MS);
+	(void) HAL_SPI_Transmit(dac->hspi, (uint8_t*) &txWord, 1U, HAL_MAX_DELAY);
+	HAL_GPIO_WritePin(dac->cs_port, dac->cs_pin, GPIO_PIN_SET);
+	HAL_Delay(SETTLE_MS);
+	dac->values[channel] = new_value;
+	return true;
 }
+
+
+uint16_t get_dac_channel(const DAC_t *dac, uint8_t channel)
+{
+	if (channel > N_CH)
+		return -1;
+	return dac->values[channel];
+}
+
 
 /**
  * @brief Sweep DAC code until ADC mean falls inside a target window.
@@ -75,34 +74,26 @@ void set_dac_channel(SPI_HandleTypeDef *hspi, GPIO_TypeDef *cs_port,
  * - Target window [@ref ADC_TARGET_MIN_DEFAULT, @ref ADC_TARGET_MAX_DEFAULT].
  * - On success prints final DAC code; on failure prints an error.
  */
-void auto_set_dac_value(SPI_HandleTypeDef *hspi, GPIO_TypeDef *cs_port,
-		uint16_t cs_pin, uint8_t sens) {
+dac_cal_status_t auto_set_channel_value(DAC_t *dac, uint8_t channel) {
 	/* Range guard */
-	if (sens > 7U) {
-		send_event();
-		return;
+	if (channel > N_CH - 1) {
+		//send_event(); // TODO: implementare funzione
+		return DAC_CAL_TO_DO;
 	}
-	uint8_t channel = (uint8_t) (sens + 1U);
 
 	uint16_t lo = DAC_MIN;
 	uint16_t hi = DAC_MAX;
 	uint16_t mid = 0;
 
-	uint16_t dac_tick = 0U;
-	uint32_t sum_adc = 0UL;
-	uint32_t mean_adc = 0UL;
+	for (uint8_t i = 0; i < DAC_RES; i++) {
 
-	//ToDo: inserire la parte di lettura
-	for (uint8_t iter = 0; iter < 12U; iter++) {
 		mid = (uint16_t) ((lo + hi) >> 1);
-		set_dac_channel(hspi, cs_port, cs_pin, channel, dac_tick);
-		HAL_Delay(SETTLE_MS);
-		for (uint8_t i = 0U; i < ADC_MEAN_SAMPLES; i++) {
-			sum_adc += adc1_data_[sens];
-		}
-		mean_adc = (uint32_t) (sum_adc / (uint32_t) ADC_MEAN_SAMPLES);
+		set_dac_channel(dac, channel, mid);
+		HAL_Delay(250);
+
+		uint32_t mean_adc = read_adc_mean(0, channel);
 		if ((mean_adc >= ADC_MIN_TGT) && (mean_adc <= ADC_MAX_TGT)) {
-			return;
+			return DAC_CAL_OK;
 		}
 		if (mean_adc > ADC_MAX_TGT) {
 			lo = mid + 1U;
@@ -110,27 +101,23 @@ void auto_set_dac_value(SPI_HandleTypeDef *hspi, GPIO_TypeDef *cs_port,
 			hi = mid - 1U;
 		}
 	}
-
-
-//	while (((mean_adc < ADC_MIN_TGT) || (mean_adc > ADC_MAX_TGT))
-//			&& (dac_tick <= DAC_MAX)) {
-//		sum_adc = 0UL;
-//		set_dac_channel(hspi, cs_port, cs_pin, channel, dac_tick);
-//		HAL_Delay(SETTLE_MS);
-//		for (uint8_t i = 0U; i < ADC_MEAN_SAMPLES; i++) {
-//			sum_adc += adc1_data_[sens];
-//		}
-//		mean_adc = (uint32_t) (sum_adc / (uint32_t) ADC_MEAN_SAMPLES);
-//
-//		dac_tick++;
-//	}
-
-//	char msg[80];
-//	if (dac_tick >= DAC_MAX_TICK_DEFAULT) {
-//		(void) snprintf(msg, sizeof(msg), "CHANNEL: %u - ERROR CALIBRATION\r\n", (unsigned) channel);
-//	} else {
-//		(void) snprintf(msg, sizeof(msg), "CHANNEL: %u - CALIBRATION SUCCESS - DAC TICK: %u\r\n", (unsigned) channel, (unsigned) dac_tick);
-//	}
-//	UART_Print(msg);
+//	return DAC_CAL_OK;
+	return DAC_CAL_OUT_OF_RANGE;
 }
 
+dac_cal_status_t calibration_dac(DAC_t *dac)
+{
+	for (uint8_t i = 0U; i < N_CH; i++)
+	{
+		if (auto_set_channel_value(dac, i) != DAC_CAL_OK)
+			return DAC_CAL_ERR;
+	}
+	return DAC_CAL_OK;
+}
+
+void dac_init(SPI_HandleTypeDef *hspi, DAC_t *dac, GPIO_TypeDef *port, uint16_t pin)
+{
+	dac->hspi    = hspi;
+	dac->cs_port = port;
+	dac->cs_pin  = pin;
+}
