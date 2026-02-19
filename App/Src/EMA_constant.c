@@ -19,3 +19,4 @@ float32_t EMA_GetAlpha(float32_t tau, float32_t ts)
     float32_t alpha = 1.0f - expf(-ts / tau);
     return alpha;
 }
+
