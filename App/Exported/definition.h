@@ -113,6 +113,7 @@ typedef enum {
 #define VERSION             "HEXOPUS_SLAVE_V3.0"  /**< Firmware version string */
 
 /* Sensor mapping depending on product variant */
+#define MAX_SENS          12
 #ifdef HEXOPUS
 #define NUM_SENS           12
 #define NUM_DSP            6
@@ -180,7 +181,7 @@ typedef enum {
 #define CMD_FLASH_WRITE                   200
 #define CMD_FLASH_READ                    201
 #define CMD_FLASH_INIT                    202
-#define CMD_LED           				   75
+#define CMD_LED                           75
 
 /* Scan and distributed calibration (Master) */
 #define CMD_CAN_SCAN                      146
@@ -214,7 +215,6 @@ typedef enum {
 
 #define CMD_AUTOSET_POT                   50
 #define CMD_REF_VOLTAGE                   51
-//#define CMD_MANUAL_SET_POT                53
 
 /** @} *//* end of cmd_hw */
 
@@ -225,7 +225,6 @@ typedef enum {
  *  @brief Dynamic thresholds, gains, buffers, cycles, and streaming.
  *  @{
  */
-
 
 #define CMD_TH1                           125 // Fixed threshold used to manage 10Khz signal
 #define CMD_TH2                           126 // Fixed threshold used to manage 10Khz signal
@@ -256,6 +255,7 @@ typedef enum {
 #define CMD_SERIAL_PLOT                   143
 #define CMD_FDCAN_TX_DEBUG                144
 #define CMD_RESET_SLAVE                   145
+#define CMD_CAN_MSG_DEBUG                 254
 
 /** @} *//* end of cmd_dbg */
 
@@ -266,7 +266,11 @@ typedef enum {
  *  @brief Sensor, signal, and device selection via UART/CAN.
  *  @{
  */
+#define CMD_SELECT_SENSOR               9
 #define CMD_SELECT_SIGNAL               10
+#ifdef MASTER
+#define CMD_SELECT_DEVICE               11
+#endif
 /** @} *//* end of cmd_sel */
 
 #define CMD_OPEN_CONNECTION_USER         1
@@ -281,9 +285,7 @@ typedef enum {
 #define CMD_TIME_SETUP                  13
 #define CMD_EXPIRATION_TIME             14
 #define CMD_BATT_SETUP                  15
-#define CMD_USER_SETUP					16
+#define CMD_USER_SETUP                  16
 #define CMD_USERNAME_SETUP              17
 #define CMD_PASSWORD_SETUP              18
-
-
 #endif /* DEFINITION_H */

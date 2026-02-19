@@ -5,7 +5,6 @@
 #include "global.h"
 #include "plot_manager.h"
 #include "can_manager.h"
-#include "MCP4551.h"
 #include "event_manager.h"
 #include "logging.h"
 #include "crc_hw.h"
@@ -47,6 +46,13 @@ void app_init()
 		Error_Handler();
 	}
 
+	HAL_TIM_PWM_Start(&htim8, TIM_CHANNEL_4);
+
+	init_serial();
+	app_dac_init();
+	init_adc(ADC_1, &hadc1);
+	init_adc(ADC_2, &hadc2);
+	HAL_Delay(1000);
 // TODO: inserire i TIM HAL_TIM_Base_Start_IT(&htim2);
 
 // init_serial();

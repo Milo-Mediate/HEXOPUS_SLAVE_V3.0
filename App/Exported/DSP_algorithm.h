@@ -5,10 +5,12 @@
  *      Author: emili
  */
 
-#ifndef SRC_DSP_ALGORITHM_H_
-#define SRC_DSP_ALGORITHM_H_
-#include "global.h"
-extern uint16_t alg_time_;
+#ifndef EXPORTED_DSP_ALGORITHM_H_
+#define EXPORTED_DSP_ALGORITHM_H_
+
+#include "arm_math.h"
+
+#include <stdbool.h>
 
 extern void DSP_algorithm();
 extern void DSP_threshold();

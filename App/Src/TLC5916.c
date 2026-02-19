@@ -5,43 +5,59 @@
  *      Author: emili
  */
 #include "TLC5916.h"
+#include "stm32h5xx_hal.h"
+#include <stdio.h>
 
-static uint8_t led_status = 0;
+void TLC5916_init(SPI_HandleTypeDef *hspi, TLC5916_t *tlc,
+		GPIO_TypeDef *oe_port, uint16_t oe_pin, GPIO_TypeDef *le_port,
+		uint16_t le_pin) {
+	tlc->led_status = 0;
+	tlc->hspi = hspi;
+	tlc->oe_port = oe_port;
+	tlc->oe_pin = oe_pin;
+	tlc->le_port = le_port;
+	tlc->le_pin = le_pin;
 
-void TLC5916_Init() {
-	HAL_GPIO_WritePin(TLC5916_CS_GPIO_Port, TLC5916_CS_Pin, GPIO_PIN_RESET);
-	HAL_GPIO_WritePin(TLC5916_LE_GPIO_Port, TLC5916_LE_Pin, GPIO_PIN_RESET);
+	HAL_GPIO_WritePin(tlc->oe_port, tlc->oe_pin, GPIO_PIN_SET);
+	HAL_GPIO_WritePin(tlc->le_port, tlc->le_pin, GPIO_PIN_RESET);
 }
 
-HAL_StatusTypeDef TLC5916_Write_Status(SPI_HandleTypeDef *hspi, const uint8_t new_status)
-{
-	HAL_GPIO_WritePin(TLC5916_CS_GPIO_Port, TLC5916_CS_Pin, GPIO_PIN_SET); /* OE = High (uscite OFF) */
-	HAL_GPIO_WritePin(TLC5916_LE_GPIO_Port, TLC5916_LE_Pin, GPIO_PIN_RESET); /* LE = Low (latch chiuso) */
-
-	HAL_StatusTypeDef st = HAL_SPI_Transmit(hspi, &new_status, 1, HAL_MAX_DELAY);
-
-	HAL_GPIO_WritePin(TLC5916_LE_GPIO_Port, TLC5916_LE_Pin, GPIO_PIN_SET);
-	for (volatile uint32_t i = 0; i < 32; ++i)
-	{
-		__NOP();
-	}
-	HAL_GPIO_WritePin(TLC5916_LE_GPIO_Port, TLC5916_LE_Pin, GPIO_PIN_RESET);
-	HAL_GPIO_WritePin(TLC5916_CS_GPIO_Port, TLC5916_CS_Pin, GPIO_PIN_RESET);
-	return st;
+static inline void TLC5916_FrameBegin(TLC5916_t *tlc) {
+	HAL_GPIO_WritePin(tlc->oe_port, tlc->oe_pin, GPIO_PIN_SET);
+	HAL_GPIO_WritePin(tlc->le_port, tlc->le_pin, GPIO_PIN_SET);
 }
 
-uint8_t TLC5916_Read_Status() {
-	return led_status;
+static inline void TLC5916_FrameEnd(TLC5916_t *tlc) {
+	HAL_GPIO_WritePin(tlc->le_port, tlc->le_pin, GPIO_PIN_RESET);
+	HAL_GPIO_WritePin(tlc->oe_port, tlc->oe_pin, GPIO_PIN_RESET);
 }
 
-HAL_StatusTypeDef Turn_On_Led(SPI_HandleTypeDef *hspi, const uint8_t idx)
-{
-	led_status |= (1 << idx);
-	return TLC5916_Write_Status(hspi,led_status);
+TLC5916_error_t TLC5916_WriteStatus(TLC5916_t *tlc, const uint8_t new_status) {
+	TLC5916_FrameBegin(tlc);
+
+	HAL_StatusTypeDef st = HAL_SPI_Transmit(tlc->hspi, &new_status, 1, HAL_MAX_DELAY);
+
+	TLC5916_FrameEnd(tlc);
+	if (st != HAL_OK)
+		return TLC5916_SPI_ERROR;
+	return TLC5916_OK;
 }
 
-HAL_StatusTypeDef Turn_Off_Led(SPI_HandleTypeDef *hspi, const uint8_t idx)
-{
-	led_status &= ~(1 << idx);
-	return TLC5916_Write_Status(hspi,led_status);
+TLC5916_error_t TLC5916_TurnOnLed(TLC5916_t *tlc, const uint8_t idx) {
+	if (idx >= 8)
+		return TLC5916_OUT_OF_RANGE;
+	tlc->led_status |= (1u << idx);
+	return TLC5916_Write_Status(tlc, tlc->led_status);
+}
+
+TLC5916_error_t TLC5916_TurnOffLed(TLC5916_t *tlc, const uint8_t idx) {
+	if (idx >= 8)
+		return TLC5916_OUT_OF_RANGE;
+	tlc->led_status &= ~(1u << idx);
+	return TLC5916_Write_Status(tlc, tlc->led_status);
+}
+
+TLC5916_error_t TLC5916_SetAll(TLC5916_t *tlc, uint8_t status) {
+	tlc->led_status = status;
+	return TLC5916_Write_Status(tlc, tlc->led_status);
 }

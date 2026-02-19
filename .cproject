@@ -32,7 +32,7 @@
 								<option IS_BUILTIN_EMPTY="false" IS_VALUE_EMPTY="false" id="com.st.stm32cube.ide.mcu.gnu.managedbuild.tool.assembler.option.definedsymbols.244826909" name="Define symbols (-D)" superClass="com.st.stm32cube.ide.mcu.gnu.managedbuild.tool.assembler.option.definedsymbols" valueType="definedSymbols">
 									<listOptionValue builtIn="false" value="DEBUG"/>
 								</option>
-								<option IS_BUILTIN_EMPTY="false" IS_VALUE_EMPTY="false" id="com.st.stm32cube.ide.mcu.gnu.managedbuild.tool.assembler.option.includepaths.1843397260" superClass="com.st.stm32cube.ide.mcu.gnu.managedbuild.tool.assembler.option.includepaths" valueType="includePath">
+								<option IS_BUILTIN_EMPTY="false" IS_VALUE_EMPTY="false" id="com.st.stm32cube.ide.mcu.gnu.managedbuild.tool.assembler.option.includepaths.1843397260" name="Include paths (-I)" superClass="com.st.stm32cube.ide.mcu.gnu.managedbuild.tool.assembler.option.includepaths" valueType="includePath">
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/App/Exported}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/App/Src}&quot;"/>
 								</option>
@@ -48,6 +48,8 @@
 								</option>
 								<option IS_BUILTIN_EMPTY="false" IS_VALUE_EMPTY="false" id="com.st.stm32cube.ide.mcu.gnu.managedbuild.tool.c.compiler.option.includepaths.1859110445" name="Include paths (-I)" superClass="com.st.stm32cube.ide.mcu.gnu.managedbuild.tool.c.compiler.option.includepaths" useByScannerDiscovery="false" valueType="includePath">
 									<listOptionValue builtIn="false" value="../Core/Inc"/>
+									<listOptionValue builtIn="false" value="../Drivers/DSP/Include"/>
+									<listOptionValue builtIn="false" value="../Drivers/DSP/PrivateInclude"/>
 									<listOptionValue builtIn="false" value="../Drivers/STM32H5xx_HAL_Driver/Inc"/>
 									<listOptionValue builtIn="false" value="../Drivers/STM32H5xx_HAL_Driver/Inc/Legacy"/>
 									<listOptionValue builtIn="false" value="../Drivers/CMSIS/Device/ST/STM32H5xx/Include"/>
@@ -82,7 +84,7 @@
 					<sourceEntries>
 						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="App"/>
 						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="Core"/>
-						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="Drivers"/>
+						<entry excluding="DSP/Source/SVMFunctions/SVMFunctionsF16.c|DSP/Source/SVMFunctions/SVMFunctions.c|DSP/Source/SupportFunctions/SupportFunctionsF16.c|DSP/Source/SupportFunctions/SupportFunctions.c|DSP/Source/StatisticsFunctions/StatisticsFunctionsF16.c|DSP/Source/StatisticsFunctions/StatisticsFunctions.c|DSP/Source/QuaternionMathFunctions/QuaternionMathFunctions.c|DSP/Source/MatrixFunctions/MatrixFunctionsF16.c|DSP/Source/MatrixFunctions/MatrixFunctions.c|DSP/Source/InterpolationFunctions/InterpolationFunctionsF16.c|DSP/Source/InterpolationFunctions/InterpolationFunctions.c|DSP/Source/FilteringFunctions/FilteringFunctionsF16.c|DSP/Source/FilteringFunctions/FilteringFunctions.c|DSP/Source/FastMathFunctions/FastMathFunctionsF16.c|DSP/Source/FastMathFunctions/FastMathFunctions.c|DSP/Source/DistanceFunctions/DistanceFunctionsF16.c|DSP/Source/DistanceFunctions/DistanceFunctions.c|DSP/Source/ControllerFunctions/ControllerFunctions.c|DSP/Source/ComplexMathFunctions/ComplexMathFunctionsF16.c|DSP/Source/ComplexMathFunctions/ComplexMathFunctions.c|DSP/Source/CommonTables/CommonTablesF16.c|DSP/Source/CommonTables/CommonTables.c|DSP/Source/BayesFunctions/BayesFunctionsF16.c|DSP/Source/BayesFunctions/BayesFunctions.c|DSP/Source/BasicMathFunctions/BasicMathFunctionsF16.c|DSP/Source/BasicMathFunctions/BasicMathFunctions.c|DSP/Source/TransformFunctions/TransformFunctionsF16.c|DSP/Source/TransformFunctions/TransformFunctions.c" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="Drivers"/>
 					</sourceEntries>
 				</configuration>
 			</storageModule>
@@ -116,7 +118,7 @@
 							<builder buildPath="${workspace_loc:/HEXOPUS_SLAVE_V3.0}/Release" id="com.st.stm32cube.ide.mcu.gnu.managedbuild.builder.2054027166" keepEnvironmentInBuildfile="false" managedBuildOn="true" name="Gnu Make Builder" parallelBuildOn="true" parallelizationNumber="optimal" superClass="com.st.stm32cube.ide.mcu.gnu.managedbuild.builder"/>
 							<tool id="com.st.stm32cube.ide.mcu.gnu.managedbuild.tool.assembler.1901204376" name="MCU/MPU GCC Assembler" superClass="com.st.stm32cube.ide.mcu.gnu.managedbuild.tool.assembler">
 								<option id="com.st.stm32cube.ide.mcu.gnu.managedbuild.tool.assembler.option.debuglevel.577657890" name="Debug level" superClass="com.st.stm32cube.ide.mcu.gnu.managedbuild.tool.assembler.option.debuglevel" value="com.st.stm32cube.ide.mcu.gnu.managedbuild.tool.assembler.option.debuglevel.value.g0" valueType="enumerated"/>
-								<option IS_BUILTIN_EMPTY="false" IS_VALUE_EMPTY="false" id="com.st.stm32cube.ide.mcu.gnu.managedbuild.tool.assembler.option.includepaths.1421233333" superClass="com.st.stm32cube.ide.mcu.gnu.managedbuild.tool.assembler.option.includepaths" valueType="includePath">
+								<option IS_BUILTIN_EMPTY="false" IS_VALUE_EMPTY="false" id="com.st.stm32cube.ide.mcu.gnu.managedbuild.tool.assembler.option.includepaths.1421233333" name="Include paths (-I)" superClass="com.st.stm32cube.ide.mcu.gnu.managedbuild.tool.assembler.option.includepaths" valueType="includePath">
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/App/Exported}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/App/Src}&quot;"/>
 								</option>
@@ -165,7 +167,7 @@
 					<sourceEntries>
 						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="App"/>
 						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="Core"/>
-						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="Drivers"/>
+						<entry excluding="DSP/Source/SVMFunctions/SVMFunctionsF16.c|DSP/Source/SVMFunctions/SVMFunctions.c|DSP/Source/SupportFunctions/SupportFunctionsF16.c|DSP/Source/SupportFunctions/SupportFunctions.c|DSP/Source/StatisticsFunctions/StatisticsFunctionsF16.c|DSP/Source/StatisticsFunctions/StatisticsFunctions.c|DSP/Source/QuaternionMathFunctions/QuaternionMathFunctions.c|DSP/Source/MatrixFunctions/MatrixFunctionsF16.c|DSP/Source/MatrixFunctions/MatrixFunctions.c|DSP/Source/InterpolationFunctions/InterpolationFunctionsF16.c|DSP/Source/InterpolationFunctions/InterpolationFunctions.c|DSP/Source/FilteringFunctions/FilteringFunctionsF16.c|DSP/Source/FilteringFunctions/FilteringFunctions.c|DSP/Source/FastMathFunctions/FastMathFunctionsF16.c|DSP/Source/FastMathFunctions/FastMathFunctions.c|DSP/Source/DistanceFunctions/DistanceFunctionsF16.c|DSP/Source/DistanceFunctions/DistanceFunctions.c|DSP/Source/ControllerFunctions/ControllerFunctions.c|DSP/Source/ComplexMathFunctions/ComplexMathFunctionsF16.c|DSP/Source/ComplexMathFunctions/ComplexMathFunctions.c|DSP/Source/CommonTables/CommonTablesF16.c|DSP/Source/CommonTables/CommonTables.c|DSP/Source/BayesFunctions/BayesFunctionsF16.c|DSP/Source/BayesFunctions/BayesFunctions.c|DSP/Source/BasicMathFunctions/BasicMathFunctionsF16.c|DSP/Source/BasicMathFunctions/BasicMathFunctions.c|DSP/Source/TransformFunctions/TransformFunctionsF16.c|DSP/Source/TransformFunctions/TransformFunctions.c" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="Drivers"/>
 					</sourceEntries>
 				</configuration>
 			</storageModule>
@@ -187,5 +189,12 @@
 			<autodiscovery enabled="false" problemReportingEnabled="true" selectedProfileId=""/>
 		</scannerConfigBuildInfo>
 	</storageModule>
-	<storageModule moduleId="refreshScope"/>
+	<storageModule moduleId="refreshScope" versionNumber="2">
+		<configuration configurationName="Debug">
+			<resource resourceType="PROJECT" workspacePath="/HEXOPUS_SLAVE_V3.0"/>
+		</configuration>
+		<configuration configurationName="Release">
+			<resource resourceType="PROJECT" workspacePath="/HEXOPUS_SLAVE_V3.0"/>
+		</configuration>
+	</storageModule>
 </cproject>

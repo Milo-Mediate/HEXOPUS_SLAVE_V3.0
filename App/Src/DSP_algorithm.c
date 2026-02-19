@@ -1,64 +1,62 @@
 #include "DSP_algorithm.h"
-#include "buffer_manager.h"
 #include "filter_goertzel.h"
 #include "serial_manager.h"
 #include "can_manager.h"
+#include "EMA_constant.h"
+#include "dsp_threshold.h"
+#include "app_hw_definition.h"
 
-/**
- * @file DSP_algorithm.c
- * @brief DSP processing routines (Goertzel, RMS, adaptive thresholds).
- * @details
- * - DSP_algorithm(): per-sensor Goertzel power + RMS + EMA update.
- * - DSP_threshold(): compute adaptive thresholds from TH2 buffers.
- * - rms_output(): evaluate RMS vs thresholds with hysteresis (pre-stop/stop).
- * - rms_output_only_start(): simplified pre-stop evaluation (no debounce).
- * - control_DSP_status(): consolidate status and send CAN events.
- *
- * ## MISRA Notes
- * - Use `void` in prototypes when no params.
- * - Replaced bitwise `&` in conditions with logical `&&`.
- * - Added guards on divisors (TH2_buffs_sizes_ > 0U) to avoid div-by-zero.
- * - Consistent literal suffixes: `U` (unsigned), `f` (float).
- * - Keep `__disable_irq()`/`__enable_irq()`; consider PRIMASK wrapper if needed.
- *
- * @author milo
- * @date   2025-08-02
- */
+static G_Filter_t dsp_sensors[NUM_DSP];
+static DSP_TH_t dsp_thresholds[NUM_DSP];
 
-/**
- * @brief Update Goertzel power, RMS and EMA per sensor.
- * @note
- * - Reads ::adc1_data_ and ::filter_g_buffer_.
- * - Updates ::power_, ::EMA_rms_, and pushes EMA into TH2 when enabled.
- */
+G_Filter_error DSP_algorithm() {
+	for (uint8_t i = 0; i < NUM_DSP; i++)
+	{
+		float32_t new_val = read_adc(ADC_2, i);
+		if (goertzel_10kHz(&dsp, new_val) != FILTER_OK)
+			return FILTER_ERROR;
+		dsp_sensors[i].pow_fil = (dsp_sensors[i].power) * (dsp_sensors[i].k_dsp) + (dsp_sensors[i].pow_fil) * (1.0f - dsp_sensors[i].k_dsp);
+		dsp_sensors[i].index = (dsp_sensors[i].index + 1) % NUM_SAMPLES_FILTER;
+		if (dsp_sensors[i].pow_fil > dsp_thresholds[i].value_1)
+		{
+			if (dsp_sensors[i].pow_fil > dsp_thresholds[i].value_2)
+			{
+				dsp_sensors[i].status = ABOVE_TH_2;
+			} else {
+				dsp_sensors[i].status = BETWEEN_THS;
+			}
+		}
+		else
+		{
+			dsp_sensors[i].status = BELOW_TH_1;
+		}
+
+		if (dsp_thresholds[i].flag)
+			update_dsp_th(&dsp_thresholds[i], dsp_sensors[i].pow_fil);
+	}
+	return FILTER_OK;
+}
+
+
 void DSP_algorithm(void) {
 	float32_t new_sample;
-	float32_t new_power[NUM_SENS] = { 0.0f };
-
-	for (uint8_t i = 0U; i < NUM_SENS; i++) {
+	float32_t new_power[NUM_DSP] = { 0.0f };
+	for (uint8_t i = 0U; i < NUM_DSP; i++) {
 		new_sample = (float32_t) adc1_data_[i];
-
 		/* Sliding Goertzel using sample leaving the window */
-		new_power[i] = goertzel_10kHz(i, new_sample,
-				filter_g_buffer_[i][filter_g_index_]);
-
+		new_power[i] = goertzel_10kHz(i, new_sample, filter_g_buffer_[i][filter_g_index_]);
 		/* Update circular buffer for next step */
 		filter_g_buffer_[i][filter_g_index_] = new_sample;
-
 		/* Compute RMS (√(power / N)); keep 100.0f as normalization factor */
-
 		//(void) arm_sqrt_f32(power_[i] / 100.0f, &new_rms);
 		/* EMA on RMS with configured smoothing factor */
 		pow_fil_[i] = (new_power[i]) * (dsp_k_[i])
 				+ (pow_fil_[i] * (1 - dsp_k_[i]));
-
 		/* While thresholds are not being (re)calculated, feed TH2 with EMA */
 		if (flag_calculate_th_dsp_ == 0U) {
 			put_TH2(i, pow_fil_[i]);
 		}
-
 	}
-
 	/* Advance global index of the filter buffer */
 	filter_g_index_ = (uint32_t) ((filter_g_index_ + 1U) % NUM_SAMPLES_FILTER);
 }
@@ -93,6 +91,11 @@ void DSP_threshold(void) {
 	}
 
 	__enable_irq();
+}
+
+DSP_Status check_DSP_status(uint8_t sensor) {
+	DSP_Status status = dsp_sensors[sensor]->status;
+	return status;
 }
 
 /**
