@@ -90,7 +90,6 @@ dac_cal_status_t auto_set_channel_value(DAC_t *dac, uint8_t channel) {
 		mid = (uint16_t) ((lo + hi) >> 1);
 		set_dac_channel(dac, channel, mid);
 		HAL_Delay(250);
-
 		uint32_t mean_adc = read_adc_mean(0, channel);
 		if ((mean_adc >= ADC_MIN_TGT) && (mean_adc <= ADC_MAX_TGT)) {
 			return DAC_CAL_OK;
@@ -115,9 +114,14 @@ dac_cal_status_t calibration_dac(DAC_t *dac)
 	return DAC_CAL_OK;
 }
 
-void dac_init(SPI_HandleTypeDef *hspi, DAC_t *dac, GPIO_TypeDef *port, uint16_t pin)
+dac_cal_status_t dac_init(SPI_HandleTypeDef *hspi, DAC_t *dac, GPIO_TypeDef *port, uint16_t pin, uint8_t num_ch, uint8_t id)
 {
-	dac->hspi    = hspi;
-	dac->cs_port = port;
-	dac->cs_pin  = pin;
+	if (num_ch > N_CH)
+		return DAC_CAL_CHANNEL_ERR;
+	dac->hspi         = hspi;
+	dac->cs_port      = port;
+	dac->cs_pin       = pin;
+	dac->num_channels = num_ch;
+	dac->ID           = id;
+	return DAC_CAL_OK;
 }
