@@ -5,19 +5,20 @@
  * @date 2025-03-20
  */
 #include "tim.h"
+#include "fdcan.h"
 
 #include "timer_function.h"
+#include "can_plot.h"
 #include "can_manager.h"
 #include "can_parameters.h"
+#include "can_LTC1660.h"
+#include "can_TLC5916.h"
 #include "serial_manager.h"
 #include "parameters_func.h"
-#include "leds.h"
-#include "can_led.h"
+#include "app_hw_definition.h"
+#include "app_TLC5916.h"
 //#include "can_DAC.h"
 
-#ifndef MASTER
-#include "buffer_manager.h"
-#endif
 
 #define MAX_PAYLOAD_CAN 64
 /**
@@ -25,6 +26,9 @@
  * @param len Payload length in bytes (0..64).
  * @return HAL-compatible DLC field for TxHeader_.DataLength.
  */
+
+//uint8_t sens_to_plot = 0;
+static bool plotting = false;
 
 uint32_t dlc_from_len_opt(uint8_t len) {
 	static const uint8_t dlc_lut[65] = {
@@ -108,8 +112,11 @@ void on_new_can_data(FDCAN_HandleTypeDef *hfdcan, uint32_t rx_fifo_conf) {
 		Error_Handler();
 	}
 	uint16_t CAN_ID = RxHeader.Identifier;
-	if ((CAN_ID & 0x0f0) == SLAVE_ID_1) // TODO cambiare con il filtro HW del CAN
+	if ((CAN_ID & 0x0f0) == SLAVE_ID_1) { // TODO cambiare con il filtro HW del CAN
+
 		FDCAN_parse(hfdcan, CAN_ID, RxData, RxHeader.DataLength);
+
+	}
 }
 
 
@@ -144,6 +151,7 @@ void send_slave_status() {
 	uint8_t TxData[2] = { CMD_GET_SLAVE_STATUS, MS_ };
 //	memcpy(&TxData[1], &value, FLOAT_LEN);
     FDCANTx(SLAVE_ID_1, TxData, sizeof(TxData));
+
 }
 
 void FDCAN_parse(FDCAN_HandleTypeDef *hfdcan, uint16_t CAN_ID, const uint8_t *RxData, uint8_t data_len) {
@@ -197,29 +205,33 @@ void FDCAN_parse(FDCAN_HandleTypeDef *hfdcan, uint16_t CAN_ID, const uint8_t *Rx
 	case CMD_FLASH_ERASE:
 		// TODO
 		break;
-	case CMD_SET_LED_DIAG_1:
-		set_led_1(RxData[1]);
+// TODO solo master e hexopad
+//		case CMD_SET_LED_DIAG_1:
+//		set_led_1(RxData[1]);
+//		break;
+//	case CMD_GET_LED_DIAG_1:
+//		can_get_led_1();
+//		break;
+//	case CMD_SET_LED_DIAG_2:
+//		set_led_2(RxData[1]);
+//		break;
+//	case CMD_GET_LED_DIAG_2:
+//		can_get_led_2();
+//		break;
+//	case CMD_SET_LED_MUTING:
+//		set_led_muting(RxData[1]);
+//		break;
+//	case CMD_GET_LED_MUTING:
+//		can_get_led_muting();
+//		break;
+	case CMD_SET_LED_SENSOR:
+		can_set_tlc_status(RxData);
 		break;
-	case CMD_GET_LED_DIAG_1:
-		can_get_led_1();
-		break;
-	case CMD_SET_LED_DIAG_2:
-		set_led_2(RxData[1]);
-		break;
-	case CMD_GET_LED_DIAG_2:
-		can_get_led_2();
-		break;
-	case CMD_SET_LED_MUTING:
-		set_led_muting(RxData[1]);
-		break;
-	case CMD_GET_LED_MUTING:
-		can_get_led_muting();
+	case CMD_GET_LED_SENSOR:
+		can_get_tlc_status();
 		break;
 	case CMD_CAN_SCAN:
 		// TODO: controllare se serve?
-		break;
-	case CMD_CAL_SYSTEM:
-		// TODO:
 		break;
 
 	case CMD_STOP:
@@ -232,36 +244,34 @@ void FDCAN_parse(FDCAN_HandleTypeDef *hfdcan, uint16_t CAN_ID, const uint8_t *Rx
 		// TODO: auto_set_dac_value(dac_1, RxData);
 		break;
 	case CMD_SET_V_REF_1:
-		// TODO: SMC
+		can_set_dac_1_channel(RxData);
 		break;
 	case CMD_GET_V_REF_1:
-		// TODO: SMC
+		can_get_dac_1_channel(RxData);
 		break;
 	case CMD_SET_V_REF_2:
-		// TODO SMC
+		can_set_dac_2_channel(RxData);
 		break;
 	case CMD_GET_V_REF_2:
-		// TODO SMC
+		can_get_dac_2_channel(RxData);
 		break;
 	case CMD_SET_TH1:
-		// TODO: Errore, comando che può ricevere solo la hexopus
+		set_dsp_th_1(RxData);
 		break;
 	case CMD_GET_TH1:
-		// TODO: Errore, comando che può ricevere solo la hexopus
+		get_dsp_th_1(RxData);
 		break;
 	case CMD_SET_TH2:
-		// TODO: Errore, comando che può ricevere solo la hexopus
+		set_dsp_th_2(RxData);
 		break;
 	case CMD_GET_TH2:
-		// TODO: Errore, comando che può ricevere solo la hexopus
+		get_dsp_th_2(RxData);
 		break;
 	case CMD_SET_GAIN:
 		set_gain(RxData);
 		break;
 	case CMD_GET_GAIN:
 		can_get_gain(RxData);
-		// memcpy(&f_aux, &RxData_[1], sizeof(float));
-		// gains_[sensor_selected_] = f_aux;
 		break;
 	case CMD_SET_DELTA_V:
 		set_delta(RxData);
@@ -300,10 +310,10 @@ void FDCAN_parse(FDCAN_HandleTypeDef *hfdcan, uint16_t CAN_ID, const uint8_t *Rx
 		turn_off_algorithm(RxData);
 		break;
 	case CMD_DSP_ALG_ON:
-		// TODO: Errore, comando che può ricevere solo la hexopus
+		turn_on_dsp_algorithm(RxData);
 		break;
 	case CMD_DSP_ALG_OFF:
-		// TODO: Errore, comando che può ricevere solo la hexopus
+		turn_off_dsp_algorithm(RxData);
 		break;
 	case CMD_SERIAL_PLOT:
 		// TODO errore se proviene da CAN
@@ -313,15 +323,21 @@ void FDCAN_parse(FDCAN_HandleTypeDef *hfdcan, uint16_t CAN_ID, const uint8_t *Rx
 //		sprintf(data_to_send, "MSG FDCAN RECEIVED\r\n");
 //		UART_Print(data_to_send);
 		break;
-	case CMD_PLOT_ON:
-		timer_on(&htim4);
-		flag_can_plot_ = 1;
-//		sprintf(data_to_send, "PLOT ON\r\n");
-//		UART_Print(data_to_send);
+	case CMD_PLOT_SENSOR_1:
+	case CMD_PLOT_SENSOR_2:
+	case CMD_PLOT_SENSOR_3:
+	case CMD_PLOT_SENSOR_4:
+	case CMD_PLOT_SENSOR_5:
+	case CMD_PLOT_SENSOR_6:
+		if (!plotting) {
+			timer_on(&htim4);
+			plotting = true;
+		}
+		set_sensor_to_plot(command - CMD_PLOT_SENSOR_1);
 		break;
 	case CMD_PLOT_OFF:
 		timer_off(&htim4);
-		flag_can_plot_ = 0;
+		plotting = true;
 //		sprintf(data_to_send, "PLOT OFF\r\n");
 //		UART_Print(data_to_send);
 		break;
@@ -344,7 +360,6 @@ void FDCAN_parse(FDCAN_HandleTypeDef *hfdcan, uint16_t CAN_ID, const uint8_t *Rx
 //		sprintf(data_to_send, "Signal selected: %u \r\n", signal_selected_);
 //		UART_Print(data_to_send);
 		break;
-
 //	case CMD_:
 //		// TODO: template new command
 //		break;

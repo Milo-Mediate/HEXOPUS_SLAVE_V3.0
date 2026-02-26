@@ -13,6 +13,11 @@
 #include "stm32h5xx_hal.h"
 #include <stdint.h>
 #include "arm_math.h"
+
+
+extern uint8_t sens_to_plot;
+
+
 /**
  * @brief Convert a byte length into FDCAN DLC encoding.
  * @param len Payload length in bytes (0..64).
