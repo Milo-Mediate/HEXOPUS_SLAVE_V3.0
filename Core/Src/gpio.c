@@ -53,10 +53,10 @@ void MX_GPIO_Init(void)
   HAL_GPIO_WritePin(GPIOF, LED_YELLOW_SWITCH_Pin|LED_BLUE_SWITCH_Pin, GPIO_PIN_RESET);
 
   /*Configure GPIO pin Output Level */
-  HAL_GPIO_WritePin(LTC1660_CS_2_GPIO_Port, LTC1660_CS_2_Pin, GPIO_PIN_SET);
+  HAL_GPIO_WritePin(GPIOD, LTC1660_CS_2_Pin|LTC1660_CS_Pin|TLC5916_OE_Pin|TLC5916_LE_Pin, GPIO_PIN_RESET);
 
   /*Configure GPIO pin Output Level */
-  HAL_GPIO_WritePin(GPIOD, LTC1660_CLR_Pin|LTC1660_CS_Pin|TLC5916_CS_Pin|TLC5916_LE_Pin, GPIO_PIN_RESET);
+  HAL_GPIO_WritePin(LTC1660_CLR_GPIO_Port, LTC1660_CLR_Pin, GPIO_PIN_SET);
 
   /*Configure GPIO pins : XOR_RB_1_Pin XOR_RB_2_Pin */
   GPIO_InitStruct.Pin = XOR_RB_1_Pin|XOR_RB_2_Pin;
@@ -99,9 +99,9 @@ void MX_GPIO_Init(void)
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   HAL_GPIO_Init(XOR_RB_8_GPIO_Port, &GPIO_InitStruct);
 
-  /*Configure GPIO pins : LTC1660_CS_2_Pin LTC1660_CLR_Pin LTC1660_CS_Pin TLC5916_CS_Pin
+  /*Configure GPIO pins : LTC1660_CS_2_Pin LTC1660_CLR_Pin LTC1660_CS_Pin TLC5916_OE_Pin
                            TLC5916_LE_Pin */
-  GPIO_InitStruct.Pin = LTC1660_CS_2_Pin|LTC1660_CLR_Pin|LTC1660_CS_Pin|TLC5916_CS_Pin
+  GPIO_InitStruct.Pin = LTC1660_CS_2_Pin|LTC1660_CLR_Pin|LTC1660_CS_Pin|TLC5916_OE_Pin
                           |TLC5916_LE_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
   GPIO_InitStruct.Pull = GPIO_NOPULL;
