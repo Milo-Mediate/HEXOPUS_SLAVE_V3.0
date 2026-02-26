@@ -76,13 +76,6 @@ void update_sensor(float32_t new_val, Sensor_t *sensor, Sensor_TH_t *threshold, 
 //	}
 }
 
-float32_t EMA_GetAlpha(float32_t tau, float32_t ts)
-{
-    if (tau <= 0.0f) return 1.0f; // Instant response (no filtering)
-    float32_t alpha = 1.0f - expf(-ts / tau);
-    return alpha;
-}
-
 //void dynamic_threshold_algorithm_test_diff() {
 //	//char msg[50];
 //
