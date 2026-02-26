@@ -31,13 +31,9 @@
 
 #ifdef HEXOPUS
 #include "LTC1660.h"
-#include "DSP_algorithm.h"
+#include <app_DSP_algorithm.h>
 #endif
 
-#ifndef MASTER
-#include "buffer_manager.h"
-
-#endif
 
 //#ifndef MASTER
 
@@ -211,12 +207,12 @@ SerialMsgStatus process_serial_data(const uint8_t *buffer, size_t buffer_len) {
 		UART_Print(data_to_send);
 		break;
 	case CMD_PLOT_ON:
-		flag_serial_plot_ = 1;
+//		flag_serial_plot_ = 1;
 		sprintf(data_to_send, "PLOT ON\r\n");
 		UART_Print(data_to_send);
 		break;
 	case CMD_PLOT_OFF:
-		flag_serial_plot_ = 0;
+//		flag_serial_plot_ = 0;
 		sprintf(data_to_send, "PLOT OFF\r\n");
 		UART_Print(data_to_send);
 		break;
@@ -231,8 +227,8 @@ SerialMsgStatus process_serial_data(const uint8_t *buffer, size_t buffer_len) {
 
 	case CMD_SELECT_SIGNAL:
 		// TODO: signal_select_ = valore seriale;
-		sprintf(data_to_send, "Signal selected: %u \r\n", signal_selected_);
-		UART_Print(data_to_send);
+//		sprintf(data_to_send, "Signal selected: %u \r\n", signal_selected_);
+//		UART_Print(data_to_send);
 		break;
 
 		//	case CMD_:
