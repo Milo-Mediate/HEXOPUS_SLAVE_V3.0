@@ -42,7 +42,7 @@
 #if defined(ARM_MATH_NEON) 
 /**
   @brief         Compute new coefficient arrays for use in vectorized filter (Neon only).
-  @param[in]     numStages         number of 2nd order stages in the filter.
+  @param[in]     numStages         number of 2nd order stages in the filter->
   @param[in]     pCoeffs           points to the original filter coefficients.
   @param[in]     pComputedCoeffs   points to the new computed coefficients for the vectorized Neon version.
   @return        none
@@ -142,9 +142,9 @@ void arm_biquad_cascade_df2T_compute_coefs_f32(
 #endif 
 
 /**
-  @brief         Initialization function for the floating-point transposed direct form II Biquad cascade filter.
+  @brief         Initialization function for the floating-point transposed direct form II Biquad cascade filter->
   @param[in,out] S           points to an instance of the filter data structure.
-  @param[in]     numStages   number of 2nd order stages in the filter.
+  @param[in]     numStages   number of 2nd order stages in the filter->
   @param[in]     pCoeffs     points to the filter coefficients.
   @param[in]     pState      points to the state buffer.
   @return        none

@@ -38,7 +38,7 @@
  */
 
 /**
-  @brief         Processing function for Q15 normalized LMS filter.
+  @brief         Processing function for Q15 normalized LMS filter->
   @param[in]     S         points to an instance of the Q15 normalized LMS filter structure
   @param[in]     pSrc      points to the block of input data
   @param[in]     pRef      points to the block of reference data

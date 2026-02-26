@@ -31,7 +31,7 @@
 /**
   @defgroup FIR_Interpolate Finite Impulse Response (FIR) Interpolator
 
-  These functions combine an upsampler (zero stuffer) and an FIR filter.
+  These functions combine an upsampler (zero stuffer) and an FIR filter->
   They are used in multirate systems for increasing the sample rate of a signal without introducing high frequency images.
   Conceptually, the functions are equivalent to the block diagram below:
   \image html FIRInterpolator.gif "Components included in the FIR Interpolator functions"
@@ -58,7 +58,7 @@
       y[n+(L-1)] = b[L-1] * x[n] + b[2*L-1] * x[n-1] + ....+ b[L*(phaseLength-1)+(L-1)] * x[n-phaseLength+1]
   </pre>
                    This approach is more efficient than straightforward upsample-then-filter algorithms.
-                   With this method the computation is reduced by a factor of <code>1/L</code> when compared to using a standard FIR filter.
+                   With this method the computation is reduced by a factor of <code>1/L</code> when compared to using a standard FIR filter->
   @par
                    <code>pCoeffs</code> points to a coefficient array of size <code>numTaps</code>.
                    <code>numTaps</code> must be a multiple of the interpolation factor <code>L</code> and this is checked by the
@@ -80,7 +80,7 @@
 
   @par           Instance Structure
                    The coefficients and state variables for a filter are stored together in an instance data structure.
-                   A separate instance structure must be defined for each filter.
+                   A separate instance structure must be defined for each filter->
                    Coefficient arrays may be shared among several instances while state variable array should be allocated separately.
                    There are separate instance structure declarations for each of the 3 supported data types.
 

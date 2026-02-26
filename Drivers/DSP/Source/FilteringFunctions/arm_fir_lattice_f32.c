@@ -41,7 +41,7 @@
   the net impulse response is finite length.
   The functions operate on blocks
   of input and output data and each call to the function processes
-  <code>blockSize</code> samples through the filter.  <code>pSrc</code> and
+  <code>blockSize</code> samples through the filter->  <code>pSrc</code> and
   <code>pDst</code> point to input and output arrays containing <code>blockSize</code> values.
 
   @par           Algorithm
@@ -72,7 +72,7 @@
 
   @par           Instance Structure
                    The coefficients and state variables for a filter are stored together in an instance data structure.
-                   A separate instance structure must be defined for each filter.
+                   A separate instance structure must be defined for each filter->
                    Coefficient arrays may be shared among several instances while state variable arrays cannot be shared.
                    There are separate instance structure declarations for each of the 3 supported data types.
 
@@ -110,7 +110,7 @@
  */
 
 /**
-  @brief         Processing function for the floating-point FIR lattice filter.
+  @brief         Processing function for the floating-point FIR lattice filter->
   @param[in]     S          points to an instance of the floating-point FIR lattice structure
   @param[in]     pSrc       points to the block of input data
   @param[out]    pDst       points to the block of output data

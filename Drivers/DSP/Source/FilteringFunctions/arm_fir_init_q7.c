@@ -38,7 +38,7 @@
  */
 
 /**
-  @brief         Initialization function for the Q7 FIR filter.
+  @brief         Initialization function for the Q7 FIR filter->
   @param[in,out] S          points to an instance of the Q7 FIR filter structure
   @param[in] 	 numTaps    number of filter coefficients in the filter
   @param[in]     pCoeffs    points to the filter coefficients buffer

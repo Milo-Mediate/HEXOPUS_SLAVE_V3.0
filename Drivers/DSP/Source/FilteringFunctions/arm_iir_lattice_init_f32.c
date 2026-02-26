@@ -38,7 +38,7 @@
  */
 
 /**
-  @brief         Initialization function for the floating-point IIR lattice filter.
+  @brief         Initialization function for the floating-point IIR lattice filter->
   @param[in]     S          points to an instance of the floating-point IIR lattice structure
   @param[in]     numStages  number of stages in the filter
   @param[in]     pkCoeffs   points to reflection coefficient buffer.  The array is of length numStages

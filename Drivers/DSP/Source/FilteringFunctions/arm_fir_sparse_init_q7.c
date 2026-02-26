@@ -38,7 +38,7 @@
  */
 
 /**
-  @brief         Initialization function for the Q7 sparse FIR filter.
+  @brief         Initialization function for the Q7 sparse FIR filter->
   @param[in,out] S          points to an instance of the Q7 sparse FIR structure
   @param[in]     numTaps    number of nonzero coefficients in the filter
   @param[in]     pCoeffs    points to the array of filter coefficients

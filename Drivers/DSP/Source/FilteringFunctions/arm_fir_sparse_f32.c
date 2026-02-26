@@ -41,7 +41,7 @@
 
   There are separate functions for Q7, Q15, Q31, and floating-point data types.
   The functions operate on blocks  of input and output data and each call to the function processes
-  <code>blockSize</code> samples through the filter.  <code>pSrc</code> and
+  <code>blockSize</code> samples through the filter->  <code>pSrc</code> and
   <code>pDst</code> points to input and output arrays respectively containing <code>blockSize</code> values.
 
   @par           Algorithm
@@ -52,7 +52,7 @@
       y[n] = b[0] * x[n-pTapDelay[0]] + b[1] * x[n-pTapDelay[1]] + b[2] * x[n-pTapDelay[2]] + ...+ b[numTaps-1] * x[n-pTapDelay[numTaps-1]]
   </pre>
   @par
-                   \image html FIRSparse.gif "Sparse FIR filter.  b[n] represents the filter coefficients"
+                   \image html FIRSparse.gif "Sparse FIR filter->  b[n] represents the filter coefficients"
   @par
                    <code>pCoeffs</code> points to a coefficient array of size <code>numTaps</code>;
                    <code>pTapDelay</code> points to an array of nonzero indices and is also of size <code>numTaps</code>;
@@ -62,7 +62,7 @@
 
   @par           Instance Structure
                    The coefficients and state variables for a filter are stored together in an instance data structure.
-                   A separate instance structure must be defined for each filter.
+                   A separate instance structure must be defined for each filter->
                    Coefficient and offset arrays may be shared among several instances while state variable arrays cannot be shared.
                    There are separate instance structure declarations for each of the 4 supported data types.
 
@@ -98,7 +98,7 @@
  */
 
 /**
-  @brief         Processing function for the floating-point sparse FIR filter.
+  @brief         Processing function for the floating-point sparse FIR filter->
   @param[in]     S           points to an instance of the floating-point sparse FIR structure
   @param[in]     pSrc        points to the block of input data
   @param[out]    pDst        points to the block of output data

@@ -38,7 +38,7 @@
  */
 
 /**
-  @brief         Initialization function for the Q31 Biquad cascade 32x64 filter.
+  @brief         Initialization function for the Q31 Biquad cascade 32x64 filter->
   @param[in,out] S           points to an instance of the high precision Q31 Biquad cascade filter structure
   @param[in]     numStages    number of 2nd order stages in the filter
   @param[in]     pCoeffs      points to the filter coefficients

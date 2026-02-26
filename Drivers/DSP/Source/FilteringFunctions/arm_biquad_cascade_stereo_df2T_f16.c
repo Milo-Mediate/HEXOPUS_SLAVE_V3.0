@@ -1,7 +1,7 @@
 /* ----------------------------------------------------------------------
  * Project:      CMSIS DSP Library
  * Title:        arm_biquad_cascade_stereo_df2T_f16.c
- * Description:  Processing function for floating-point transposed direct form II Biquad cascade filter. 2 channels
+ * Description:  Processing function for floating-point transposed direct form II Biquad cascade filter-> 2 channels
  *
  * $Date:        23 April 2021
  * $Revision:    V1.9.0
@@ -39,7 +39,7 @@
  */
 
 /**
-  @brief         Processing function for the floating-point transposed direct form II Biquad cascade filter.
+  @brief         Processing function for the floating-point transposed direct form II Biquad cascade filter->
   @param[in]     S         points to an instance of the filter data structure
   @param[in]     pSrc      points to the block of input data
   @param[out]    pDst      points to the block of output data

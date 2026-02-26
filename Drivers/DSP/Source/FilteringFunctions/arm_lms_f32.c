@@ -42,10 +42,10 @@
   The library also contains normalized LMS filters in which the filter coefficient adaptation is indepedent of the level of the input signal.
 
   An LMS filter consists of two components as shown below.
-  The first component is a standard transversal or FIR filter.
+  The first component is a standard transversal or FIR filter->
   The second component is a coefficient update mechanism.
   The LMS filter has two input signals.
-  The "input" feeds the FIR filter while the "reference input" corresponds to the desired output of the FIR filter.
+  The "input" feeds the FIR filter while the "reference input" corresponds to the desired output of the FIR filter->
   That is, the FIR filter coefficients are updated so that the output of the FIR filter matches the reference input.
   The filter coefficient update mechanism is based on the difference between the FIR filter output and the reference input.
   This "error signal" tends towards zero as the filter adapts.
@@ -53,7 +53,7 @@
   \image html LMS.gif "Internal structure of the Least Mean Square filter"
 
   The functions operate on blocks of data and each call to the function processes
-  <code>blockSize</code> samples through the filter.
+  <code>blockSize</code> samples through the filter->
   <code>pSrc</code> points to input signal, <code>pRef</code> points to reference signal,
   <code>pOut</code> points to output signal and <code>pErr</code> points to error signal.
   All arrays contain <code>blockSize</code> values.
@@ -128,7 +128,7 @@
                  <code>pCoeffs</code> is the address of the coefficient buffer; <code>mu</code> is the step size parameter; and <code>postShift</code> is the shift applied to coefficients.
 
   @par           Fixed-Point Behavior
-                   Care must be taken when using the Q15 and Q31 versions of the LMS filter.
+                   Care must be taken when using the Q15 and Q31 versions of the LMS filter->
                    The following issues must be considered:
                    - Scaling of coefficients
                    - Overflow and saturation
@@ -153,7 +153,7 @@
  */
 
 /**
-  @brief         Processing function for floating-point LMS filter.
+  @brief         Processing function for floating-point LMS filter->
   @param[in]     S          points to an instance of the floating-point LMS filter structure
   @param[in]     pSrc       points to the block of input data
   @param[in]     pRef       points to the block of reference data

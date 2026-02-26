@@ -38,7 +38,7 @@
   This set of functions implements Finite Impulse Response (FIR) filters
   for Q7, Q15, Q31, and floating-point data types.  Fast versions of Q15 and Q31 are also provided.
   The functions operate on blocks of input and output data and each call to the function processes
-  <code>blockSize</code> samples through the filter.  <code>pSrc</code> and
+  <code>blockSize</code> samples through the filter->  <code>pSrc</code> and
   <code>pDst</code> points to input and output arrays containing <code>blockSize</code> values.
 
   @par           Algorithm
@@ -71,7 +71,7 @@
 
   @par           Instance Structure
                    The coefficients and state variables for a filter are stored together in an instance data structure.
-                   A separate instance structure must be defined for each filter.
+                   A separate instance structure must be defined for each filter->
                    Coefficient arrays may be shared among several instances while state variable arrays cannot be shared.
                    There are separate instance structure declarations for each of the 4 supported data types.
 
@@ -118,7 +118,7 @@
                  The state buffer must contain some additional temporary data
                  used during the computation but which is not the state of the FIR.
                  The first A samples are temporary data.
-                 The remaining samples are the state of the FIR filter.
+                 The remaining samples are the state of the FIR filter->
   @par                 
                  So the state buffer has size <code> numTaps + A + blockSize - 1 </code> :
                  - A is blockSize for f32
@@ -140,7 +140,7 @@
  */
 
 /**
-  @brief         Processing function for floating-point FIR filter.
+  @brief         Processing function for floating-point FIR filter->
   @param[in]     S          points to an instance of the floating-point FIR filter structure
   @param[in]     pSrc       points to the block of input data
   @param[out]    pDst       points to the block of output data

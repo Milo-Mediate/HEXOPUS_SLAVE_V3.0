@@ -83,8 +83,8 @@
 					</folderInfo>
 					<sourceEntries>
 						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="App"/>
-						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="Core"/>
 						<entry excluding="DSP/Source/SVMFunctions/SVMFunctionsF16.c|DSP/Source/SVMFunctions/SVMFunctions.c|DSP/Source/SupportFunctions/SupportFunctionsF16.c|DSP/Source/SupportFunctions/SupportFunctions.c|DSP/Source/StatisticsFunctions/StatisticsFunctionsF16.c|DSP/Source/StatisticsFunctions/StatisticsFunctions.c|DSP/Source/QuaternionMathFunctions/QuaternionMathFunctions.c|DSP/Source/MatrixFunctions/MatrixFunctionsF16.c|DSP/Source/MatrixFunctions/MatrixFunctions.c|DSP/Source/InterpolationFunctions/InterpolationFunctionsF16.c|DSP/Source/InterpolationFunctions/InterpolationFunctions.c|DSP/Source/FilteringFunctions/FilteringFunctionsF16.c|DSP/Source/FilteringFunctions/FilteringFunctions.c|DSP/Source/FastMathFunctions/FastMathFunctionsF16.c|DSP/Source/FastMathFunctions/FastMathFunctions.c|DSP/Source/DistanceFunctions/DistanceFunctionsF16.c|DSP/Source/DistanceFunctions/DistanceFunctions.c|DSP/Source/ControllerFunctions/ControllerFunctions.c|DSP/Source/ComplexMathFunctions/ComplexMathFunctionsF16.c|DSP/Source/ComplexMathFunctions/ComplexMathFunctions.c|DSP/Source/CommonTables/CommonTablesF16.c|DSP/Source/CommonTables/CommonTables.c|DSP/Source/BayesFunctions/BayesFunctionsF16.c|DSP/Source/BayesFunctions/BayesFunctions.c|DSP/Source/BasicMathFunctions/BasicMathFunctionsF16.c|DSP/Source/BasicMathFunctions/BasicMathFunctions.c|DSP/Source/TransformFunctions/TransformFunctionsF16.c|DSP/Source/TransformFunctions/TransformFunctions.c" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="Drivers"/>
+						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="Core"/>
 					</sourceEntries>
 				</configuration>
 			</storageModule>
@@ -114,6 +114,8 @@
 							<option id="com.st.stm32cube.ide.mcu.gnu.managedbuild.option.target_board.880344301" name="Board" superClass="com.st.stm32cube.ide.mcu.gnu.managedbuild.option.target_board" useByScannerDiscovery="false" value="genericBoard" valueType="string"/>
 							<option id="com.st.stm32cube.ide.mcu.gnu.managedbuild.option.defaults.1535188818" name="Defaults" superClass="com.st.stm32cube.ide.mcu.gnu.managedbuild.option.defaults" useByScannerDiscovery="false" value="com.st.stm32cube.ide.common.services.build.inputs.revA.1.0.6 || Release || false || Executable || com.st.stm32cube.ide.mcu.gnu.managedbuild.option.toolchain.value.workspace || STM32H563ZITx || 0 || 0 || arm-none-eabi- || ${gnu_tools_for_stm32_compiler_path} || ../Core/Inc | ../Drivers/STM32H5xx_HAL_Driver/Inc | ../Drivers/STM32H5xx_HAL_Driver/Inc/Legacy | ../Drivers/CMSIS/Device/ST/STM32H5xx/Include | ../Drivers/CMSIS/Include ||  ||  || USE_HAL_DRIVER | STM32H563xx ||  || Drivers | Core/Startup | Core ||  ||  || ${workspace_loc:/${ProjName}/STM32H563ZITX_FLASH.ld} || true || NonSecure ||  || secure_nsclib.o ||  || None ||  ||  || " valueType="string"/>
 							<option id="com.st.stm32cube.ide.mcu.debug.option.cpuclock.1444519987" name="Cpu clock frequence" superClass="com.st.stm32cube.ide.mcu.debug.option.cpuclock" useByScannerDiscovery="false" value="250" valueType="string"/>
+							<option id="com.st.stm32cube.ide.mcu.gnu.managedbuild.option.nanoprintffloat.523307276" superClass="com.st.stm32cube.ide.mcu.gnu.managedbuild.option.nanoprintffloat" value="true" valueType="boolean"/>
+							<option id="com.st.stm32cube.ide.mcu.gnu.managedbuild.option.nanoscanffloat.1001285026" superClass="com.st.stm32cube.ide.mcu.gnu.managedbuild.option.nanoscanffloat" value="true" valueType="boolean"/>
 							<targetPlatform archList="all" binaryParser="org.eclipse.cdt.core.ELF" id="com.st.stm32cube.ide.mcu.gnu.managedbuild.targetplatform.1245116418" isAbstract="false" osList="all" superClass="com.st.stm32cube.ide.mcu.gnu.managedbuild.targetplatform"/>
 							<builder buildPath="${workspace_loc:/HEXOPUS_SLAVE_V3.0}/Release" id="com.st.stm32cube.ide.mcu.gnu.managedbuild.builder.2054027166" keepEnvironmentInBuildfile="false" managedBuildOn="true" name="Gnu Make Builder" parallelBuildOn="true" parallelizationNumber="optimal" superClass="com.st.stm32cube.ide.mcu.gnu.managedbuild.builder"/>
 							<tool id="com.st.stm32cube.ide.mcu.gnu.managedbuild.tool.assembler.1901204376" name="MCU/MPU GCC Assembler" superClass="com.st.stm32cube.ide.mcu.gnu.managedbuild.tool.assembler">
@@ -137,6 +139,8 @@
 									<listOptionValue builtIn="false" value="../Drivers/STM32H5xx_HAL_Driver/Inc/Legacy"/>
 									<listOptionValue builtIn="false" value="../Drivers/CMSIS/Device/ST/STM32H5xx/Include"/>
 									<listOptionValue builtIn="false" value="../Drivers/CMSIS/Include"/>
+									<listOptionValue builtIn="false" value="../Drivers/DSP/Include"/>
+									<listOptionValue builtIn="false" value="../Drivers/DSP/PrivateInclude"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/App/Exported}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/App/Src}&quot;"/>
 								</option>
@@ -166,8 +170,8 @@
 					</folderInfo>
 					<sourceEntries>
 						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="App"/>
-						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="Core"/>
 						<entry excluding="DSP/Source/SVMFunctions/SVMFunctionsF16.c|DSP/Source/SVMFunctions/SVMFunctions.c|DSP/Source/SupportFunctions/SupportFunctionsF16.c|DSP/Source/SupportFunctions/SupportFunctions.c|DSP/Source/StatisticsFunctions/StatisticsFunctionsF16.c|DSP/Source/StatisticsFunctions/StatisticsFunctions.c|DSP/Source/QuaternionMathFunctions/QuaternionMathFunctions.c|DSP/Source/MatrixFunctions/MatrixFunctionsF16.c|DSP/Source/MatrixFunctions/MatrixFunctions.c|DSP/Source/InterpolationFunctions/InterpolationFunctionsF16.c|DSP/Source/InterpolationFunctions/InterpolationFunctions.c|DSP/Source/FilteringFunctions/FilteringFunctionsF16.c|DSP/Source/FilteringFunctions/FilteringFunctions.c|DSP/Source/FastMathFunctions/FastMathFunctionsF16.c|DSP/Source/FastMathFunctions/FastMathFunctions.c|DSP/Source/DistanceFunctions/DistanceFunctionsF16.c|DSP/Source/DistanceFunctions/DistanceFunctions.c|DSP/Source/ControllerFunctions/ControllerFunctions.c|DSP/Source/ComplexMathFunctions/ComplexMathFunctionsF16.c|DSP/Source/ComplexMathFunctions/ComplexMathFunctions.c|DSP/Source/CommonTables/CommonTablesF16.c|DSP/Source/CommonTables/CommonTables.c|DSP/Source/BayesFunctions/BayesFunctionsF16.c|DSP/Source/BayesFunctions/BayesFunctions.c|DSP/Source/BasicMathFunctions/BasicMathFunctionsF16.c|DSP/Source/BasicMathFunctions/BasicMathFunctions.c|DSP/Source/TransformFunctions/TransformFunctionsF16.c|DSP/Source/TransformFunctions/TransformFunctions.c" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="Drivers"/>
+						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="Core"/>
 					</sourceEntries>
 				</configuration>
 			</storageModule>

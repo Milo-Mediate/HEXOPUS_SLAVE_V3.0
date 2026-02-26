@@ -19,6 +19,7 @@
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
 #include "adc.h"
+#include "crc.h"
 #include "fdcan.h"
 #include "flash.h"
 #include "gpdma.h"
@@ -115,12 +116,14 @@ int main(void)
   MX_ADC1_Init();
   MX_ADC2_Init();
   MX_TIM8_Init();
+  MX_CRC_Init();
   /* USER CODE BEGIN 2 */
-
+  app_init();
   /* USER CODE END 2 */
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
+	app_main();
   while (1)
   {
     /* USER CODE END WHILE */

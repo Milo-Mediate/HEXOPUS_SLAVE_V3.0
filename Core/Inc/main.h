@@ -129,8 +129,8 @@ void Error_Handler(void);
 #define LTC1660_CLR_GPIO_Port GPIOD
 #define LTC1660_CS_Pin GPIO_PIN_13
 #define LTC1660_CS_GPIO_Port GPIOD
-#define TLC5916_CS_Pin GPIO_PIN_14
-#define TLC5916_CS_GPIO_Port GPIOD
+#define TLC5916_OE_Pin GPIO_PIN_14
+#define TLC5916_OE_GPIO_Port GPIOD
 #define TLC5916_LE_Pin GPIO_PIN_15
 #define TLC5916_LE_GPIO_Port GPIOD
 #define DIRECT_DDS_Pin GPIO_PIN_9

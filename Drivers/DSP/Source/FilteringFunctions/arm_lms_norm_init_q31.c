@@ -35,7 +35,7 @@
  */
 
 /**
-  @brief         Initialization function for Q31 normalized LMS filter.
+  @brief         Initialization function for Q31 normalized LMS filter->
   @param[in]     S         points to an instance of the Q31 normalized LMS filter structure.
   @param[in]     numTaps   number of filter coefficients.
   @param[in]     pCoeffs   points to coefficient buffer.
@@ -50,7 +50,7 @@
   <pre>
      {b[numTaps-1], b[numTaps-2], b[N-2], ..., b[1], b[0]}
   </pre>
-                   The initial filter coefficients serve as a starting point for the adaptive filter.
+                   The initial filter coefficients serve as a starting point for the adaptive filter->
                    <code>pState</code> points to an array of length <code>numTaps+blockSize-1</code> samples,
                    where <code>blockSize</code> is the number of input samples processed by each call to <code>arm_lms_norm_q31()</code>.
  */

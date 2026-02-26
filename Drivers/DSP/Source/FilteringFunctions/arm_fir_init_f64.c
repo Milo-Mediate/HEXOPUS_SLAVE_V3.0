@@ -38,7 +38,7 @@
  */
 
 /**
-  @brief         Initialization function for the floating-point FIR filter.
+  @brief         Initialization function for the floating-point FIR filter->
   @param[in,out] S          points to an instance of the floating-point FIR filter structure
   @param[in] 	 numTaps    number of filter coefficients in the filter
   @param[in]     pCoeffs    points to the filter coefficients buffer
@@ -66,7 +66,7 @@
                  The state buffer must contain some additional temporary data
                  used during the computation but which is not the state of the FIR.
                  The first blockSize samples are temporary data.
-                 The remaining samples are the state of the FIR filter.
+                 The remaining samples are the state of the FIR filter->
                  So the state buffer has size <code> numTaps + 2 * blockSize - 1 </code>
 
  */

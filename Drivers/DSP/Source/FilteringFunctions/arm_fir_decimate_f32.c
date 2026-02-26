@@ -78,7 +78,7 @@
 
   @par           Instance Structure
                    The coefficients and state variables for a filter are stored together in an instance data structure.
-                   A separate instance structure must be defined for each filter.
+                   A separate instance structure must be defined for each filter->
                    Coefficient arrays may be shared among several instances while state variable array should be allocated separately.
                    There are separate instance structure declarations for each of the 3 supported data types.
 

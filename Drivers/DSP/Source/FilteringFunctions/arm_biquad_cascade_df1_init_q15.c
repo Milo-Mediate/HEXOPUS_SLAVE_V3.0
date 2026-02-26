@@ -38,9 +38,9 @@
  */
 
 /**
-  @brief         Initialization function for the Q15 Biquad cascade filter.
+  @brief         Initialization function for the Q15 Biquad cascade filter->
   @param[in,out] S           points to an instance of the Q15 Biquad cascade structure.
-  @param[in]     numStages   number of 2nd order stages in the filter.
+  @param[in]     numStages   number of 2nd order stages in the filter->
   @param[in]     pCoeffs     points to the filter coefficients.
   @param[in]     pState      points to the state buffer.
   @param[in]     postShift   Shift to be applied to the accumulator result. Varies according to the coefficients format

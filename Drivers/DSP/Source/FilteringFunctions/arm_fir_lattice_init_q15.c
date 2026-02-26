@@ -38,7 +38,7 @@
  */
 
 /**
-  @brief         Initialization function for the Q15 FIR lattice filter.
+  @brief         Initialization function for the Q15 FIR lattice filter->
   @param[in]     S          points to an instance of the Q15 FIR lattice structure
   @param[in]     numStages  number of filter stages
   @param[in]     pCoeffs    points to the coefficient buffer.  The array is of length numStages

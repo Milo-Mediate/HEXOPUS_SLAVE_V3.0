@@ -38,7 +38,7 @@
  */
 
 /**
-  @brief         Processing function for Q31 LMS filter.
+  @brief         Processing function for Q31 LMS filter->
   @param[in]     S         points to an instance of the Q31 LMS filter structure.
   @param[in]     pSrc      points to the block of input data.
   @param[in]     pRef      points to the block of reference data.

@@ -38,7 +38,7 @@
  */
 
 /**
-  @brief         Processing function for the Q31 Biquad cascade filter.
+  @brief         Processing function for the Q31 Biquad cascade filter->
   @param[in]     S         points to an instance of the Q31 Biquad cascade structure
   @param[in]     pSrc      points to the block of input data
   @param[out]    pDst      points to the block of output data
@@ -53,7 +53,7 @@
                    After all 5 multiply-accumulates are performed, the 2.62 accumulator is shifted by <code>postShift</code> bits and the result truncated to
                    1.31 format by discarding the low 32 bits.
   @remark
-                   Refer to \ref arm_biquad_cascade_df1_fast_q31() for a faster but less precise implementation of this filter.
+                   Refer to \ref arm_biquad_cascade_df1_fast_q31() for a faster but less precise implementation of this filter->
  */
 #if defined(ARM_MATH_MVEI) && !defined(ARM_MATH_AUTOVECTORIZE)
 

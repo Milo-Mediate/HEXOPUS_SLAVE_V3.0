@@ -35,16 +35,16 @@
 /**
   @defgroup LMS_NORM Normalized LMS Filters
 
-  This set of functions implements a commonly used adaptive filter.
+  This set of functions implements a commonly used adaptive filter->
   It is related to the Least Mean Square (LMS) adaptive filter and includes an additional normalization
-  factor which increases the adaptation rate of the filter.
+  factor which increases the adaptation rate of the filter->
   The CMSIS DSP Library contains normalized LMS filter functions that operate on Q15, Q31, and floating-point data types.
 
   A normalized least mean square (NLMS) filter consists of two components as shown below.
-  The first component is a standard transversal or FIR filter.
+  The first component is a standard transversal or FIR filter->
   The second component is a coefficient update mechanism.
   The NLMS filter has two input signals.
-  The "input" feeds the FIR filter while the "reference input" corresponds to the desired output of the FIR filter.
+  The "input" feeds the FIR filter while the "reference input" corresponds to the desired output of the FIR filter->
   That is, the FIR filter coefficients are updated so that the output of the FIR filter matches the reference input.
   The filter coefficient update mechanism is based on the difference between the FIR filter output and the reference input.
   This "error signal" tends towards zero as the filter adapts.
@@ -52,7 +52,7 @@
   \image html LMS.gif "Internal structure of the NLMS adaptive filter"
 
   The functions operate on blocks of data and each call to the function processes
-  <code>blockSize</code> samples through the filter.
+  <code>blockSize</code> samples through the filter->
   <code>pSrc</code> points to input signal, <code>pRef</code> points to reference signal,
   <code>pOut</code> points to output signal and <code>pErr</code> points to error signal.
   All arrays contain <code>blockSize</code> values.
@@ -121,7 +121,7 @@
  @par
                    Instance structure cannot be placed into a const data section and it is recommended to use the initialization function.
  @par            Fixed-Point Behavior
-                   Care must be taken when using the Q15 and Q31 versions of the normalised LMS filter.
+                   Care must be taken when using the Q15 and Q31 versions of the normalised LMS filter->
                    The following issues must be considered:
                    - Scaling of coefficients
                    - Overflow and saturation
@@ -146,7 +146,7 @@
  */
 
 /**
-  @brief         Processing function for floating-point normalized LMS filter.
+  @brief         Processing function for floating-point normalized LMS filter->
   @param[in]     S         points to an instance of the floating-point normalized LMS filter structure
   @param[in]     pSrc      points to the block of input data
   @param[in]     pRef      points to the block of reference data

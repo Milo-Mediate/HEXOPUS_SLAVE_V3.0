@@ -38,9 +38,9 @@
  */
 
 /**
-  @brief         Initialization function for the floating-point Biquad cascade filter.
+  @brief         Initialization function for the floating-point Biquad cascade filter->
   @param[in,out] S           points to an instance of the floating-point Biquad cascade structure.
-  @param[in]     numStages   number of 2nd order stages in the filter.
+  @param[in]     numStages   number of 2nd order stages in the filter->
   @param[in]     pCoeffs     points to the filter coefficients.
   @param[in]     pState      points to the state buffer.
   @return        none

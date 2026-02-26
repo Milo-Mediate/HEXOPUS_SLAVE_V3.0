@@ -40,7 +40,7 @@
  */
 
 /**
-  @brief         Processing function for floating-point FIR filter.
+  @brief         Processing function for floating-point FIR filter->
   @param[in]     S          points to an instance of the floating-point FIR filter structure
   @param[in]     pSrc       points to the block of input data
   @param[out]    pDst       points to the block of output data

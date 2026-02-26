@@ -38,7 +38,7 @@
  */
 
 /**
-  @brief         Processing function for the Q15 IIR lattice filter.
+  @brief         Processing function for the Q15 IIR lattice filter->
   @param[in]     S          points to an instance of the Q15 IIR lattice structure
   @param[in]     pSrc       points to the block of input data
   @param[out]    pDst       points to the block of output data

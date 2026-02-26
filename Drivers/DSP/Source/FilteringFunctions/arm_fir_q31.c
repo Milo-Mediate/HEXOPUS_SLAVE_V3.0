@@ -39,7 +39,7 @@
  */
 
 /**
-  @brief         Processing function for Q31 FIR filter.
+  @brief         Processing function for Q31 FIR filter->
   @param[in]     S          points to an instance of the Q31 FIR filter structure
   @param[in]     pSrc       points to the block of input data
   @param[out]    pDst       points to the block of output data
@@ -54,7 +54,7 @@
                    After all multiply-accumulates are performed, the 2.62 accumulator is right shifted by 31 bits and saturated to 1.31 format to yield the final result.
 
  @remark
-                   Refer to \ref arm_fir_fast_q31() for a faster but less precise implementation of this filter.
+                   Refer to \ref arm_fir_fast_q31() for a faster but less precise implementation of this filter->
  */
 #if defined(ARM_MATH_MVEI) && !defined(ARM_MATH_AUTOVECTORIZE)
 

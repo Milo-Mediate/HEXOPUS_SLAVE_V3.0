@@ -38,7 +38,7 @@
  */
 
 /**
-  @brief         Processing function for the Q15 Biquad cascade filter.
+  @brief         Processing function for the Q15 Biquad cascade filter->
   @param[in]     S         points to an instance of the Q15 Biquad cascade structure
   @param[in]     pSrc      points to the block of input data
   @param[out]    pDst      points to the location where the output result is written
@@ -53,7 +53,7 @@
                    The accumulator is then shifted by <code>postShift</code> bits to truncate the result to 1.15 format by discarding the low 16 bits.
                    Finally, the result is saturated to 1.15 format.
   @remark
-                   Refer to \ref arm_biquad_cascade_df1_fast_q15() for a faster but less precise implementation of this filter.
+                   Refer to \ref arm_biquad_cascade_df1_fast_q15() for a faster but less precise implementation of this filter->
  */
 
 #if defined(ARM_MATH_MVEI) && !defined(ARM_MATH_AUTOVECTORIZE)

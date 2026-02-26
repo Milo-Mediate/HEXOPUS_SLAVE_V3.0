@@ -45,7 +45,7 @@
 
   The function operates on blocks of input and output data
   and each call to the function processes <code>blockSize</code> samples through
-  the filter. <code>pSrc</code> and <code>pDst</code> points to input and output arrays
+  the filter-> <code>pSrc</code> and <code>pDst</code> points to input and output arrays
   containing <code>blockSize</code> Q31 values.
 
   @par           Algorithm
@@ -85,7 +85,7 @@
 
   @par           Instance Structure
                    The coefficients and state variables for a filter are stored together in an instance data structure.
-                   A separate instance structure must be defined for each filter.
+                   A separate instance structure must be defined for each filter->
                    Coefficient arrays may be shared among several instances while state variable arrays cannot be shared.
 
   @par           Init Function
@@ -133,12 +133,12 @@
   </pre>
                    and set <code>postShift=1</code>
   @par
-                   The second thing to keep in mind is the gain through the filter.
+                   The second thing to keep in mind is the gain through the filter->
                    The frequency response of a Biquad filter is a function of its coefficients.
                    It is possible for the gain through the filter to exceed 1.0 meaning that the
                    filter increases the amplitude of certain frequencies.
                    This means that an input signal with amplitude < 1.0 may result in an output > 1.0
-                   and these are saturated or overflowed based on the implementation of the filter.
+                   and these are saturated or overflowed based on the implementation of the filter->
                    To avoid this behavior the filter needs to be scaled down such that its peak gain < 1.0
                    or the input signal must be scaled down so that the combination of input and filter are never overflowed.
   @par
@@ -152,7 +152,7 @@
  */
 
 /**
-  @brief         Processing function for the Q31 Biquad cascade 32x64 filter.
+  @brief         Processing function for the Q31 Biquad cascade 32x64 filter->
   @param[in]     S         points to an instance of the high precision Q31 Biquad cascade filter
   @param[in]     pSrc      points to the block of input data
   @param[out]    pDst      points to the block of output data
