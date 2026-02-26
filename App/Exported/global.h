@@ -36,58 +36,10 @@ extern "C" {
 /*                           Peripheral handlers                              */
 /* -------------------------------------------------------------------------- */
 
-//extern ETH_TxPacketConfigTypeDef TxConfig;
-//extern ETH_DMADescTypeDef  DMARxDscrTab[ETH_RX_DESC_CNT]; /* Ethernet Rx DMA Descriptors */
-//extern ETH_DMADescTypeDef  DMATxDscrTab[ETH_TX_DESC_CNT]; /* Ethernet Tx DMA Descriptors */
-
-extern ADC_HandleTypeDef   hadc1;
-extern ADC_HandleTypeDef   hadc2;
-
-#ifdef HEXOPAD
-extern DAC_HandleTypeDef   hdac1;
-#endif
-
-extern FDCAN_HandleTypeDef hfdcan1;
-extern FDCAN_HandleTypeDef hfdcan2;
-
-extern I2C_HandleTypeDef   hi2c1;
-extern I2C_HandleTypeDef   hi2c2;
-
-extern SPI_HandleTypeDef   hspi1;
-extern SPI_HandleTypeDef   hspi2;
-extern SPI_HandleTypeDef   hspi3;
-
-#ifdef MASTER
-extern XSPI_HandleTypeDef  hospi1;
-#endif
-
-extern TIM_HandleTypeDef   htim2;
-extern TIM_HandleTypeDef   htim3;
-extern TIM_HandleTypeDef   htim4;
-extern TIM_HandleTypeDef   htim5;
-extern TIM_HandleTypeDef   htim8;
-extern TIM_HandleTypeDef   htim12;
-
-extern UART_HandleTypeDef  huart1;
-extern UART_HandleTypeDef  huart5;
-extern UART_HandleTypeDef  huart6;
-extern UART_HandleTypeDef  huart7;
-
-//extern ETH_HandleTypeDef   heth;
-
-/* DMA descriptors (GPDMA1/2 CH7) */
-extern DMA_NodeTypeDef     Node_GPDMA1_Channel7;
-extern DMA_QListTypeDef    List_GPDMA1_Channel7;
-extern DMA_HandleTypeDef   handle_GPDMA1_Channel7;
-extern DMA_NodeTypeDef     Node_GPDMA2_Channel7;
-extern DMA_QListTypeDef    List_GPDMA2_Channel7;
-extern DMA_HandleTypeDef   handle_GPDMA2_Channel7;
 
 /* -------------------------------------------------------------------------- */
 /*                                   Flash                                    */
 /* -------------------------------------------------------------------------- */
-extern FlashData_t         flash_data_write_;
-extern FlashData_t         flash_data_read_;
 extern HAL_StatusTypeDef   status_;
 extern uint8_t             flash_operations_;
 

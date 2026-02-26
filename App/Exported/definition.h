@@ -23,6 +23,7 @@
 
 #include <stdbool.h>
 
+
 #define ON    1
 #define OFF   0
 
@@ -42,7 +43,10 @@
 
 
 #define name(x) #x  // stringify
-
+#define sizeof_member(type, member) (sizeof( ((type *)0)->member ))
+#define has_tail_padding(type, last_member) (\
+	offsetof(type, last_member) + sizeof_member(type, last_member) != sizeof(type)\
+)
 /* ===========================
  *  Group: Configuration
  * =========================== */
@@ -69,6 +73,8 @@
 #define MAX_SAMPLES           1000      /**< Maximum number of acquired samples */
 #define MAX_WINDOW_SIZE       4096      /**< Maximum processing window size */
 #define MAX_CYCLE_THRESHOLD 100000      /**< Maximum Number of while cycle allowed to go in FAULT status */
+
+#define FLASH_ALIGNMENT         16
 
 /** @} *//* end of sizes */
 
@@ -113,18 +119,15 @@ typedef enum {
 #define VERSION             "HEXOPUS_SLAVE_V3.0"  /**< Firmware version string */
 
 /* Sensor mapping depending on product variant */
-#define MAX_SENS          12
+#define MAX_SENS          16
 #ifdef HEXOPUS
 #define NUM_SENS           12
-#define NUM_DSP            6
+//#define NUM_DSP            1
 #define NUM_DAC_CHANNELS   12
-#define NUM_SAMPLES_FILTER 200
-#define STEP_FILTER        100
 #define SAMPLING_FREQ      40000.0f
 #define TARGET_FREQ        10000.0f
 #endif
 #ifdef HEXOPAD
-#define NUM_SENS          1 // TODO: riportare a 2 dopo iesi
 #define NUM_DAC_CHANNELS  2
 #define TS                0.00002f // Update Rate Time Reading from ADC (Tim Freq = 50KHz -> 20us)
 #endif
@@ -152,13 +155,19 @@ typedef enum {
  */
 
 /* Status & info */
-#define CMD_GET_INFO                      35
-#define CMD_REQUEST_SLAVE_PARAMETERS	  38
-//#define CMD_END_CALIBRATION               39
-//#define CMD_GET_CALIBRATION_STATUS        48 // TODO da eliminiare in quanto ridontante con la gestione degli eventi
-#define CMD_GET_SENSOR_STATUS             49
-#define CMD_SLAVE_STATUS                  47
-#define CMD_READY                         32
+#define CMD_READY                         21
+#define CMD_GET_INFO                      22
+#define CMD_GET_PARAMETERS                23
+#define CMD_END_CAL                       24
+#define CMD_SET_SLAVE_STATUS              25
+#define CMD_GET_SLAVE_STATUS              26
+#define CMD_SET_CAL_STATUS                27
+#define CMD_GET_CAL_STATUS                28
+#define CMD_SET_SEN_STATUS                29
+#define CMD_GET_SEN_STATUS                30
+
+#define CMD_GET_LOG_LEVEL                 83
+#define CMD_SET_LOG_LEVEL                 84
 
 #define CMD_HEARTBEAT                     255
 
@@ -180,8 +189,15 @@ typedef enum {
 
 #define CMD_FLASH_WRITE                   200
 #define CMD_FLASH_READ                    201
-#define CMD_FLASH_INIT                    202
-#define CMD_LED                           75
+#define CMD_FLASH_ERASE                   202
+#define CMD_SET_LED_DIAG_1                75
+#define CMD_GET_LED_DIAG_1                76
+#define CMD_SET_LED_DIAG_2                77
+#define CMD_GET_LED_DIAG_2                78
+#define CMD_SET_LED_MUTING                79
+#define CMD_GET_LED_MUTING                80
+#define CMD_SET_LED_SENSOR                81
+#define CMD_GET_LED_SENSOR                82
 
 /* Scan and distributed calibration (Master) */
 #define CMD_CAN_SCAN                      146
@@ -197,10 +213,10 @@ typedef enum {
  *  @{
  */
 /* Safety sequences */
-#define CMD_STOP                          40
-#define CMD_PRE_STOP                      41
-#define CMD_START                         42
-#define CMD_PRE_START                     43
+#define CMD_STOP                          36
+#define CMD_PRE_STOP                      37
+#define CMD_START                         38
+#define CMD_PRE_START                     39
 
 
 /* LEDs/OSSD (Master side) */
@@ -208,13 +224,13 @@ typedef enum {
 #define CMD_OSSD_STATUS           		  67
 #endif
 
-/* AD9833 frequency generator */
-#define CMD_AD9833_FREQ                   65
-
 /* Actuators depending on product variant */
-
-#define CMD_AUTOSET_POT                   50
-#define CMD_REF_VOLTAGE                   51
+#define CMD_AUTOSET_V_REF_1               40
+#define CMD_AUTOSET_V_REF_2               41
+#define CMD_SET_V_REF_1                   52
+#define CMD_GET_V_REF_1                   53
+#define CMD_SET_V_REF_2                   54
+#define CMD_GET_V_REF_2                   55
 
 /** @} *//* end of cmd_hw */
 
@@ -226,21 +242,38 @@ typedef enum {
  *  @{
  */
 
-#define CMD_TH1                           125 // Fixed threshold used to manage 10Khz signal
-#define CMD_TH2                           126 // Fixed threshold used to manage 10Khz signal
+#define CMD_SET_TH1                       122 // Fixed threshold used to manage 10Khz signal
+#define CMD_GET_TH1                       123 // Fixed threshold used to manage 10Khz signal
+#define CMD_SET_TH2                       124 // Fixed threshold used to manage 10Khz signal
+#define CMD_GET_TH2                       125 // Fixed threshold used to manage 10Khz signal
 
-#define CMD_GAIN                          127
-#define CMD_DELTA_V                       129
-#define CMD_1ST_TAU                       131 // Works on ADC raw value in order to filter
-#define CMD_2ND_TAU                       133 // Works on ADC raw value in order to filter
-#define CMD_TH_TAU                        134 // Used to manage the refresh the 300Khz threshold value
-#define CMD_NUM_CYCLE                     135
+#define CMD_SET_GAIN                      126
+#define CMD_GET_GAIN                      127
+#define CMD_SET_DELTA_V                   128
+#define CMD_GET_DELTA_V                   129
+#define CMD_SET_TAU_1                     130 // Works on ADC raw value in order to filter
+#define CMD_GET_TAU_1                     131
+#define CMD_SET_TAU_2                     132 // Works on ADC raw value in order to filter
+#define CMD_GET_TAU_2                     133
+#define CMD_SET_TAU_TH                    134 // Used to manage the refresh the 300Khz threshold value
+#define CMD_GET_TAU_TH                    135
+#define CMD_SET_NUM_CYCLE                 136
+#define CMD_GET_NUM_CYCLE                 137
 
-#define CMD_TURN_ALGORITHM                139
-#define CMD_TURN_DSP_ALGORITHM            140
+#define CMD_ALG_ON                        138
+#define CMD_ALG_OFF                       139
+#define CMD_DSP_ALG_ON                    140
+#define CMD_DSP_ALG_OFF                   141
 
 /* DSP / streaming */
-#define CMD_CAN_STREAM_SIGNAL             148
+#define CMD_PLOT_ON                       149
+#define CMD_PLOT_OFF                      150
+#define CMD_PLOT_SENSOR_1                 151
+#define CMD_PLOT_SENSOR_2                 152
+#define CMD_PLOT_SENSOR_3                 153
+#define CMD_PLOT_SENSOR_4                 154
+#define CMD_PLOT_SENSOR_5                 155
+#define CMD_PLOT_SENSOR_6                 156
 
 /** @} *//* end of cmd_alg */
 
