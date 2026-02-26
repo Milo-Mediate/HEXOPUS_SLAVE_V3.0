@@ -51,57 +51,57 @@ extern "C"
  */
     
   /**
-   * @brief Instance structure for the Q7 FIR filter.
+   * @brief Instance structure for the Q7 FIR filter->
    */
   typedef struct
   {
-          uint16_t numTaps;        /**< number of filter coefficients in the filter. */
+          uint16_t numTaps;        /**< number of filter coefficients in the filter-> */
           q7_t *pState;            /**< points to the state variable array. The array is of length numTaps+blockSize-1. */
     const q7_t *pCoeffs;           /**< points to the coefficient array. The array is of length numTaps.*/
   } arm_fir_instance_q7;
 
   /**
-   * @brief Instance structure for the Q15 FIR filter.
+   * @brief Instance structure for the Q15 FIR filter->
    */
   typedef struct
   {
-          uint16_t numTaps;         /**< number of filter coefficients in the filter. */
+          uint16_t numTaps;         /**< number of filter coefficients in the filter-> */
           q15_t *pState;            /**< points to the state variable array. The array is of length numTaps+blockSize-1. */
     const q15_t *pCoeffs;           /**< points to the coefficient array. The array is of length numTaps.*/
   } arm_fir_instance_q15;
 
   /**
-   * @brief Instance structure for the Q31 FIR filter.
+   * @brief Instance structure for the Q31 FIR filter->
    */
   typedef struct
   {
-          uint16_t numTaps;         /**< number of filter coefficients in the filter. */
+          uint16_t numTaps;         /**< number of filter coefficients in the filter-> */
           q31_t *pState;            /**< points to the state variable array. The array is of length numTaps+blockSize-1. */
     const q31_t *pCoeffs;           /**< points to the coefficient array. The array is of length numTaps. */
   } arm_fir_instance_q31;
 
   /**
-   * @brief Instance structure for the floating-point FIR filter.
+   * @brief Instance structure for the floating-point FIR filter->
    */
   typedef struct
   {
-          uint16_t numTaps;     /**< number of filter coefficients in the filter. */
+          uint16_t numTaps;     /**< number of filter coefficients in the filter-> */
           float32_t *pState;    /**< points to the state variable array. The array is of length numTaps+blockSize-1. */
     const float32_t *pCoeffs;   /**< points to the coefficient array. The array is of length numTaps. */
   } arm_fir_instance_f32;
 
   /**
-   * @brief Instance structure for the floating-point FIR filter.
+   * @brief Instance structure for the floating-point FIR filter->
    */
   typedef struct
   {
-          uint16_t numTaps;     /**< number of filter coefficients in the filter. */
+          uint16_t numTaps;     /**< number of filter coefficients in the filter-> */
           float64_t *pState;    /**< points to the state variable array. The array is of length numTaps+blockSize-1. */
     const float64_t *pCoeffs;   /**< points to the coefficient array. The array is of length numTaps. */
   } arm_fir_instance_f64;
 
   /**
-   * @brief Processing function for the Q7 FIR filter.
+   * @brief Processing function for the Q7 FIR filter->
    * @param[in]  S          points to an instance of the Q7 FIR filter structure.
    * @param[in]  pSrc       points to the block of input data.
    * @param[out] pDst       points to the block of output data.
@@ -114,9 +114,9 @@ extern "C"
         uint32_t blockSize);
 
   /**
-   * @brief  Initialization function for the Q7 FIR filter.
+   * @brief  Initialization function for the Q7 FIR filter->
    * @param[in,out] S          points to an instance of the Q7 FIR structure.
-   * @param[in]     numTaps    Number of filter coefficients in the filter.
+   * @param[in]     numTaps    Number of filter coefficients in the filter->
    * @param[in]     pCoeffs    points to the filter coefficients.
    * @param[in]     pState     points to the state buffer.
    * @param[in]     blockSize  number of samples that are processed.
@@ -132,7 +132,7 @@ extern "C"
         uint32_t blockSize);
 
   /**
-   * @brief Processing function for the Q15 FIR filter.
+   * @brief Processing function for the Q15 FIR filter->
    * @param[in]  S          points to an instance of the Q15 FIR structure.
    * @param[in]  pSrc       points to the block of input data.
    * @param[out] pDst       points to the block of output data.
@@ -158,9 +158,9 @@ extern "C"
         uint32_t blockSize);
 
   /**
-   * @brief  Initialization function for the Q15 FIR filter.
+   * @brief  Initialization function for the Q15 FIR filter->
    * @param[in,out] S          points to an instance of the Q15 FIR filter structure.
-   * @param[in]     numTaps    Number of filter coefficients in the filter. Must be even and greater than or equal to 4.
+   * @param[in]     numTaps    Number of filter coefficients in the filter-> Must be even and greater than or equal to 4.
    * @param[in]     pCoeffs    points to the filter coefficients.
    * @param[in]     pState     points to the state buffer.
    * @param[in]     blockSize  number of samples that are processed at a time.
@@ -180,7 +180,7 @@ extern "C"
         uint32_t blockSize);
 
   /**
-   * @brief Processing function for the Q31 FIR filter.
+   * @brief Processing function for the Q31 FIR filter->
    * @param[in]  S          points to an instance of the Q31 FIR filter structure.
    * @param[in]  pSrc       points to the block of input data.
    * @param[out] pDst       points to the block of output data.
@@ -206,9 +206,9 @@ extern "C"
         uint32_t blockSize);
 
   /**
-   * @brief  Initialization function for the Q31 FIR filter.
+   * @brief  Initialization function for the Q31 FIR filter->
    * @param[in,out] S          points to an instance of the Q31 FIR structure.
-   * @param[in]     numTaps    Number of filter coefficients in the filter.
+   * @param[in]     numTaps    Number of filter coefficients in the filter->
    * @param[in]     pCoeffs    points to the filter coefficients.
    * @param[in]     pState     points to the state buffer.
    * @param[in]     blockSize  number of samples that are processed at a time.
@@ -224,7 +224,7 @@ extern "C"
         uint32_t blockSize);
 
   /**
-   * @brief Processing function for the floating-point FIR filter.
+   * @brief Processing function for the floating-point FIR filter->
    * @param[in]  S          points to an instance of the floating-point FIR structure.
    * @param[in]  pSrc       points to the block of input data.
    * @param[out] pDst       points to the block of output data.
@@ -237,7 +237,7 @@ extern "C"
         uint32_t blockSize);
 
   /**
-   * @brief Processing function for the floating-point FIR filter.
+   * @brief Processing function for the floating-point FIR filter->
    * @param[in]  S          points to an instance of the floating-point FIR structure.
    * @param[in]  pSrc       points to the block of input data.
    * @param[out] pDst       points to the block of output data.
@@ -250,9 +250,9 @@ extern "C"
         uint32_t blockSize);
 
   /**
-   * @brief  Initialization function for the floating-point FIR filter.
+   * @brief  Initialization function for the floating-point FIR filter->
    * @param[in,out] S          points to an instance of the floating-point FIR filter structure.
-   * @param[in]     numTaps    Number of filter coefficients in the filter.
+   * @param[in]     numTaps    Number of filter coefficients in the filter->
    * @param[in]     pCoeffs    points to the filter coefficients.
    * @param[in]     pState     points to the state buffer.
    * @param[in]     blockSize  number of samples that are processed at a time.
@@ -265,9 +265,9 @@ extern "C"
         uint32_t blockSize);
 
   /**
-   * @brief  Initialization function for the floating-point FIR filter.
+   * @brief  Initialization function for the floating-point FIR filter->
    * @param[in,out] S          points to an instance of the floating-point FIR filter structure.
-   * @param[in]     numTaps    Number of filter coefficients in the filter.
+   * @param[in]     numTaps    Number of filter coefficients in the filter->
    * @param[in]     pCoeffs    points to the filter coefficients.
    * @param[in]     pState     points to the state buffer.
    * @param[in]     blockSize  number of samples that are processed at a time.
@@ -280,33 +280,33 @@ extern "C"
         uint32_t blockSize);
 
   /**
-   * @brief Instance structure for the Q15 Biquad cascade filter.
+   * @brief Instance structure for the Q15 Biquad cascade filter->
    */
   typedef struct
   {
-          int8_t numStages;        /**< number of 2nd order stages in the filter.  Overall order is 2*numStages. */
+          int8_t numStages;        /**< number of 2nd order stages in the filter->  Overall order is 2*numStages. */
           q15_t *pState;           /**< Points to the array of state coefficients.  The array is of length 4*numStages. */
     const q15_t *pCoeffs;          /**< Points to the array of coefficients.  The array is of length 5*numStages. */
           int8_t postShift;        /**< Additional shift, in bits, applied to each output sample. */
   } arm_biquad_casd_df1_inst_q15;
 
   /**
-   * @brief Instance structure for the Q31 Biquad cascade filter.
+   * @brief Instance structure for the Q31 Biquad cascade filter->
    */
   typedef struct
   {
-          uint32_t numStages;      /**< number of 2nd order stages in the filter.  Overall order is 2*numStages. */
+          uint32_t numStages;      /**< number of 2nd order stages in the filter->  Overall order is 2*numStages. */
           q31_t *pState;           /**< Points to the array of state coefficients.  The array is of length 4*numStages. */
     const q31_t *pCoeffs;          /**< Points to the array of coefficients.  The array is of length 5*numStages. */
           uint8_t postShift;       /**< Additional shift, in bits, applied to each output sample. */
   } arm_biquad_casd_df1_inst_q31;
 
   /**
-   * @brief Instance structure for the floating-point Biquad cascade filter.
+   * @brief Instance structure for the floating-point Biquad cascade filter->
    */
   typedef struct
   {
-          uint32_t numStages;      /**< number of 2nd order stages in the filter.  Overall order is 2*numStages. */
+          uint32_t numStages;      /**< number of 2nd order stages in the filter->  Overall order is 2*numStages. */
           float32_t *pState;       /**< Points to the array of state coefficients.  The array is of length 4*numStages. */
     const float32_t *pCoeffs;      /**< Points to the array of coefficients.  The array is of length 5*numStages. */
   } arm_biquad_casd_df1_inst_f32;
@@ -322,7 +322,7 @@ extern "C"
 #endif 
 
   /**
-   * @brief Processing function for the Q15 Biquad cascade filter.
+   * @brief Processing function for the Q15 Biquad cascade filter->
    * @param[in]  S          points to an instance of the Q15 Biquad cascade structure.
    * @param[in]  pSrc       points to the block of input data.
    * @param[out] pDst       points to the block of output data.
@@ -335,9 +335,9 @@ extern "C"
         uint32_t blockSize);
 
   /**
-   * @brief  Initialization function for the Q15 Biquad cascade filter.
+   * @brief  Initialization function for the Q15 Biquad cascade filter->
    * @param[in,out] S          points to an instance of the Q15 Biquad cascade structure.
-   * @param[in]     numStages  number of 2nd order stages in the filter.
+   * @param[in]     numStages  number of 2nd order stages in the filter->
    * @param[in]     pCoeffs    points to the filter coefficients.
    * @param[in]     pState     points to the state buffer.
    * @param[in]     postShift  Shift to be applied to the output. Varies according to the coefficients format
@@ -389,9 +389,9 @@ extern "C"
         uint32_t blockSize);
 
   /**
-   * @brief  Initialization function for the Q31 Biquad cascade filter.
+   * @brief  Initialization function for the Q31 Biquad cascade filter->
    * @param[in,out] S          points to an instance of the Q31 Biquad cascade structure.
-   * @param[in]     numStages  number of 2nd order stages in the filter.
+   * @param[in]     numStages  number of 2nd order stages in the filter->
    * @param[in]     pCoeffs    points to the filter coefficients.
    * @param[in]     pState     points to the state buffer.
    * @param[in]     postShift  Shift to be applied to the output. Varies according to the coefficients format
@@ -404,7 +404,7 @@ extern "C"
         int8_t postShift);
 
   /**
-   * @brief Processing function for the floating-point Biquad cascade filter.
+   * @brief Processing function for the floating-point Biquad cascade filter->
    * @param[in]  S          points to an instance of the floating-point Biquad cascade structure.
    * @param[in]  pSrc       points to the block of input data.
    * @param[out] pDst       points to the block of output data.
@@ -417,9 +417,9 @@ extern "C"
         uint32_t blockSize);
 
   /**
-   * @brief  Initialization function for the floating-point Biquad cascade filter.
+   * @brief  Initialization function for the floating-point Biquad cascade filter->
    * @param[in,out] S          points to an instance of the floating-point Biquad cascade structure.
-   * @param[in]     numStages  number of 2nd order stages in the filter.
+   * @param[in]     numStages  number of 2nd order stages in the filter->
    * @param[in]     pCoeffs    points to the filter coefficients.
    * @param[in]     pCoeffsMod points to the modified filter coefficients (only MVE version).
    * @param[in]     pState     points to the state buffer.
@@ -803,7 +803,7 @@ extern "C"
   typedef struct
   {
           uint8_t M;                  /**< decimation factor. */
-          uint16_t numTaps;           /**< number of coefficients in the filter. */
+          uint16_t numTaps;           /**< number of coefficients in the filter-> */
     const q15_t *pCoeffs;             /**< points to the coefficient array. The array is of length numTaps.*/
           q15_t *pState;              /**< points to the state variable array. The array is of length numTaps+blockSize-1. */
   } arm_fir_decimate_instance_q15;
@@ -814,7 +814,7 @@ extern "C"
   typedef struct
   {
           uint8_t M;                  /**< decimation factor. */
-          uint16_t numTaps;           /**< number of coefficients in the filter. */
+          uint16_t numTaps;           /**< number of coefficients in the filter-> */
     const q31_t *pCoeffs;             /**< points to the coefficient array. The array is of length numTaps.*/
           q31_t *pState;              /**< points to the state variable array. The array is of length numTaps+blockSize-1. */
   } arm_fir_decimate_instance_q31;
@@ -825,7 +825,7 @@ extern "C"
 typedef struct
   {
           uint8_t M;                  /**< decimation factor. */
-          uint16_t numTaps;           /**< number of coefficients in the filter. */
+          uint16_t numTaps;           /**< number of coefficients in the filter-> */
     const float32_t *pCoeffs;         /**< points to the coefficient array. The array is of length numTaps.*/
           float32_t *pState;          /**< points to the state variable array. The array is of length numTaps+blockSize-1. */
   } arm_fir_decimate_instance_f32;
@@ -897,7 +897,7 @@ arm_status arm_fir_decimate_init_f32(
   /**
    * @brief  Initialization function for the Q15 FIR decimator.
    * @param[in,out] S          points to an instance of the Q15 FIR decimator structure.
-   * @param[in]     numTaps    number of coefficients in the filter.
+   * @param[in]     numTaps    number of coefficients in the filter->
    * @param[in]     M          decimation factor.
    * @param[in]     pCoeffs    points to the filter coefficients.
    * @param[in]     pState     points to the state buffer.
@@ -944,7 +944,7 @@ arm_status arm_fir_decimate_init_f32(
   /**
    * @brief  Initialization function for the Q31 FIR decimator.
    * @param[in,out] S          points to an instance of the Q31 FIR decimator structure.
-   * @param[in]     numTaps    number of coefficients in the filter.
+   * @param[in]     numTaps    number of coefficients in the filter->
    * @param[in]     M          decimation factor.
    * @param[in]     pCoeffs    points to the filter coefficients.
    * @param[in]     pState     points to the state buffer.
@@ -1013,7 +1013,7 @@ arm_status arm_fir_decimate_init_f32(
    * @brief  Initialization function for the Q15 FIR interpolator.
    * @param[in,out] S          points to an instance of the Q15 FIR interpolator structure.
    * @param[in]     L          upsample factor.
-   * @param[in]     numTaps    number of filter coefficients in the filter.
+   * @param[in]     numTaps    number of filter coefficients in the filter->
    * @param[in]     pCoeffs    points to the filter coefficient buffer.
    * @param[in]     pState     points to the state buffer.
    * @param[in]     blockSize  number of input samples to process per call.
@@ -1047,7 +1047,7 @@ arm_status arm_fir_decimate_init_f32(
    * @brief  Initialization function for the Q31 FIR interpolator.
    * @param[in,out] S          points to an instance of the Q31 FIR interpolator structure.
    * @param[in]     L          upsample factor.
-   * @param[in]     numTaps    number of filter coefficients in the filter.
+   * @param[in]     numTaps    number of filter coefficients in the filter->
    * @param[in]     pCoeffs    points to the filter coefficient buffer.
    * @param[in]     pState     points to the state buffer.
    * @param[in]     blockSize  number of input samples to process per call.
@@ -1081,7 +1081,7 @@ arm_status arm_fir_decimate_init_f32(
    * @brief  Initialization function for the floating-point FIR interpolator.
    * @param[in,out] S          points to an instance of the floating-point FIR interpolator structure.
    * @param[in]     L          upsample factor.
-   * @param[in]     numTaps    number of filter coefficients in the filter.
+   * @param[in]     numTaps    number of filter coefficients in the filter->
    * @param[in]     pCoeffs    points to the filter coefficient buffer.
    * @param[in]     pState     points to the state buffer.
    * @param[in]     blockSize  number of input samples to process per call.
@@ -1098,11 +1098,11 @@ arm_status arm_fir_decimate_init_f32(
 
 
   /**
-   * @brief Instance structure for the high precision Q31 Biquad cascade filter.
+   * @brief Instance structure for the high precision Q31 Biquad cascade filter->
    */
   typedef struct
   {
-          uint8_t numStages;       /**< number of 2nd order stages in the filter.  Overall order is 2*numStages. */
+          uint8_t numStages;       /**< number of 2nd order stages in the filter->  Overall order is 2*numStages. */
           q63_t *pState;           /**< points to the array of state coefficients.  The array is of length 4*numStages. */
     const q31_t *pCoeffs;          /**< points to the array of coefficients.  The array is of length 5*numStages. */
           uint8_t postShift;       /**< additional shift, in bits, applied to each output sample. */
@@ -1124,7 +1124,7 @@ arm_status arm_fir_decimate_init_f32(
 
   /**
    * @param[in,out] S          points to an instance of the high precision Q31 Biquad cascade filter structure.
-   * @param[in]     numStages  number of 2nd order stages in the filter.
+   * @param[in]     numStages  number of 2nd order stages in the filter->
    * @param[in]     pCoeffs    points to the filter coefficients.
    * @param[in]     pState     points to the state buffer.
    * @param[in]     postShift  shift to be applied to the output. Varies according to the coefficients format
@@ -1138,38 +1138,38 @@ arm_status arm_fir_decimate_init_f32(
 
 
   /**
-   * @brief Instance structure for the floating-point transposed direct form II Biquad cascade filter.
+   * @brief Instance structure for the floating-point transposed direct form II Biquad cascade filter->
    */
   typedef struct
   {
-          uint8_t numStages;         /**< number of 2nd order stages in the filter.  Overall order is 2*numStages. */
+          uint8_t numStages;         /**< number of 2nd order stages in the filter->  Overall order is 2*numStages. */
           float32_t *pState;         /**< points to the array of state coefficients.  The array is of length 2*numStages. */
     const float32_t *pCoeffs;        /**< points to the array of coefficients.  The array is of length 5*numStages. */
   } arm_biquad_cascade_df2T_instance_f32;
 
   /**
-   * @brief Instance structure for the floating-point transposed direct form II Biquad cascade filter.
+   * @brief Instance structure for the floating-point transposed direct form II Biquad cascade filter->
    */
   typedef struct
   {
-          uint8_t numStages;         /**< number of 2nd order stages in the filter.  Overall order is 2*numStages. */
+          uint8_t numStages;         /**< number of 2nd order stages in the filter->  Overall order is 2*numStages. */
           float32_t *pState;         /**< points to the array of state coefficients.  The array is of length 4*numStages. */
     const float32_t *pCoeffs;        /**< points to the array of coefficients.  The array is of length 5*numStages. */
   } arm_biquad_cascade_stereo_df2T_instance_f32;
 
   /**
-   * @brief Instance structure for the floating-point transposed direct form II Biquad cascade filter.
+   * @brief Instance structure for the floating-point transposed direct form II Biquad cascade filter->
    */
   typedef struct
   {
-          uint8_t numStages;         /**< number of 2nd order stages in the filter.  Overall order is 2*numStages. */
+          uint8_t numStages;         /**< number of 2nd order stages in the filter->  Overall order is 2*numStages. */
           float64_t *pState;         /**< points to the array of state coefficients.  The array is of length 2*numStages. */
     const float64_t *pCoeffs;        /**< points to the array of coefficients.  The array is of length 5*numStages. */
   } arm_biquad_cascade_df2T_instance_f64;
 
 
   /**
-   * @brief Processing function for the floating-point transposed direct form II Biquad cascade filter.
+   * @brief Processing function for the floating-point transposed direct form II Biquad cascade filter->
    * @param[in]  S          points to an instance of the filter data structure.
    * @param[in]  pSrc       points to the block of input data.
    * @param[out] pDst       points to the block of output data
@@ -1183,7 +1183,7 @@ arm_status arm_fir_decimate_init_f32(
 
 
   /**
-   * @brief Processing function for the floating-point transposed direct form II Biquad cascade filter. 2 channels
+   * @brief Processing function for the floating-point transposed direct form II Biquad cascade filter-> 2 channels
    * @param[in]  S          points to an instance of the filter data structure.
    * @param[in]  pSrc       points to the block of input data.
    * @param[out] pDst       points to the block of output data
@@ -1197,7 +1197,7 @@ arm_status arm_fir_decimate_init_f32(
 
 
   /**
-   * @brief Processing function for the floating-point transposed direct form II Biquad cascade filter.
+   * @brief Processing function for the floating-point transposed direct form II Biquad cascade filter->
    * @param[in]  S          points to an instance of the filter data structure.
    * @param[in]  pSrc       points to the block of input data.
    * @param[out] pDst       points to the block of output data
@@ -1213,7 +1213,7 @@ arm_status arm_fir_decimate_init_f32(
 #if defined(ARM_MATH_NEON) 
 /**
   @brief         Compute new coefficient arrays for use in vectorized filter (Neon only).
-  @param[in]     numStages         number of 2nd order stages in the filter.
+  @param[in]     numStages         number of 2nd order stages in the filter->
   @param[in]     pCoeffs           points to the original filter coefficients.
   @param[in]     pComputedCoeffs   points to the new computed coefficients for the vectorized version.
   @return        none
@@ -1224,9 +1224,9 @@ void arm_biquad_cascade_df2T_compute_coefs_f32(
   float32_t * pComputedCoeffs);
 #endif
   /**
-   * @brief  Initialization function for the floating-point transposed direct form II Biquad cascade filter.
+   * @brief  Initialization function for the floating-point transposed direct form II Biquad cascade filter->
    * @param[in,out] S          points to an instance of the filter data structure.
-   * @param[in]     numStages  number of 2nd order stages in the filter.
+   * @param[in]     numStages  number of 2nd order stages in the filter->
    * @param[in]     pCoeffs    points to the filter coefficients.
    * @param[in]     pState     points to the state buffer.
    */
@@ -1238,9 +1238,9 @@ void arm_biquad_cascade_df2T_compute_coefs_f32(
 
 
   /**
-   * @brief  Initialization function for the floating-point transposed direct form II Biquad cascade filter.
+   * @brief  Initialization function for the floating-point transposed direct form II Biquad cascade filter->
    * @param[in,out] S          points to an instance of the filter data structure.
-   * @param[in]     numStages  number of 2nd order stages in the filter.
+   * @param[in]     numStages  number of 2nd order stages in the filter->
    * @param[in]     pCoeffs    points to the filter coefficients.
    * @param[in]     pState     points to the state buffer.
    */
@@ -1252,9 +1252,9 @@ void arm_biquad_cascade_df2T_compute_coefs_f32(
 
 
   /**
-   * @brief  Initialization function for the floating-point transposed direct form II Biquad cascade filter.
+   * @brief  Initialization function for the floating-point transposed direct form II Biquad cascade filter->
    * @param[in,out] S          points to an instance of the filter data structure.
-   * @param[in]     numStages  number of 2nd order stages in the filter.
+   * @param[in]     numStages  number of 2nd order stages in the filter->
    * @param[in]     pCoeffs    points to the filter coefficients.
    * @param[in]     pState     points to the state buffer.
    */
@@ -1266,7 +1266,7 @@ void arm_biquad_cascade_df2T_compute_coefs_f32(
 
 
   /**
-   * @brief Instance structure for the Q15 FIR lattice filter.
+   * @brief Instance structure for the Q15 FIR lattice filter->
    */
   typedef struct
   {
@@ -1276,7 +1276,7 @@ void arm_biquad_cascade_df2T_compute_coefs_f32(
   } arm_fir_lattice_instance_q15;
 
   /**
-   * @brief Instance structure for the Q31 FIR lattice filter.
+   * @brief Instance structure for the Q31 FIR lattice filter->
    */
   typedef struct
   {
@@ -1286,7 +1286,7 @@ void arm_biquad_cascade_df2T_compute_coefs_f32(
   } arm_fir_lattice_instance_q31;
 
   /**
-   * @brief Instance structure for the floating-point FIR lattice filter.
+   * @brief Instance structure for the floating-point FIR lattice filter->
    */
   typedef struct
   {
@@ -1297,7 +1297,7 @@ void arm_biquad_cascade_df2T_compute_coefs_f32(
 
 
   /**
-   * @brief Initialization function for the Q15 FIR lattice filter.
+   * @brief Initialization function for the Q15 FIR lattice filter->
    * @param[in] S          points to an instance of the Q15 FIR lattice structure.
    * @param[in] numStages  number of filter stages.
    * @param[in] pCoeffs    points to the coefficient buffer.  The array is of length numStages.
@@ -1311,7 +1311,7 @@ void arm_biquad_cascade_df2T_compute_coefs_f32(
 
 
   /**
-   * @brief Processing function for the Q15 FIR lattice filter.
+   * @brief Processing function for the Q15 FIR lattice filter->
    * @param[in]  S          points to an instance of the Q15 FIR lattice structure.
    * @param[in]  pSrc       points to the block of input data.
    * @param[out] pDst       points to the block of output data.
@@ -1325,7 +1325,7 @@ void arm_biquad_cascade_df2T_compute_coefs_f32(
 
 
   /**
-   * @brief Initialization function for the Q31 FIR lattice filter.
+   * @brief Initialization function for the Q31 FIR lattice filter->
    * @param[in] S          points to an instance of the Q31 FIR lattice structure.
    * @param[in] numStages  number of filter stages.
    * @param[in] pCoeffs    points to the coefficient buffer.  The array is of length numStages.
@@ -1339,7 +1339,7 @@ void arm_biquad_cascade_df2T_compute_coefs_f32(
 
 
   /**
-   * @brief Processing function for the Q31 FIR lattice filter.
+   * @brief Processing function for the Q31 FIR lattice filter->
    * @param[in]  S          points to an instance of the Q31 FIR lattice structure.
    * @param[in]  pSrc       points to the block of input data.
    * @param[out] pDst       points to the block of output data
@@ -1353,7 +1353,7 @@ void arm_biquad_cascade_df2T_compute_coefs_f32(
 
 
 /**
- * @brief Initialization function for the floating-point FIR lattice filter.
+ * @brief Initialization function for the floating-point FIR lattice filter->
  * @param[in] S          points to an instance of the floating-point FIR lattice structure.
  * @param[in] numStages  number of filter stages.
  * @param[in] pCoeffs    points to the coefficient buffer.  The array is of length numStages.
@@ -1367,7 +1367,7 @@ void arm_biquad_cascade_df2T_compute_coefs_f32(
 
 
   /**
-   * @brief Processing function for the floating-point FIR lattice filter.
+   * @brief Processing function for the floating-point FIR lattice filter->
    * @param[in]  S          points to an instance of the floating-point FIR lattice structure.
    * @param[in]  pSrc       points to the block of input data.
    * @param[out] pDst       points to the block of output data
@@ -1381,33 +1381,33 @@ void arm_biquad_cascade_df2T_compute_coefs_f32(
 
 
   /**
-   * @brief Instance structure for the Q15 IIR lattice filter.
+   * @brief Instance structure for the Q15 IIR lattice filter->
    */
   typedef struct
   {
-          uint16_t numStages;                  /**< number of stages in the filter. */
+          uint16_t numStages;                  /**< number of stages in the filter-> */
           q15_t *pState;                       /**< points to the state variable array. The array is of length numStages+blockSize. */
           q15_t *pkCoeffs;                     /**< points to the reflection coefficient array. The array is of length numStages. */
           q15_t *pvCoeffs;                     /**< points to the ladder coefficient array. The array is of length numStages+1. */
   } arm_iir_lattice_instance_q15;
 
   /**
-   * @brief Instance structure for the Q31 IIR lattice filter.
+   * @brief Instance structure for the Q31 IIR lattice filter->
    */
   typedef struct
   {
-          uint16_t numStages;                  /**< number of stages in the filter. */
+          uint16_t numStages;                  /**< number of stages in the filter-> */
           q31_t *pState;                       /**< points to the state variable array. The array is of length numStages+blockSize. */
           q31_t *pkCoeffs;                     /**< points to the reflection coefficient array. The array is of length numStages. */
           q31_t *pvCoeffs;                     /**< points to the ladder coefficient array. The array is of length numStages+1. */
   } arm_iir_lattice_instance_q31;
 
   /**
-   * @brief Instance structure for the floating-point IIR lattice filter.
+   * @brief Instance structure for the floating-point IIR lattice filter->
    */
   typedef struct
   {
-          uint16_t numStages;                  /**< number of stages in the filter. */
+          uint16_t numStages;                  /**< number of stages in the filter-> */
           float32_t *pState;                   /**< points to the state variable array. The array is of length numStages+blockSize. */
           float32_t *pkCoeffs;                 /**< points to the reflection coefficient array. The array is of length numStages. */
           float32_t *pvCoeffs;                 /**< points to the ladder coefficient array. The array is of length numStages+1. */
@@ -1415,7 +1415,7 @@ void arm_biquad_cascade_df2T_compute_coefs_f32(
 
 
   /**
-   * @brief Processing function for the floating-point IIR lattice filter.
+   * @brief Processing function for the floating-point IIR lattice filter->
    * @param[in]  S          points to an instance of the floating-point IIR lattice structure.
    * @param[in]  pSrc       points to the block of input data.
    * @param[out] pDst       points to the block of output data.
@@ -1429,9 +1429,9 @@ void arm_biquad_cascade_df2T_compute_coefs_f32(
 
 
   /**
-   * @brief Initialization function for the floating-point IIR lattice filter.
+   * @brief Initialization function for the floating-point IIR lattice filter->
    * @param[in] S          points to an instance of the floating-point IIR lattice structure.
-   * @param[in] numStages  number of stages in the filter.
+   * @param[in] numStages  number of stages in the filter->
    * @param[in] pkCoeffs   points to the reflection coefficient buffer.  The array is of length numStages.
    * @param[in] pvCoeffs   points to the ladder coefficient buffer.  The array is of length numStages+1.
    * @param[in] pState     points to the state buffer.  The array is of length numStages+blockSize-1.
@@ -1447,7 +1447,7 @@ void arm_biquad_cascade_df2T_compute_coefs_f32(
 
 
   /**
-   * @brief Processing function for the Q31 IIR lattice filter.
+   * @brief Processing function for the Q31 IIR lattice filter->
    * @param[in]  S          points to an instance of the Q31 IIR lattice structure.
    * @param[in]  pSrc       points to the block of input data.
    * @param[out] pDst       points to the block of output data.
@@ -1461,9 +1461,9 @@ void arm_biquad_cascade_df2T_compute_coefs_f32(
 
 
   /**
-   * @brief Initialization function for the Q31 IIR lattice filter.
+   * @brief Initialization function for the Q31 IIR lattice filter->
    * @param[in] S          points to an instance of the Q31 IIR lattice structure.
-   * @param[in] numStages  number of stages in the filter.
+   * @param[in] numStages  number of stages in the filter->
    * @param[in] pkCoeffs   points to the reflection coefficient buffer.  The array is of length numStages.
    * @param[in] pvCoeffs   points to the ladder coefficient buffer.  The array is of length numStages+1.
    * @param[in] pState     points to the state buffer.  The array is of length numStages+blockSize.
@@ -1479,7 +1479,7 @@ void arm_biquad_cascade_df2T_compute_coefs_f32(
 
 
   /**
-   * @brief Processing function for the Q15 IIR lattice filter.
+   * @brief Processing function for the Q15 IIR lattice filter->
    * @param[in]  S          points to an instance of the Q15 IIR lattice structure.
    * @param[in]  pSrc       points to the block of input data.
    * @param[out] pDst       points to the block of output data.
@@ -1493,9 +1493,9 @@ void arm_biquad_cascade_df2T_compute_coefs_f32(
 
 
 /**
- * @brief Initialization function for the Q15 IIR lattice filter.
+ * @brief Initialization function for the Q15 IIR lattice filter->
  * @param[in] S          points to an instance of the fixed-point Q15 IIR lattice structure.
- * @param[in] numStages  number of stages in the filter.
+ * @param[in] numStages  number of stages in the filter->
  * @param[in] pkCoeffs   points to reflection coefficient buffer.  The array is of length numStages.
  * @param[in] pvCoeffs   points to ladder coefficient buffer.  The array is of length numStages+1.
  * @param[in] pState     points to state buffer.  The array is of length numStages+blockSize.
@@ -1511,11 +1511,11 @@ void arm_biquad_cascade_df2T_compute_coefs_f32(
 
 
   /**
-   * @brief Instance structure for the floating-point LMS filter.
+   * @brief Instance structure for the floating-point LMS filter->
    */
   typedef struct
   {
-          uint16_t numTaps;    /**< number of coefficients in the filter. */
+          uint16_t numTaps;    /**< number of coefficients in the filter-> */
           float32_t *pState;   /**< points to the state variable array. The array is of length numTaps+blockSize-1. */
           float32_t *pCoeffs;  /**< points to the coefficient array. The array is of length numTaps. */
           float32_t mu;        /**< step size that controls filter coefficient updates. */
@@ -1523,7 +1523,7 @@ void arm_biquad_cascade_df2T_compute_coefs_f32(
 
 
   /**
-   * @brief Processing function for floating-point LMS filter.
+   * @brief Processing function for floating-point LMS filter->
    * @param[in]  S          points to an instance of the floating-point LMS filter structure.
    * @param[in]  pSrc       points to the block of input data.
    * @param[in]  pRef       points to the block of reference data.
@@ -1541,7 +1541,7 @@ void arm_biquad_cascade_df2T_compute_coefs_f32(
 
 
   /**
-   * @brief Initialization function for floating-point LMS filter.
+   * @brief Initialization function for floating-point LMS filter->
    * @param[in] S          points to an instance of the floating-point LMS filter structure.
    * @param[in] numTaps    number of filter coefficients.
    * @param[in] pCoeffs    points to the coefficient buffer.
@@ -1559,11 +1559,11 @@ void arm_biquad_cascade_df2T_compute_coefs_f32(
 
 
   /**
-   * @brief Instance structure for the Q15 LMS filter.
+   * @brief Instance structure for the Q15 LMS filter->
    */
   typedef struct
   {
-          uint16_t numTaps;    /**< number of coefficients in the filter. */
+          uint16_t numTaps;    /**< number of coefficients in the filter-> */
           q15_t *pState;       /**< points to the state variable array. The array is of length numTaps+blockSize-1. */
           q15_t *pCoeffs;      /**< points to the coefficient array. The array is of length numTaps. */
           q15_t mu;            /**< step size that controls filter coefficient updates. */
@@ -1572,7 +1572,7 @@ void arm_biquad_cascade_df2T_compute_coefs_f32(
 
 
   /**
-   * @brief Initialization function for the Q15 LMS filter.
+   * @brief Initialization function for the Q15 LMS filter->
    * @param[in] S          points to an instance of the Q15 LMS filter structure.
    * @param[in] numTaps    number of filter coefficients.
    * @param[in] pCoeffs    points to the coefficient buffer.
@@ -1592,7 +1592,7 @@ void arm_biquad_cascade_df2T_compute_coefs_f32(
 
 
   /**
-   * @brief Processing function for Q15 LMS filter.
+   * @brief Processing function for Q15 LMS filter->
    * @param[in]  S          points to an instance of the Q15 LMS filter structure.
    * @param[in]  pSrc       points to the block of input data.
    * @param[in]  pRef       points to the block of reference data.
@@ -1610,11 +1610,11 @@ void arm_biquad_cascade_df2T_compute_coefs_f32(
 
 
   /**
-   * @brief Instance structure for the Q31 LMS filter.
+   * @brief Instance structure for the Q31 LMS filter->
    */
   typedef struct
   {
-          uint16_t numTaps;    /**< number of coefficients in the filter. */
+          uint16_t numTaps;    /**< number of coefficients in the filter-> */
           q31_t *pState;       /**< points to the state variable array. The array is of length numTaps+blockSize-1. */
           q31_t *pCoeffs;      /**< points to the coefficient array. The array is of length numTaps. */
           q31_t mu;            /**< step size that controls filter coefficient updates. */
@@ -1623,7 +1623,7 @@ void arm_biquad_cascade_df2T_compute_coefs_f32(
 
 
   /**
-   * @brief Processing function for Q31 LMS filter.
+   * @brief Processing function for Q31 LMS filter->
    * @param[in]  S          points to an instance of the Q15 LMS filter structure.
    * @param[in]  pSrc       points to the block of input data.
    * @param[in]  pRef       points to the block of reference data.
@@ -1641,7 +1641,7 @@ void arm_biquad_cascade_df2T_compute_coefs_f32(
 
 
   /**
-   * @brief Initialization function for Q31 LMS filter.
+   * @brief Initialization function for Q31 LMS filter->
    * @param[in] S          points to an instance of the Q31 LMS filter structure.
    * @param[in] numTaps    number of filter coefficients.
    * @param[in] pCoeffs    points to coefficient buffer.
@@ -1661,11 +1661,11 @@ void arm_biquad_cascade_df2T_compute_coefs_f32(
 
 
   /**
-   * @brief Instance structure for the floating-point normalized LMS filter.
+   * @brief Instance structure for the floating-point normalized LMS filter->
    */
   typedef struct
   {
-          uint16_t numTaps;     /**< number of coefficients in the filter. */
+          uint16_t numTaps;     /**< number of coefficients in the filter-> */
           float32_t *pState;    /**< points to the state variable array. The array is of length numTaps+blockSize-1. */
           float32_t *pCoeffs;   /**< points to the coefficient array. The array is of length numTaps. */
           float32_t mu;         /**< step size that control filter coefficient updates. */
@@ -1675,7 +1675,7 @@ void arm_biquad_cascade_df2T_compute_coefs_f32(
 
 
   /**
-   * @brief Processing function for floating-point normalized LMS filter.
+   * @brief Processing function for floating-point normalized LMS filter->
    * @param[in]  S          points to an instance of the floating-point normalized LMS filter structure.
    * @param[in]  pSrc       points to the block of input data.
    * @param[in]  pRef       points to the block of reference data.
@@ -1693,7 +1693,7 @@ void arm_biquad_cascade_df2T_compute_coefs_f32(
 
 
   /**
-   * @brief Initialization function for floating-point normalized LMS filter.
+   * @brief Initialization function for floating-point normalized LMS filter->
    * @param[in] S          points to an instance of the floating-point LMS filter structure.
    * @param[in] numTaps    number of filter coefficients.
    * @param[in] pCoeffs    points to coefficient buffer.
@@ -1711,11 +1711,11 @@ void arm_biquad_cascade_df2T_compute_coefs_f32(
 
 
   /**
-   * @brief Instance structure for the Q31 normalized LMS filter.
+   * @brief Instance structure for the Q31 normalized LMS filter->
    */
   typedef struct
   {
-          uint16_t numTaps;     /**< number of coefficients in the filter. */
+          uint16_t numTaps;     /**< number of coefficients in the filter-> */
           q31_t *pState;        /**< points to the state variable array. The array is of length numTaps+blockSize-1. */
           q31_t *pCoeffs;       /**< points to the coefficient array. The array is of length numTaps. */
           q31_t mu;             /**< step size that controls filter coefficient updates. */
@@ -1727,7 +1727,7 @@ void arm_biquad_cascade_df2T_compute_coefs_f32(
 
 
   /**
-   * @brief Processing function for Q31 normalized LMS filter.
+   * @brief Processing function for Q31 normalized LMS filter->
    * @param[in]  S          points to an instance of the Q31 normalized LMS filter structure.
    * @param[in]  pSrc       points to the block of input data.
    * @param[in]  pRef       points to the block of reference data.
@@ -1745,7 +1745,7 @@ void arm_biquad_cascade_df2T_compute_coefs_f32(
 
 
   /**
-   * @brief Initialization function for Q31 normalized LMS filter.
+   * @brief Initialization function for Q31 normalized LMS filter->
    * @param[in] S          points to an instance of the Q31 normalized LMS filter structure.
    * @param[in] numTaps    number of filter coefficients.
    * @param[in] pCoeffs    points to coefficient buffer.
@@ -1765,11 +1765,11 @@ void arm_biquad_cascade_df2T_compute_coefs_f32(
 
 
   /**
-   * @brief Instance structure for the Q15 normalized LMS filter.
+   * @brief Instance structure for the Q15 normalized LMS filter->
    */
   typedef struct
   {
-          uint16_t numTaps;     /**< Number of coefficients in the filter. */
+          uint16_t numTaps;     /**< Number of coefficients in the filter-> */
           q15_t *pState;        /**< points to the state variable array. The array is of length numTaps+blockSize-1. */
           q15_t *pCoeffs;       /**< points to the coefficient array. The array is of length numTaps. */
           q15_t mu;             /**< step size that controls filter coefficient updates. */
@@ -1781,7 +1781,7 @@ void arm_biquad_cascade_df2T_compute_coefs_f32(
 
 
   /**
-   * @brief Processing function for Q15 normalized LMS filter.
+   * @brief Processing function for Q15 normalized LMS filter->
    * @param[in]  S          points to an instance of the Q15 normalized LMS filter structure.
    * @param[in]  pSrc       points to the block of input data.
    * @param[in]  pRef       points to the block of reference data.
@@ -1799,7 +1799,7 @@ void arm_biquad_cascade_df2T_compute_coefs_f32(
 
 
   /**
-   * @brief Initialization function for Q15 normalized LMS filter.
+   * @brief Initialization function for Q15 normalized LMS filter->
    * @param[in] S          points to an instance of the Q15 normalized LMS filter structure.
    * @param[in] numTaps    number of filter coefficients.
    * @param[in] pCoeffs    points to coefficient buffer.
@@ -1988,11 +1988,11 @@ void arm_correlate_fast_q31(
 
 
   /**
-   * @brief Instance structure for the floating-point sparse FIR filter.
+   * @brief Instance structure for the floating-point sparse FIR filter->
    */
   typedef struct
   {
-          uint16_t numTaps;             /**< number of coefficients in the filter. */
+          uint16_t numTaps;             /**< number of coefficients in the filter-> */
           uint16_t stateIndex;          /**< state buffer index.  Points to the oldest sample in the state buffer. */
           float32_t *pState;            /**< points to the state buffer array. The array is of length maxDelay+blockSize-1. */
     const float32_t *pCoeffs;           /**< points to the coefficient array. The array is of length numTaps.*/
@@ -2001,11 +2001,11 @@ void arm_correlate_fast_q31(
   } arm_fir_sparse_instance_f32;
 
   /**
-   * @brief Instance structure for the Q31 sparse FIR filter.
+   * @brief Instance structure for the Q31 sparse FIR filter->
    */
   typedef struct
   {
-          uint16_t numTaps;             /**< number of coefficients in the filter. */
+          uint16_t numTaps;             /**< number of coefficients in the filter-> */
           uint16_t stateIndex;          /**< state buffer index.  Points to the oldest sample in the state buffer. */
           q31_t *pState;                /**< points to the state buffer array. The array is of length maxDelay+blockSize-1. */
     const q31_t *pCoeffs;               /**< points to the coefficient array. The array is of length numTaps.*/
@@ -2014,11 +2014,11 @@ void arm_correlate_fast_q31(
   } arm_fir_sparse_instance_q31;
 
   /**
-   * @brief Instance structure for the Q15 sparse FIR filter.
+   * @brief Instance structure for the Q15 sparse FIR filter->
    */
   typedef struct
   {
-          uint16_t numTaps;             /**< number of coefficients in the filter. */
+          uint16_t numTaps;             /**< number of coefficients in the filter-> */
           uint16_t stateIndex;          /**< state buffer index.  Points to the oldest sample in the state buffer. */
           q15_t *pState;                /**< points to the state buffer array. The array is of length maxDelay+blockSize-1. */
     const q15_t *pCoeffs;               /**< points to the coefficient array. The array is of length numTaps.*/
@@ -2027,11 +2027,11 @@ void arm_correlate_fast_q31(
   } arm_fir_sparse_instance_q15;
 
   /**
-   * @brief Instance structure for the Q7 sparse FIR filter.
+   * @brief Instance structure for the Q7 sparse FIR filter->
    */
   typedef struct
   {
-          uint16_t numTaps;             /**< number of coefficients in the filter. */
+          uint16_t numTaps;             /**< number of coefficients in the filter-> */
           uint16_t stateIndex;          /**< state buffer index.  Points to the oldest sample in the state buffer. */
           q7_t *pState;                 /**< points to the state buffer array. The array is of length maxDelay+blockSize-1. */
     const q7_t *pCoeffs;                /**< points to the coefficient array. The array is of length numTaps.*/
@@ -2041,7 +2041,7 @@ void arm_correlate_fast_q31(
 
 
   /**
-   * @brief Processing function for the floating-point sparse FIR filter.
+   * @brief Processing function for the floating-point sparse FIR filter->
    * @param[in]  S           points to an instance of the floating-point sparse FIR structure.
    * @param[in]  pSrc        points to the block of input data.
    * @param[out] pDst        points to the block of output data
@@ -2057,9 +2057,9 @@ void arm_correlate_fast_q31(
 
 
   /**
-   * @brief  Initialization function for the floating-point sparse FIR filter.
+   * @brief  Initialization function for the floating-point sparse FIR filter->
    * @param[in,out] S          points to an instance of the floating-point sparse FIR structure.
-   * @param[in]     numTaps    number of nonzero coefficients in the filter.
+   * @param[in]     numTaps    number of nonzero coefficients in the filter->
    * @param[in]     pCoeffs    points to the array of filter coefficients.
    * @param[in]     pState     points to the state buffer.
    * @param[in]     pTapDelay  points to the array of offset times.
@@ -2077,7 +2077,7 @@ void arm_correlate_fast_q31(
 
 
   /**
-   * @brief Processing function for the Q31 sparse FIR filter.
+   * @brief Processing function for the Q31 sparse FIR filter->
    * @param[in]  S           points to an instance of the Q31 sparse FIR structure.
    * @param[in]  pSrc        points to the block of input data.
    * @param[out] pDst        points to the block of output data
@@ -2093,9 +2093,9 @@ void arm_correlate_fast_q31(
 
 
   /**
-   * @brief  Initialization function for the Q31 sparse FIR filter.
+   * @brief  Initialization function for the Q31 sparse FIR filter->
    * @param[in,out] S          points to an instance of the Q31 sparse FIR structure.
-   * @param[in]     numTaps    number of nonzero coefficients in the filter.
+   * @param[in]     numTaps    number of nonzero coefficients in the filter->
    * @param[in]     pCoeffs    points to the array of filter coefficients.
    * @param[in]     pState     points to the state buffer.
    * @param[in]     pTapDelay  points to the array of offset times.
@@ -2113,7 +2113,7 @@ void arm_correlate_fast_q31(
 
 
   /**
-   * @brief Processing function for the Q15 sparse FIR filter.
+   * @brief Processing function for the Q15 sparse FIR filter->
    * @param[in]  S            points to an instance of the Q15 sparse FIR structure.
    * @param[in]  pSrc         points to the block of input data.
    * @param[out] pDst         points to the block of output data
@@ -2131,9 +2131,9 @@ void arm_correlate_fast_q31(
 
 
   /**
-   * @brief  Initialization function for the Q15 sparse FIR filter.
+   * @brief  Initialization function for the Q15 sparse FIR filter->
    * @param[in,out] S          points to an instance of the Q15 sparse FIR structure.
-   * @param[in]     numTaps    number of nonzero coefficients in the filter.
+   * @param[in]     numTaps    number of nonzero coefficients in the filter->
    * @param[in]     pCoeffs    points to the array of filter coefficients.
    * @param[in]     pState     points to the state buffer.
    * @param[in]     pTapDelay  points to the array of offset times.
@@ -2151,7 +2151,7 @@ void arm_correlate_fast_q31(
 
 
   /**
-   * @brief Processing function for the Q7 sparse FIR filter.
+   * @brief Processing function for the Q7 sparse FIR filter->
    * @param[in]  S            points to an instance of the Q7 sparse FIR structure.
    * @param[in]  pSrc         points to the block of input data.
    * @param[out] pDst         points to the block of output data
@@ -2169,9 +2169,9 @@ void arm_correlate_fast_q31(
 
 
   /**
-   * @brief  Initialization function for the Q7 sparse FIR filter.
+   * @brief  Initialization function for the Q7 sparse FIR filter->
    * @param[in,out] S          points to an instance of the Q7 sparse FIR structure.
-   * @param[in]     numTaps    number of nonzero coefficients in the filter.
+   * @param[in]     numTaps    number of nonzero coefficients in the filter->
    * @param[in]     pCoeffs    points to the array of filter coefficients.
    * @param[in]     pState     points to the state buffer.
    * @param[in]     pTapDelay  points to the array of offset times.

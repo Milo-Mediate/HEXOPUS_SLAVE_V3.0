@@ -42,19 +42,19 @@ extern "C"
 #if defined(ARM_FLOAT16_SUPPORTED)
 
  /**
-   * @brief Instance structure for the floating-point FIR filter.
+   * @brief Instance structure for the floating-point FIR filter->
    */
   typedef struct
   {
-          uint16_t numTaps;     /**< number of filter coefficients in the filter. */
+          uint16_t numTaps;     /**< number of filter coefficients in the filter-> */
           float16_t *pState;    /**< points to the state variable array. The array is of length numTaps+blockSize-1. */
     const float16_t *pCoeffs;   /**< points to the coefficient array. The array is of length numTaps. */
   } arm_fir_instance_f16;
 
   /**
-   * @brief  Initialization function for the floating-point FIR filter.
+   * @brief  Initialization function for the floating-point FIR filter->
    * @param[in,out] S          points to an instance of the floating-point FIR filter structure.
-   * @param[in]     numTaps    Number of filter coefficients in the filter.
+   * @param[in]     numTaps    Number of filter coefficients in the filter->
    * @param[in]     pCoeffs    points to the filter coefficients.
    * @param[in]     pState     points to the state buffer.
    * @param[in]     blockSize  number of samples that are processed at a time.
@@ -67,7 +67,7 @@ extern "C"
         uint32_t blockSize);
 
   /**
-   * @brief Processing function for the floating-point FIR filter.
+   * @brief Processing function for the floating-point FIR filter->
    * @param[in]  S          points to an instance of the floating-point FIR structure.
    * @param[in]  pSrc       points to the block of input data.
    * @param[out] pDst       points to the block of output data.
@@ -81,11 +81,11 @@ extern "C"
 
 
   /**
-   * @brief Instance structure for the floating-point Biquad cascade filter.
+   * @brief Instance structure for the floating-point Biquad cascade filter->
    */
   typedef struct
   {
-          uint32_t numStages;      /**< number of 2nd order stages in the filter.  Overall order is 2*numStages. */
+          uint32_t numStages;      /**< number of 2nd order stages in the filter->  Overall order is 2*numStages. */
           float16_t *pState;       /**< Points to the array of state coefficients.  The array is of length 4*numStages. */
     const float16_t *pCoeffs;      /**< Points to the array of coefficients.  The array is of length 5*numStages. */
   } arm_biquad_casd_df1_inst_f16;
@@ -101,7 +101,7 @@ extern "C"
 #endif 
 
   /**
-   * @brief Processing function for the floating-point Biquad cascade filter.
+   * @brief Processing function for the floating-point Biquad cascade filter->
    * @param[in]  S          points to an instance of the floating-point Biquad cascade structure.
    * @param[in]  pSrc       points to the block of input data.
    * @param[out] pDst       points to the block of output data.
@@ -129,27 +129,27 @@ extern "C"
         float16_t * pState);
 
   /**
-   * @brief Instance structure for the floating-point transposed direct form II Biquad cascade filter.
+   * @brief Instance structure for the floating-point transposed direct form II Biquad cascade filter->
    */
   typedef struct
   {
-          uint8_t numStages;         /**< number of 2nd order stages in the filter.  Overall order is 2*numStages. */
+          uint8_t numStages;         /**< number of 2nd order stages in the filter->  Overall order is 2*numStages. */
           float16_t *pState;         /**< points to the array of state coefficients.  The array is of length 2*numStages. */
     const float16_t *pCoeffs;        /**< points to the array of coefficients.  The array is of length 5*numStages. */
   } arm_biquad_cascade_df2T_instance_f16;
 
   /**
-   * @brief Instance structure for the floating-point transposed direct form II Biquad cascade filter.
+   * @brief Instance structure for the floating-point transposed direct form II Biquad cascade filter->
    */
   typedef struct
   {
-          uint8_t numStages;         /**< number of 2nd order stages in the filter.  Overall order is 2*numStages. */
+          uint8_t numStages;         /**< number of 2nd order stages in the filter->  Overall order is 2*numStages. */
           float16_t *pState;         /**< points to the array of state coefficients.  The array is of length 4*numStages. */
     const float16_t *pCoeffs;        /**< points to the array of coefficients.  The array is of length 5*numStages. */
   } arm_biquad_cascade_stereo_df2T_instance_f16;
 
   /**
-   * @brief Processing function for the floating-point transposed direct form II Biquad cascade filter.
+   * @brief Processing function for the floating-point transposed direct form II Biquad cascade filter->
    * @param[in]  S          points to an instance of the filter data structure.
    * @param[in]  pSrc       points to the block of input data.
    * @param[out] pDst       points to the block of output data
@@ -162,7 +162,7 @@ extern "C"
         uint32_t blockSize);
 
   /**
-   * @brief Processing function for the floating-point transposed direct form II Biquad cascade filter. 2 channels
+   * @brief Processing function for the floating-point transposed direct form II Biquad cascade filter-> 2 channels
    * @param[in]  S          points to an instance of the filter data structure.
    * @param[in]  pSrc       points to the block of input data.
    * @param[out] pDst       points to the block of output data
@@ -175,9 +175,9 @@ extern "C"
         uint32_t blockSize);
 
   /**
-   * @brief  Initialization function for the floating-point transposed direct form II Biquad cascade filter.
+   * @brief  Initialization function for the floating-point transposed direct form II Biquad cascade filter->
    * @param[in,out] S          points to an instance of the filter data structure.
-   * @param[in]     numStages  number of 2nd order stages in the filter.
+   * @param[in]     numStages  number of 2nd order stages in the filter->
    * @param[in]     pCoeffs    points to the filter coefficients.
    * @param[in]     pState     points to the state buffer.
    */
@@ -188,9 +188,9 @@ extern "C"
         float16_t * pState);
 
   /**
-   * @brief  Initialization function for the floating-point transposed direct form II Biquad cascade filter.
+   * @brief  Initialization function for the floating-point transposed direct form II Biquad cascade filter->
    * @param[in,out] S          points to an instance of the filter data structure.
-   * @param[in]     numStages  number of 2nd order stages in the filter.
+   * @param[in]     numStages  number of 2nd order stages in the filter->
    * @param[in]     pCoeffs    points to the filter coefficients.
    * @param[in]     pState     points to the state buffer.
    */
