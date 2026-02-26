@@ -9,7 +9,7 @@
 #define EXPORTED_TLC5916_H_
 
 #include <stdio.h>
-#include
+#include "stm32h5xx_hal.h"
 
 typedef enum {
 	TLC5916_OK = 0,
@@ -30,7 +30,10 @@ typedef struct {
 
 //void TLC5916_Frame_Begin(TLC5916_t *tlc);
 //void TLC5916_Frame_End(TLC5916_t *tlc);
-TLC5916_error_t TLC5916_WriteStatus(SPI_HandleTypeDef *hspi, const uint8_t new_status);
+//TLC5916_error_t TLC5916_WriteStatus(TLC5916_t *tlc, const uint8_t new_status);
+void TLC5916_init(SPI_HandleTypeDef *hspi, TLC5916_t *tlc,
+		GPIO_TypeDef *oe_port, uint16_t oe_pin, GPIO_TypeDef *le_port,
+		uint16_t le_pin);
 TLC5916_error_t TLC5916_TurnOnLed(TLC5916_t *tlc, const uint8_t idx);
 TLC5916_error_t TLC5916_TurnOffLed(TLC5916_t *tlc, const uint8_t idx);
 TLC5916_error_t TLC5916_SetAll(TLC5916_t *tlc, uint8_t status);
