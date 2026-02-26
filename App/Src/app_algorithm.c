@@ -11,14 +11,14 @@
 #include "app_hw_definition.h"
 
 #define TAU_1                      0.001f // TODO: da prendere dalla flash
-#define TAU_2                      0.05f  // TODO: da prendere dalla flash
+#define TAU_2                      0.025f  // TODO: da prendere dalla flash
 #define TAU_TH                     0.05f
 #define DEFAULT_TH_TS              0.02048f
 #define DEFAULT_GAIN               1.5f
 #define DEFAULT_DELTA              1.0f
 #define DEFAULT_NUM_CYCLE          200
 #define DEFAULT_TH                 4000
-#define DEFAULT_TS                 0.00002f
+#define DEFAULT_TS                 0.00004f
 #define DEFAULT_TH_BUF_SIZE        1024U
 
 #define MAX_NUM_SENS               18
@@ -206,7 +206,7 @@ bool check_status(uint8_t sensor) {
 	return status;
 }
 
-void build_txdata(uint8_t index, float32_t *data)
+void build_txdata_alg(uint8_t index, float32_t *data)
 {
 	data[0] = real_sensors[index].filter_2;
 	data[1] = real_thresholds[index].value;

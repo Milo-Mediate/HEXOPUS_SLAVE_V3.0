@@ -47,7 +47,7 @@ void enable_all_threshold();
 void disable_all_threshold();
 
 bool check_status(uint8_t sensor);
-void build_txdata(uint8_t index, float32_t *data);
+void build_txdata_alg(uint8_t index, float32_t *data);
 
 float32_t get_plot_data(uint8_t index);
 

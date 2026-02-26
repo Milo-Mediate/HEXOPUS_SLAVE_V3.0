@@ -15,6 +15,12 @@
 
 #include <stdbool.h>
 
+typedef enum {
+	BELOW_TH_1 = 0,
+	BETWEEN_THS,
+	ABOVE_TH_2
+}DSP_Status;
+
 typedef struct {
 	float32_t  q1;
 	float32_t  q2;
@@ -39,11 +45,6 @@ typedef struct {
 	bool      enable;
 } DSP_TH_t;
 
-typedef enum {
-	BELOW_TH_1 = 0,
-	BETWEEN_THS,
-	ABOVE_TH_2
-}DSP_Status;
 
 typedef enum {
 	FILTER_OK = 0,

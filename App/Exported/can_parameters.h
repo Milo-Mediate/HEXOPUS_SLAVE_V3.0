@@ -19,5 +19,6 @@ HAL_StatusTypeDef can_get_tau_1(const uint8_t *RxData);
 HAL_StatusTypeDef can_get_tau_2(const uint8_t *RxData);
 HAL_StatusTypeDef can_get_tau_th(const uint8_t *RxData);
 HAL_StatusTypeDef can_get_num_cycle(const uint8_t *RxData);
-
+HAL_StatusTypeDef can_get_dsp_th_1(const uint8_t *RxData);
+HAL_StatusTypeDef can_get_dsp_th_2(const uint8_t *RxData);
 #endif /* EXPORTED_CAN_PARAMETERS_H_ */

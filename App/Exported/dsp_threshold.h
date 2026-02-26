@@ -8,6 +8,8 @@
 #ifndef EXPORTED_DSP_THRESHOLD_H_
 #define EXPORTED_DSP_THRESHOLD_H_
 
+#include "arm_math.h"
+#include "filter_goertzel.h"
 typedef enum {
 	DSP_TH_OK,
 	DSP_TH_OUT_OF_RANGE,

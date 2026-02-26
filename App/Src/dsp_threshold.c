@@ -4,8 +4,8 @@
  *  Created on: 18 feb 2026
  *      Author: emili
  */
+#include <app_DSP_algorithm.h>
 #include "dsp_threshold.h"
-#include "DSP_algorithm.h"
 #include "app_hw_definition.h"
 
 DSP_TH_status update_dsp_th(DSP_TH_t *threshold, float32_t new_val) {
@@ -13,11 +13,11 @@ DSP_TH_status update_dsp_th(DSP_TH_t *threshold, float32_t new_val) {
 		return DSP_TH_OK;
 	if (new_val > threshold->max)
 		threshold->max = new_val;
-	threshold->sum += val;
+	threshold->sum += new_val;
 	threshold->count++;
 
 	if (threshold->count == threshold->buffer_len) {
-		if (calc_dsp_threshold(threshold) != DSP_TH_OK);
+		if (calc_dsp_threshold(threshold) != DSP_TH_OK)
 			return DSP_TH_CALCULATION_ERROR;
 		threshold->count = 0;
 		threshold->is_updated = true;
@@ -36,9 +36,4 @@ DSP_TH_status calc_dsp_threshold(DSP_TH_t *threshold)
 }
 
 
-DSP_TH_status set_outdated_dsp_th(uint8_t sens) {
-	if(sens >= NUM_DSP)
-		return DSP_TH_OUT_OF_RANGE;
-	dsp_thresholds[sens].is_updated = false;
-	return DSP_TH_OK;
-}
+

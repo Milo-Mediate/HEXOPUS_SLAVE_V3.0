@@ -27,10 +27,13 @@
 
 #define SAMPLING_FREQ      40000.0f
 #define TARGET_FREQ        10000.0f
-#define TS_DSP             0.000025f // Update Rate Time Reading from ADC_1 (Tim2 Freq = 40KHz -> 25us)
 
 static const float32_t omega = (2.0f * PI * TARGET_FREQ) / SAMPLING_FREQ;
-static const coeff = arm_cos_f32(omega) * 2.0f;
+static float32_t coeff;
+
+void coeff_init() {
+	coeff = arm_cos_f32(omega) * 2.0f;
+}
 
 /**
  * @brief Compute the alpha coefficient of an EMA filter given tau.
@@ -38,13 +41,7 @@ static const coeff = arm_cos_f32(omega) * 2.0f;
  * @param Ts  Sampling period (in seconds)
  * @return Alpha value (between 0 and 1)
  */
-float32_t EMA_GetAlpha(float32_t tau, float32_t ts)
-{
-    if (tau <= 0.0f) return 1.0f; // Instant response (no filtering)
 
-    float32_t alpha = 1.0f - expf(-ts / tau);
-    return alpha;
-}
 
 G_Filter_error goertzel_10kHz(G_Filter_t *filter, float32_t new_adc_val) {
 	/* Guard: check channel range */
@@ -53,16 +50,17 @@ G_Filter_error goertzel_10kHz(G_Filter_t *filter, float32_t new_adc_val) {
 	}
 
 	/* Goertzel sliding update */
-	float32_t q0 = (coeff * filter.q1) - filter.q2 + new_adc_val - filter.adc_val;
-	float32_t q2_new = filter.q1;
+	float32_t q0 = (coeff * filter->q1) - filter->q2 + new_adc_val - filter->adc_val[filter->index];
+	float32_t q2_new = filter->q1;
 	float32_t q1_new = q0;
 
 	/* Commit state */
 	filter->q1 = q1_new;
 	filter->q2 = q2_new;
 
-	filter->adc_val = new_adc_val;
+	filter->adc_val[filter->index] = new_adc_val;
+	filter->index += 1;
 	/* Power estimate */
-	filter->power = (filter.q1 * filter.q1) + (filter.q2 * filter.q2) - (filter.q1 * filter.q2 * coeff);
+	filter->power = (filter->q1 * filter->q1) + (filter->q2 * filter->q2) - (filter->q1 * filter->q2 * coeff);
 	return FILTER_OK;
 }
