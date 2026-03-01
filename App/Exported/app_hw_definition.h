@@ -8,6 +8,9 @@
 #ifndef EXPORTED_APP_HW_DEFINITION_H_
 #define EXPORTED_APP_HW_DEFINITION_H_
 
+#define MAGIC_FOCACCIA    (0xf0cacc1a)
+#define MAGIC_COCACOLA    (0xc0cac01a)
+
 #define NUM_SENS  12
 #define NUM_DSP   6
 

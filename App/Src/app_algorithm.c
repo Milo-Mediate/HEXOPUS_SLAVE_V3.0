@@ -8,26 +8,12 @@
 #include "app_algorithm.h"
 #include "EMA_constant.h"
 #include "ADC_function.h"
-#include "app_hw_definition.h"
+#include "logging.h"
 
-#define TAU_1                      0.001f // TODO: da prendere dalla flash
-#define TAU_2                      0.025f  // TODO: da prendere dalla flash
-#define TAU_TH                     0.05f
-#define DEFAULT_TH_TS              0.02048f
-#define DEFAULT_GAIN               1.5f
-#define DEFAULT_DELTA              1.0f
-#define DEFAULT_NUM_CYCLE          200
-#define DEFAULT_TH                 4000
-#define DEFAULT_TS                 0.00004f
-#define DEFAULT_TH_BUF_SIZE        1024U
-
-#define MAX_NUM_SENS               18
+#include "flash_management.h"
 
 
-//
-//Sensor_t all_sensors[MAX_NUM_SENS];
-//Sensor_TH_t all_thresholds[MAX_NUM_SENS];
-//Edge_Detector_t edge_det[MAX_NUM_SENS];
+
 
 static Sensor_t * all_sensors_storage[NUM_SENS];          // <-- scrivibile
 Sensor_t * const * const all_sensors = all_sensors_storage; // <-- vista read-only
@@ -64,20 +50,19 @@ void dynamic_threshold_algorithm_test() {
 		Sensor_t *sensor = all_sensors[i];
 		Sensor_TH_t *threshold = all_thresholds[i];
 		Edge_Detector_t *ed = &edge_det[i];
-		update_sensor(new_val, sensor, threshold, ed);
+		update_sensor(new_val, sensor, threshold, ed/*, i*/);
 	}
 }
 
-void reset_thresholds()
+void reset_thresholds(uint8_t sensor)
 {
-	all_thresholds[3]->value = all_sensors[3]->filter_2 + all_sensors[3]->delta;
-	all_thresholds[2]->value = all_sensors[2]->filter_2 + all_sensors[2]->delta;
+	all_thresholds[sensor]->value = all_sensors[sensor]->filter_2 + all_sensors[sensor]->delta;
 }
 
 void sensor_init() {
 	for (uint8_t i = 0U; i < NUM_SENS; i++) {
-		all_sensors[i]->delta = DEFAULT_DELTA;
-		all_sensors[i]->num_cycle_max = DEFAULT_NUM_CYCLE;
+		all_sensors[i]->delta = flash_data_write_.deltas[i];
+		all_sensors[i]->num_cycle_max = flash_data_write_.num_cycles[i];
 		all_sensors[i]->k_1 = EMA_GetAlpha(TAU_1, DEFAULT_TS);
 		all_sensors[i]->k_2 = EMA_GetAlpha(TAU_2, DEFAULT_TS);
 	}
@@ -86,21 +71,23 @@ void sensor_init() {
 void threshold_init() {
 	for (uint8_t i = 0U; i < NUM_SENS; i++) {
 		all_thresholds[i]->buffer_len = DEFAULT_TH_BUF_SIZE;
-		all_thresholds[i]->gain = DEFAULT_GAIN;
+		all_thresholds[i]->gain = flash_data_write_.gains[i];
 		all_thresholds[i]->value = DEFAULT_TH;
 		all_thresholds[i]->k = EMA_GetAlpha(TAU_TH, DEFAULT_TH_TS);
 	}
 }
 
 void set_threshold_gain(uint8_t sensor, float32_t gain) {
-	if (sensor > sizeof(all_thresholds) - 1)
-		return;
+	if (sensor > NUM_SENS - 1){
+		ln_info("USCITO");
+		return;}
 //	if (gain < GAIN_MIN || gain > GAIN_MAX) return;
 	all_thresholds[sensor]->gain = gain;
+	flash_data_write_.gains[sensor] = gain;
 }
 
 bool get_threshold_gain(uint8_t sensor, float32_t *gain) {
-	if (sensor > sizeof(all_thresholds) - 1)
+	if (sensor > NUM_SENS - 1)
 		return false;
 	if (!gain)
 		return false;
@@ -109,12 +96,13 @@ bool get_threshold_gain(uint8_t sensor, float32_t *gain) {
 }
 
 void set_sensor_delta(uint8_t sensor, float32_t delta) {
-	if (sensor > sizeof(all_sensors) - 1)
+	if (sensor > NUM_SENS - 1)
 		return;
 	all_sensors[sensor]->delta = delta;
+	flash_data_write_.deltas[sensor] = delta;
 }
 bool get_sensor_delta(uint8_t sensor, float32_t *delta) {
-	if (sensor > sizeof(all_sensors) - 1)
+	if (sensor > NUM_SENS - 1)
 		return false;
 	if (!delta)
 		return false;
@@ -123,12 +111,12 @@ bool get_sensor_delta(uint8_t sensor, float32_t *delta) {
 }
 
 void set_sensor_tau_1(uint8_t sensor, float32_t tau_1) {
-	if (sensor > sizeof(all_sensors) - 1)
+	if (sensor > NUM_SENS - 1)
 		return;
 	all_sensors[sensor]->k_1 = EMA_GetAlpha(tau_1, DEFAULT_TS);
 }
 bool get_sensor_tau_1(uint8_t sensor, float32_t *tau_1) {
-	if (sensor > sizeof(all_sensors) - 1)
+	if (sensor > NUM_SENS - 1)
 		return false;
 	if (!tau_1)
 		return false;
@@ -137,12 +125,12 @@ bool get_sensor_tau_1(uint8_t sensor, float32_t *tau_1) {
 }
 
 void set_sensor_tau_2(uint8_t sensor, float32_t tau_2) {
-	if (sensor > sizeof(all_sensors) - 1)
+	if (sensor > NUM_SENS - 1)
 		return;
 	all_sensors[sensor]->k_2 = EMA_GetAlpha(tau_2, DEFAULT_TS);
 }
 bool get_sensor_tau_2(uint8_t sensor, float32_t *tau_2) {
-	if (sensor > sizeof(all_sensors) - 1)
+	if (sensor > NUM_SENS - 1)
 		return false;
 	if (!tau_2)
 		return false;
@@ -151,12 +139,12 @@ bool get_sensor_tau_2(uint8_t sensor, float32_t *tau_2) {
 }
 
 void set_threshold_tau_th(uint8_t sensor, float32_t tau_th) {
-	if (sensor > sizeof(all_thresholds) - 1)
+	if (sensor > NUM_SENS - 1)
 		return;
 	all_thresholds[sensor]->k = EMA_GetAlpha(tau_th, DEFAULT_TH_TS);
 }
 bool get_threshold_tau_th(uint8_t sensor, float32_t *tau_th) {
-	if (sensor > sizeof(all_thresholds) - 1)
+	if (sensor > NUM_SENS - 1)
 		return false;
 	if (!tau_th)
 		return false;
@@ -165,11 +153,14 @@ bool get_threshold_tau_th(uint8_t sensor, float32_t *tau_th) {
 }
 
 void set_sensor_num_cycle(uint8_t sensor, uint16_t num_cycle) {
-	if (sensor > sizeof(all_sensors) - 1)
+	if (sensor > NUM_SENS - 1)
 		return;
+	all_sensors[sensor]->num_cycle_max = num_cycle;
+	all_sensors[sensor]->num_cycle_count = 0;
+	flash_data_write_.num_cycles[sensor] = num_cycle;
 }
 bool get_sensor_num_cycle(uint8_t sensor, uint16_t *num_cycle) {
-	if (sensor > sizeof(all_sensors) - 1)
+	if (sensor > NUM_SENS - 1)
 		return false;
 	if (!num_cycle)
 		return false;
@@ -184,7 +175,7 @@ void enable_threshold(uint8_t sensor) { //ToDo: modificare per diagnostica
 
 }
 void disable_threshold(uint8_t sensor) { //ToDo: modificare per diagnostica
-	if (sensor > sizeof(all_sensors) - 1)
+	if (sensor > NUM_SENS - 1)
 		return;
 	all_thresholds[sensor]->enable = false;
 }
@@ -201,10 +192,21 @@ void disable_all_threshold() {
 	}
 }
 
-bool check_status(uint8_t sensor) {
-	bool status = all_sensors[sensor]->status;
+bool check_sensor_status(uint8_t sensor) {
+	bool status = real_sensors[sensor].status;
 	return status;
 }
+
+bool check_all_sensors_status()
+{
+	for(uint8_t sens = 0; sens < (NUM_SENS / 2); sens++)
+	{
+		if (check_sensor_status(sens))
+			return true;
+	}
+	return false;
+}
+
 
 void build_txdata_alg(uint8_t index, float32_t *data)
 {

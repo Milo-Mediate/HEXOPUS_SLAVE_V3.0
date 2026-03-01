@@ -1,4 +1,4 @@
-#include <app_DSP_algorithm.h>
+#include "app_DSP_algorithm.h"
 #include "serial_manager.h"
 #include "can_manager.h"
 #include "EMA_constant.h"
@@ -6,15 +6,11 @@
 #include "app_hw_definition.h"
 #include "ADC_function.h"
 #include "logging.h"
+#include "flash_management.h"
 
-#define DSP_TAU                     0.002f
-#define DEFAULT_DSP_TS              0.000025f
-#define DEFAULT_DSP_TH_BUF_SIZE     512
-#define DEFAULT_DSP_GAIN_1          1.7f
-#define DEFAULT_DSP_GAIN_2          47.5f
 
-static G_Filter_t dsp_sensors[NUM_DSP];
-static DSP_TH_t dsp_thresholds[NUM_DSP];
+G_Filter_t dsp_sensors[NUM_DSP];
+DSP_TH_t dsp_thresholds[NUM_DSP];
 
 void dsp_init() {
 	for (uint8_t i = 0U; i < NUM_DSP; i++) {
@@ -27,8 +23,8 @@ void dsp_threshold_init() {
 		dsp_thresholds[i].buffer_len = DEFAULT_DSP_TH_BUF_SIZE;
 		dsp_thresholds[i].sum = 0;
 		dsp_thresholds[i].max = 0;
-		dsp_thresholds[i].gain_1 = DEFAULT_DSP_GAIN_1;
-		dsp_thresholds[i].gain_2 = DEFAULT_DSP_GAIN_2;
+		dsp_thresholds[i].gain_1 = flash_data_write_.dsp_gains_1[i];
+		dsp_thresholds[i].gain_2 = flash_data_write_.dsp_gains_2[i];
 		dsp_thresholds[i].is_updated = true;
 		dsp_thresholds[i].enable = false;
 	}
@@ -36,7 +32,9 @@ void dsp_threshold_init() {
 
 void set_sensor_dsp_th_1(uint8_t sens, float32_t new_th)
 {
-	dsp_thresholds[sens].value_1 = new_th;
+	dsp_thresholds[sens].gain_1 = new_th;
+	flash_data_write_.dsp_gains_1[sens] = new_th;
+	set_outdated_dsp_th(sens);
 }
 
 float32_t get_sensor_dsp_th_1(uint8_t sens)
@@ -46,7 +44,9 @@ float32_t get_sensor_dsp_th_1(uint8_t sens)
 
 void set_sensor_dsp_th_2(uint8_t sens, float32_t new_th)
 {
-	dsp_thresholds[sens].value_2 = new_th;
+	dsp_thresholds[sens].gain_2 = new_th;
+	flash_data_write_.dsp_gains_2[sens] = new_th;
+	set_outdated_dsp_th(sens);
 }
 
 float32_t get_sensor_dsp_th_2(uint8_t sens)
@@ -62,7 +62,7 @@ G_Filter_error DSP_algorithm() {
 			return FILTER_ERROR;
 		dsp_sensors[i].pow_fil = (dsp_sensors[i].power) * (dsp_sensors[i].k_dsp) + (dsp_sensors[i].pow_fil) * (1.0f - dsp_sensors[i].k_dsp);
 		dsp_sensors[i].index = (dsp_sensors[i].index + 1) % NUM_SAMPLES_FILTER;
-		if (dsp_sensors[i].pow_fil > dsp_thresholds[i].value_1)
+		if (dsp_sensors[i].pow_fil > dsp_thresholds[i].value_1 && dsp_thresholds[i].enable)
 		{
 			if (dsp_sensors[i].pow_fil > dsp_thresholds[i].value_2)
 			{
@@ -92,6 +92,24 @@ DSP_TH_status set_outdated_dsp_th(uint8_t sens) {
 DSP_Status check_DSP_status(uint8_t sensor) {
 	DSP_Status status = dsp_sensors[sensor].status;
 	return status;
+}
+
+bool check_all_DSP_status_1() {
+	for(uint8_t sens = 0; sens < (NUM_DSP); sens++)
+	{
+		if (check_DSP_status(sens) == BETWEEN_THS)
+			return true;
+	}
+	return false;
+}
+
+bool check_all_DSP_status_2() {
+	for(uint8_t sens = 0; sens < (NUM_DSP); sens++)
+	{
+		if (check_DSP_status(sens) == ABOVE_TH_2)
+			return true;
+	}
+	return false;
 }
 
 void enable_dsp_threshold(uint8_t sensor) { //ToDo: modificare per diagnostica

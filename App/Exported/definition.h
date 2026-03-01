@@ -85,17 +85,17 @@
  *  @brief System Machine State.
  *  @{
  */
-typedef enum {
-	IDLE = 0, /** */
-	PRE_SETUP, /** */
-	SETUP, /** */
-	RUNNING, /** */
-	STOP, /** */
-	MUTING, /** */
-	FAULT, /** */
-	EXTERNAL, /** */
-	EXPIRED,
-} MachineStatus_t;
+//typedef enum {
+//	IDLE = 0, /** */
+//	PRE_SETUP, /** */
+//	SETUP, /** */
+//	RUNNING, /** */
+//	STOP, /** */
+//	MUTING, /** */
+//	FAULT, /** */
+//	EXTERNAL, /** */
+//	EXPIRED,
+//} MachineStatus_t;
 
 //#define PRE_SETUP         0
 //#define SETUP             10
@@ -169,6 +169,8 @@ typedef enum {
 #define CMD_GET_LOG_LEVEL                 83
 #define CMD_SET_LOG_LEVEL                 84
 
+#define CMD_ROBOT_SET_TH                  253
+#define CMD_ROBOT_RESET_TH                254
 #define CMD_HEARTBEAT                     255
 
 /* Datetime (RTC) */
@@ -288,7 +290,7 @@ typedef enum {
 #define CMD_SERIAL_PLOT                   143
 #define CMD_FDCAN_TX_DEBUG                144
 #define CMD_RESET_SLAVE                   145
-#define CMD_CAN_MSG_DEBUG                 254
+#define CMD_CAN_MSG_DEBUG                 222
 
 /** @} *//* end of cmd_dbg */
 
