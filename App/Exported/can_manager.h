@@ -18,6 +18,7 @@
 extern uint8_t sens_to_plot;
 
 
+
 /**
  * @brief Convert a byte length into FDCAN DLC encoding.
  * @param len Payload length in bytes (0..64).
@@ -35,6 +36,8 @@ extern void FDCANTx(uint16_t CAN_ID, uint8_t *TxData, uint8_t len);
 
 extern void on_new_can_data(FDCAN_HandleTypeDef *hfdcan, uint32_t rx_fifo_conf);
 
+extern void send_stop(const uint16_t CAN_ID);
+extern void send_params(const uint16_t CAN_ID, uint8_t sens);
 void FDCAN_parse(FDCAN_HandleTypeDef *hfdcan, uint16_t CAN_ID, const uint8_t *RxData, uint8_t data_len);
 
 /**

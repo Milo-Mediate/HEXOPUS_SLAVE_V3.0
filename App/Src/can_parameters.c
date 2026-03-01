@@ -24,7 +24,8 @@ static HAL_StatusTypeDef can_get_float32_parameters(uint8_t command, float32_t v
 {
 	uint8_t TxData[5] = { command };
 	memcpy(&TxData[1], &value, FLOAT_LEN);
-    FDCANTx(SLAVE_ID_1, TxData, sizeof(TxData));
+	FDCANTx(SLAVE_ID_1, TxData, sizeof(TxData));
+
     // TODO: return FDCANTx(SLAVE_ID_, TxData, sizeof(TxData));
     return HAL_OK;
 }

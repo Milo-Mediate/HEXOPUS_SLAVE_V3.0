@@ -17,6 +17,10 @@
 #include "parameters_func.h"
 #include "app_hw_definition.h"
 #include "app_TLC5916.h"
+#include "app_algorithm.h"
+#include "app_DSP_algorithm.h"
+#include "machine_state.h"
+#include "logging.h"
 //#include "can_DAC.h"
 
 
@@ -112,7 +116,7 @@ void on_new_can_data(FDCAN_HandleTypeDef *hfdcan, uint32_t rx_fifo_conf) {
 		Error_Handler();
 	}
 	uint16_t CAN_ID = RxHeader.Identifier;
-	if ((CAN_ID & 0x0f0) == SLAVE_ID_1) { // TODO cambiare con il filtro HW del CAN
+	if ((CAN_ID & 0x0f0) == SLAVE_ID_1 || (CAN_ID & 0x0f0) == SLAVE_ID_2) { // TODO cambiare con il filtro HW del CAN
 
 		FDCAN_parse(hfdcan, CAN_ID, RxData, RxHeader.DataLength);
 
@@ -147,11 +151,32 @@ void on_new_can_data(FDCAN_HandleTypeDef *hfdcan, uint32_t rx_fifo_conf) {
 
 #include "global.h"
 
-void send_slave_status() {
-	uint8_t TxData[2] = { CMD_GET_SLAVE_STATUS, MS_ };
-//	memcpy(&TxData[1], &value, FLOAT_LEN);
-    FDCANTx(SLAVE_ID_1, TxData, sizeof(TxData));
+void send_slave_status(const uint16_t CAN_ID)
+{
+	uint8_t status = get_machine_state();
+	bool stop_1 = get_stop_1();
+	bool stop_2 = get_stop_2();
 
+	uint8_t TxData[4] = { CMD_GET_SLAVE_STATUS, status, stop_1, stop_2};
+	FDCANTx(CAN_ID, TxData, sizeof(TxData));
+}
+
+void send_stop(const uint16_t CAN_ID)
+{
+	uint8_t TxData[2] = { CMD_STOP };
+	FDCANTx(CAN_ID, TxData, sizeof(TxData));
+}
+
+void send_params(const uint16_t CAN_ID, uint8_t sens)
+{
+	uint8_t TxData[20] = { CMD_GET_PARAMETERS };
+	TxData[1] = sens;
+	memcpy(&TxData[2], &real_thresholds[sens].gain, sizeof(float));
+	memcpy(&TxData[6], &real_sensors[sens].num_cycle_max, sizeof(uint16_t));
+	memcpy(&TxData[8], &real_sensors[sens].delta, sizeof(float));
+	memcpy(&TxData[12], &dsp_thresholds[sens].gain_1, sizeof(float));
+	memcpy(&TxData[16], &dsp_thresholds[sens].gain_2, sizeof(float));
+	FDCANTx(CAN_ID, TxData, sizeof(TxData));
 }
 
 void FDCAN_parse(FDCAN_HandleTypeDef *hfdcan, uint16_t CAN_ID, const uint8_t *RxData, uint8_t data_len) {
@@ -162,7 +187,7 @@ void FDCAN_parse(FDCAN_HandleTypeDef *hfdcan, uint16_t CAN_ID, const uint8_t *Rx
 		break;
 
 	case CMD_GET_PARAMETERS:
-		// TODO
+		set_machine_state(SEND_PARAMS);
 		break;
 
 	case CMD_END_CAL:
@@ -323,27 +348,21 @@ void FDCAN_parse(FDCAN_HandleTypeDef *hfdcan, uint16_t CAN_ID, const uint8_t *Rx
 //		sprintf(data_to_send, "MSG FDCAN RECEIVED\r\n");
 //		UART_Print(data_to_send);
 		break;
-	case CMD_PLOT_SENSOR_1:
-	case CMD_PLOT_SENSOR_2:
-	case CMD_PLOT_SENSOR_3:
-	case CMD_PLOT_SENSOR_4:
-	case CMD_PLOT_SENSOR_5:
-	case CMD_PLOT_SENSOR_6:
+	case CMD_PLOT_ON:
 		if (!plotting) {
 			timer_on(&htim4);
 			plotting = true;
 		}
-		set_sensor_to_plot(command - CMD_PLOT_SENSOR_1);
 		break;
 	case CMD_PLOT_OFF:
 		timer_off(&htim4);
-		plotting = true;
+		plotting = false;
 //		sprintf(data_to_send, "PLOT OFF\r\n");
 //		UART_Print(data_to_send);
 		break;
 
 	case CMD_GET_SLAVE_STATUS:
-		send_slave_status();
+		send_slave_status(CAN_ID);
 		break;
 
 //	case CMD_SELECT_SENSOR:
@@ -359,6 +378,20 @@ void FDCAN_parse(FDCAN_HandleTypeDef *hfdcan, uint16_t CAN_ID, const uint8_t *Rx
 		signal_selected_ = RxData[1];
 //		sprintf(data_to_send, "Signal selected: %u \r\n", signal_selected_);
 //		UART_Print(data_to_send);
+		break;
+	case CMD_ROBOT_SET_TH:
+		for (uint8_t i = 0; i < NUM_DSP; i++) {
+			set_sensor_delta(2*i, 33);
+		}
+		break;
+	case CMD_ROBOT_RESET_TH:
+		for (uint8_t i = 0; i < NUM_DSP; i++) {
+			set_sensor_delta(2*i, 1);
+		}
+		break;
+	case CMD_RESET_SLAVE:
+		set_machine_state(SLAVE_RESET);
+
 		break;
 //	case CMD_:
 //		// TODO: template new command
