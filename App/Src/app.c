@@ -14,9 +14,10 @@
 #include "app_LTC1660.h"
 #include "app_TLC5916.h"
 #include "app_algorithm.h"
-#include <app_DSP_algorithm.h>
+#include "app_DSP_algorithm.h"
 #include "timer_function.h"
-
+#include "machine_state.h"
+#include "flash_management.h"
 
 #include "stm32h5xx_hal.h"
 #include "tim.h"
@@ -29,13 +30,17 @@ uint16_t flash_check_crc;
 uint16_t event_check_crc;
 uint8_t debug = 0;
 uint32_t current_cycle = 0;
+static uint8_t sens = 0;
 uint8_t pippo = 0;
 
 void app_init() {
 //	 HAL_Delay(5000); // ToDo inserire logica di controllo XOR_RB
 
 //	HAL_Delay(2000);
+	machine_state_init();
+
 	enable_serial_logging();
+
 	if (HAL_FDCAN_Start(&hfdcan1) != HAL_OK) {
 		Error_Handler();
 	}
@@ -49,6 +54,34 @@ void app_init() {
 	HAL_TIM_PWM_Start(&htim8, TIM_CHANNEL_4);
 
 	init_serial();
+
+	/** @brief Initializes flash_data_primary and flash_data_backup with zeros and sets initial values. */
+	ln_info("Init Flash");
+
+	/** @brief Reads MasterFlashData_t struct from flash memory. */
+	flash_read();
+	/** @brief Initializes the flash if it has not been initialized yet. */
+	if (!flash_is_init()) {
+		flash_init();
+		ln_info("OK: flash_init");
+		HAL_Delay(2000);
+		NVIC_SystemReset();
+	}
+	set_log_level(flash_data_write_.log_level);
+
+	flash_check_crc = flash_calculate_crc(&flash_data_read_);
+	if (flash_check_crc != flash_data_read_.crc16) {
+		set_machine_state(FAULT);
+		ln_info("Flash Fault");
+		lf_info("CRC Read %d", flash_data_read_.crc16);
+		lf_info("CRC Computation %d", flash_check_crc);
+	} else {
+		ln_info("Flash Test OK");
+		if (flash_data_write_.length < MasterFlashData_DataLen) {
+			flash_write();  // Updates length and crc
+		}
+	}
+
 	init_adc(ADC_1, &hadc1);
 	init_adc(ADC_2, &hadc2);
 
@@ -65,6 +98,7 @@ void app_init() {
 	dsp_threshold_init();
 
 	app_TLC5916_init();
+	set_machine_state(SETUP);
 
 // TODO: inserire i TIM HAL_TIM_Base_Start_IT(&htim2);
 // TODO: inserire i PWM HAL_TIM_PWM_Start(&htim3, TIM_CHANNEL_3);
@@ -77,34 +111,40 @@ void app_main() {
 	uint8_t tlc_status = 0;
 
 	while (1) {
-// 		ToDo: poll_serial();
-		switch (MS_) {
+		poll_serial();
+		switch (get_machine_state()) {
 //			case PRE_SETUP:
 //				break;
 
 		case SETUP:
-//			TODO: if (calibration_init() != DAC_CAL_OK) {
-//				send_event(EVENT_FAULT_CAL);
-//				MS_ = FAULT;
-//				break;
-//			}
 			calibration_init();
 			if (timer_on(&htim2) != HAL_OK) {
-				MS_ = FAULT;
+				set_machine_state(FAULT);
 				break;
 			}
 			if (timer_on(&htim3) != HAL_OK) {
-				MS_ = FAULT;
+				set_machine_state(FAULT);
 				break;
 			}
-			if (timer_on(&htim5) != HAL_OK) {
-				MS_ = FAULT;
-				break;
+//			if (timer_on(&htim5) != HAL_OK) {
+//				set_machine_state(FAULT);
+//				break;
+//			}
+			HAL_Delay(1000);
+			for (uint8_t i = 0; i < NUM_DSP; i++)
+			{
+				enable_threshold(2*i);
+				set_outdated_dsp_th(i);
 			}
-			MS_ = RUNNING;
+			HAL_Delay(500);
+			set_machine_state(RUNNING);
+
 			break;
 
 		case RUNNING:
+//			HAL_Delay(1000);
+//			lf_info("sensor: 0, value: %.1f", delta_to_check);
+
 //			sprintf(data_to_send, "comando = %d\r\n", signal_selected_);
 //			UART_Print(data_to_send);
 //			HAL_Delay(200);
@@ -165,8 +205,32 @@ void app_main() {
 			break;
 
 		case STOP:
+			if (!get_msg_1_sent())
+			{
+				send_stop(SLAVE_ID_1);
+				set_msg_1(true); //todo da mettere nella funzione
+			}
+			if (!get_msg_2_sent())
+			{
+				send_stop(SLAVE_ID_2);
+				set_msg_2(true);
+			}
+			HAL_Delay(5);
+			if ((!get_stop_1()) && (!get_stop_2()))
+				set_machine_state(RUNNING);
 			break;
-
+		case SEND_PARAMS:
+			send_params(SLAVE_ID_1, sens);
+			sens += 1;
+			HAL_Delay(20);
+			if (sens == 6) {
+				set_machine_state(RUNNING);
+			}
+			break;
+		case SLAVE_RESET:
+			flash_write();
+			NVIC_SystemReset();
+			break;
 		default:
 			break;
 		}

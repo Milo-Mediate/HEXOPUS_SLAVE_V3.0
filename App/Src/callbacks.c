@@ -13,6 +13,7 @@
 #include "app_hw_definition.h"
 #include "app_TLC5916.h"
 #include "stm32h5xx.h"
+#include "machine_state.h"
 
 static char data_to_send[100];
 static uint8_t sens = 0;
@@ -71,8 +72,24 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim) {
 		can_plot_sens(sens);
 		sens = (sens + 1) % NUM_DSP;
 	}
-	if (htim->Instance == TIM5) {
-
+	if (htim->Instance == TIM5)
+	{
+		if (check_all_sensors_status() || check_all_DSP_status_1())
+		{
+			set_machine_state(STOP);
+			set_stop_1(true);
+		} else {
+			set_stop_1(false);
+//			set_msg_1(false);
+		}
+		if(check_all_DSP_status_2())
+		{
+			set_machine_state(STOP);
+			set_stop_2(true);
+		} else {
+			set_stop_2(false);
+			set_msg_2(false);
+		}
 	}
 	if (htim->Instance == TIM12) {
 

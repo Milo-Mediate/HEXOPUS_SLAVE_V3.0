@@ -47,7 +47,7 @@ dac_cal_status_t app_calibration_dac(DAC_t *dac)
 	bool result = true;
 	for (uint8_t i = 0U; i < dac->num_channels; i++)
 	{
-		dac->status[i] =  auto_set_channel_value(dac, (i + (dac->ID*DAC_1_CHANNELS)));
+		dac->status[i] =  auto_set_channel_value(dac, i);
 		result &= (dac->status[i] == DAC_CAL_OK);
 	}
 	if (!result)

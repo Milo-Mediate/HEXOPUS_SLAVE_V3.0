@@ -98,7 +98,7 @@ uint8_t signal_selected_ = 0;
  * ======================= */
 
 /** @brief Machine status */
-uint8_t MS_ = SETUP;
+//uint8_t MS_ = SETUP;
 
 /* =======================
  *  Master-specific variables
