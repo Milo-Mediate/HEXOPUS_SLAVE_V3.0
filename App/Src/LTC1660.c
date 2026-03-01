@@ -90,7 +90,7 @@ dac_cal_status_t auto_set_channel_value(DAC_t *dac, uint8_t channel) {
 		mid = (uint16_t) ((lo + hi) >> 1);
 		set_dac_channel(dac, channel, mid);
 		HAL_Delay(250);
-		uint32_t mean_adc = read_adc_mean(0, channel);
+		uint32_t mean_adc = read_adc_mean(0, (channel + (dac->ID*8)));
 		if ((mean_adc >= ADC_MIN_TGT) && (mean_adc <= ADC_MAX_TGT)) {
 			return DAC_CAL_OK;
 		}

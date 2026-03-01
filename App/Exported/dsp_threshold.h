@@ -19,6 +19,6 @@ DSP_TH_status;
 
 DSP_TH_status update_dsp_th(DSP_TH_t *threshold, float32_t new_val);
 DSP_TH_status calc_dsp_threshold(DSP_TH_t *threshold);
-DSP_TH_status set_outdated_dsp_th(uint8_t sens);
+
 
 #endif /* EXPORTED_DSP_THRESHOLD_H_ */

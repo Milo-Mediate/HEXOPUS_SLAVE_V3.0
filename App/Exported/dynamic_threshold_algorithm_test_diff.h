@@ -51,9 +51,10 @@ typedef struct {
 
 }Edge_Detector_t;
 
+extern float delta_to_check;
 
 extern void update_sensor(float32_t new_val, Sensor_t *sensor, Sensor_TH_t *threshold,
-		Edge_Detector_t *edge_det);
+		Edge_Detector_t *edge_det/*, int i*/);
 extern void dynamic_threshold_algorithm_test();
 extern float32_t EMA_GetAlpha(float32_t tau, float32_t ts);
 

@@ -1,6 +1,8 @@
 #include "dynamic_threshold_algorithm_test_diff.h"
 // #include "buffer_manager.h"
+#include "logging.h"
 
+//float delta_to_check;
 
 static void put_TH1(Sensor_TH_t *threshold, float32_t val) {
 	threshold->sum += val;
@@ -16,7 +18,11 @@ static void reset_TH1(Sensor_TH_t *threshold, uint16_t new_size) {
 	threshold->max = 0;
 }
 
-void update_sensor(float32_t new_val, Sensor_t *sensor, Sensor_TH_t *threshold, Edge_Detector_t *edge_det) {
+void update_sensor(float32_t new_val, Sensor_t *sensor, Sensor_TH_t *threshold, Edge_Detector_t *edge_det/*, int i*/) {
+//	if (i == 0) {
+//		delta_to_check = sensor->filter_2- sensor->delta - threshold->value;
+//	}
+
 	sensor->filter_1 = (new_val) * sensor->k_1 + (sensor->filter_1) * (1.0f - sensor->k_1);
 	sensor->filter_2 = (sensor->filter_1) * (sensor->k_2) + (sensor->filter_2) * (1.0f - sensor->k_2);
 

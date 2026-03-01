@@ -9,6 +9,7 @@
 
 #include <stdint.h>
 #include "global.h"
+#include "logging.h"
 
 #ifdef MASTER
 MasterEventData_t ev_data_write_;
@@ -176,6 +177,9 @@ HAL_StatusTypeDef save_event() {
 #ifndef MASTER
 
 void send_event(EventCode event) {
+	char data[100];
+	sprintf(data, "ERROR: %d", event);
+	UART_Print(data);
 	// ToDo: implementare il send del messaggio evento su CAN
 }
 

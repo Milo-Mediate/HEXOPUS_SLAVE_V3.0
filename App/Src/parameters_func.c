@@ -9,6 +9,7 @@
 
 #include "parameters_func.h"
 #include "app_algorithm.h"
+#include "app_DSP_algorithm.h"
 #include "can_manager.h"
 #include "event_manager.h"
 
@@ -200,12 +201,8 @@ void set_dsp_th_1(const uint8_t *RxData)
 float32_t get_dsp_th_1(const uint8_t *RxData)
 {
 	uint8_t sensor = RxData[1];
-	uint16_t act_th_1;
-	if (!get_sensor_dsp_th_1(sensor, &act_th_1))
-	{
-		send_event(EVENT_FAULT_GET_DSP_TH_1);
-	}
-	return act_th_1;
+	return get_sensor_dsp_th_1(sensor);
+
 }
 
 void set_dsp_th_2(const uint8_t *RxData)
@@ -219,12 +216,7 @@ void set_dsp_th_2(const uint8_t *RxData)
 float32_t get_dsp_th_2(const uint8_t *RxData)
 {
 	uint8_t sensor = RxData[1];
-	uint16_t act_th_2;
-	if (!get_sensor_dsp_th_2(sensor, &act_th_2))
-	{
-		send_event(EVENT_FAULT_GET_DSP_TH_2);
-	}
-	return act_th_2;
+	return get_sensor_dsp_th_2(sensor);
 }
 
 void turn_on_algorithm(const uint8_t *RxData)
