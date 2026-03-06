@@ -15,6 +15,7 @@ DSP_TH_t dsp_thresholds[NUM_DSP];
 void dsp_init() {
 	for (uint8_t i = 0U; i < NUM_DSP; i++) {
 		dsp_sensors[i].k_dsp = EMA_GetAlpha(DSP_TAU, DEFAULT_DSP_TS);
+		dsp_sensors[i].max_counter = 500;
 	}
 }
 
@@ -32,9 +33,11 @@ void dsp_threshold_init() {
 
 void set_sensor_dsp_th_1(uint8_t sens, float32_t new_th)
 {
-	dsp_thresholds[sens].gain_1 = new_th;
-	flash_data_write_.dsp_gains_1[sens] = new_th;
-	set_outdated_dsp_th(sens);
+
+//	dsp_thresholds[sens].gain_1 = new_th;
+//	flash_data_write_.dsp_gains_1[sens] = new_th;
+//	set_outdated_dsp_th(sens);
+	dsp_thresholds[sens].value_1 *= new_th; //TODO: refactor after MAGNA poc
 }
 
 float32_t get_sensor_dsp_th_1(uint8_t sens)
@@ -44,9 +47,10 @@ float32_t get_sensor_dsp_th_1(uint8_t sens)
 
 void set_sensor_dsp_th_2(uint8_t sens, float32_t new_th)
 {
-	dsp_thresholds[sens].gain_2 = new_th;
-	flash_data_write_.dsp_gains_2[sens] = new_th;
-	set_outdated_dsp_th(sens);
+//	dsp_thresholds[sens].gain_2 = new_th;
+//	flash_data_write_.dsp_gains_2[sens] = new_th;
+//	set_outdated_dsp_th(sens);
+	dsp_thresholds[sens].value_2 *= new_th; //TODO: refactor after MAGNA poc
 }
 
 float32_t get_sensor_dsp_th_2(uint8_t sens)
@@ -62,20 +66,52 @@ G_Filter_error DSP_algorithm() {
 			return FILTER_ERROR;
 		dsp_sensors[i].pow_fil = (dsp_sensors[i].power) * (dsp_sensors[i].k_dsp) + (dsp_sensors[i].pow_fil) * (1.0f - dsp_sensors[i].k_dsp);
 		dsp_sensors[i].index = (dsp_sensors[i].index + 1) % NUM_SAMPLES_FILTER;
-		if (dsp_sensors[i].pow_fil > dsp_thresholds[i].value_1 && dsp_thresholds[i].enable)
-		{
-			if (dsp_sensors[i].pow_fil > dsp_thresholds[i].value_2)
+		if (dsp_thresholds[i].enable) {
+			if (dsp_sensors[i].pow_fil > dsp_thresholds[i].value_1)
+			{
+				if (dsp_sensors[i].pow_fil > dsp_thresholds[i].value_2)
+				{
+					dsp_sensors[i].counter_2 += 1;
+				} else {
+
+					dsp_sensors[i].counter_2_off += 1;
+					dsp_sensors[i].counter_2 = 0;
+				}
+				dsp_sensors[i].counter_1 += 1;
+			}
+			else
+			{
+				dsp_sensors[i].counter_1_off += 1;
+				dsp_sensors[i].counter_2_off += 1;
+				dsp_sensors[i].counter_1 = 0;
+			}
+			if (dsp_sensors[i].counter_1 >= dsp_sensors[i].max_counter && dsp_sensors[i].counter_2 < dsp_sensors[i].max_counter)
+			{
+				dsp_sensors[i].status = BETWEEN_THS;
+				dsp_sensors[i].counter_1_off = 0;
+			}
+			if (dsp_sensors[i].counter_2 >= dsp_sensors[i].max_counter)
 			{
 				dsp_sensors[i].status = ABOVE_TH_2;
-			} else {
-				dsp_sensors[i].status = BETWEEN_THS;
+				dsp_sensors[i].counter_2_off = 0;
 			}
+			if(dsp_sensors[i].counter_1 < dsp_sensors[i].max_counter && dsp_sensors[i].counter_1_off >= dsp_sensors[i].max_counter)
+			{
+				dsp_sensors[i].status = BELOW_TH_1;
+			}
+//			if (dsp_sensors[i].counter_1 >= dsp_sensors[i].max_counter && dsp_sensors[i].counter_2 < dsp_sensors[i].max_counter){
+//				dsp_sensors[i].status = BETWEEN_THS;
+//			}
+//			else if (dsp_sensors[i].counter_2 >= dsp_sensors[i].max_counter){
+//				dsp_sensors[i].status = ABOVE_TH_2;
+//			}
+//			else
+//			{
+//				dsp_sensors[i].status = BELOW_TH_1;
+//				dsp_sensors[i].counter_1 = 0;
+//				dsp_sensors[i].counter_2 = 0;
+//			}
 		}
-		else
-		{
-			dsp_sensors[i].status = BELOW_TH_1;
-		}
-
 		if (!dsp_thresholds[i].is_updated)
 			update_dsp_th(&dsp_thresholds[i], dsp_sensors[i].pow_fil);
 	}

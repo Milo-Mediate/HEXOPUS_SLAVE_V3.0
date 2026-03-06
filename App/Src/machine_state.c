@@ -43,7 +43,11 @@ bool get_stop_1()
 
 void set_stop_2(bool status)
 {
+	if (MS.stop_2 == status)
+		return;
+
 	MS.stop_2 = status;
+	set_msg_2(false);
 }
 
 bool get_stop_2()
@@ -63,7 +67,7 @@ bool get_msg_1_sent()
 
 void set_msg_2(bool status)
 {
-	MS.msg_1_sent = status;
+	MS.msg_2_sent = status;
 }
 
 bool get_msg_2_sent()

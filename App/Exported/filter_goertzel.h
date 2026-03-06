@@ -28,6 +28,11 @@ typedef struct {
 	float32_t  k_dsp;
 	float32_t  pow_fil;
 	float32_t  adc_val[NUM_SAMPLES_FILTER];
+	uint32_t   counter_1;
+	uint32_t   counter_2;
+	uint32_t   counter_1_off;
+	uint32_t   counter_2_off;
+	uint32_t   max_counter;
 	uint16_t   index;
 	DSP_Status status;
 }G_Filter_t;

@@ -16,7 +16,7 @@
 
 #define DSP_TAU                     0.002f
 #define DEFAULT_DSP_TS              0.000025f
-#define DEFAULT_DSP_TH_BUF_SIZE     512
+#define DEFAULT_DSP_TH_BUF_SIZE     32768
 #define DEFAULT_DSP_GAIN_1          1.7f
 #define DEFAULT_DSP_GAIN_2          45.0f
 

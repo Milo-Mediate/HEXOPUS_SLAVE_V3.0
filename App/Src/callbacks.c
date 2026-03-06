@@ -74,22 +74,24 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim) {
 	}
 	if (htim->Instance == TIM5)
 	{
-		if (check_all_sensors_status() || check_all_DSP_status_1())
-		{
-			set_machine_state(STOP);
-			set_stop_1(true);
-		} else {
-			set_stop_1(false);
-//			set_msg_1(false);
-		}
-		if(check_all_DSP_status_2())
-		{
-			set_machine_state(STOP);
-			set_stop_2(true);
-		} else {
-			set_stop_2(false);
-			set_msg_2(false);
-		}
+		bool stop_1 = check_all_DSP_status_1();
+		bool stop_2 = check_all_DSP_status_2();
+		send_stop(SLAVE_ID_1, stop_1, stop_2);
+
+//			set_machine_state(STOP);
+//			set_stop_1(true);
+//		} else {
+//			set_stop_1(false);
+////			set_msg_1(false);
+//		}
+//		if(check_all_DSP_status_2())
+//		{
+//			set_machine_state(STOP);
+//			set_stop_2(true);
+//		} else {
+//			set_stop_2(false);
+//			set_msg_2(false);
+//		}
 	}
 	if (htim->Instance == TIM12) {
 

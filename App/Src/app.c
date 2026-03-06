@@ -24,7 +24,7 @@
 #include "fdcan.h"
 #include "adc.h"
 
-static char data_to_send[100];
+//static char data_to_send[100];
 float f_to_send;
 uint16_t flash_check_crc;
 uint16_t event_check_crc;
@@ -106,9 +106,9 @@ void app_init() {
 }
 
 void app_main() {
-	uint32_t current_cycle_counter_ = 0;
-	uint32_t adc_values[NUM_SENS] = { 0 };
-	uint8_t tlc_status = 0;
+//	uint32_t current_cycle_counter_ = 0;
+//	uint32_t adc_values[NUM_SENS] = { 0 };
+//	uint8_t tlc_status = 0;
 
 	while (1) {
 		poll_serial();
@@ -131,12 +131,23 @@ void app_main() {
 //				break;
 //			}
 			HAL_Delay(1000);
-			for (uint8_t i = 0; i < NUM_DSP; i++)
-			{
-				enable_threshold(2*i);
-				set_outdated_dsp_th(i);
-			}
+//			for (uint8_t i = 0; i < NUM_DSP; i++)
+//			{
+//				enable_threshold(2*i);
+////				set_outdated_dsp_th(i);
+//			}
+			set_outdated_dsp_th(1);
+//			set_outdated_dsp_th(2);
+			set_outdated_dsp_th(3);
+			set_outdated_dsp_th(4);
+			set_outdated_dsp_th(5);
 			HAL_Delay(500);
+//			enable_dsp_threshold(1);
+//			enable_dsp_threshold(3);
+			enable_dsp_threshold(4);
+			enable_dsp_threshold(5);
+			HAL_Delay(500);
+			timer_on(&htim5);
 			set_machine_state(RUNNING);
 
 			break;
@@ -207,16 +218,16 @@ void app_main() {
 		case STOP:
 			if (!get_msg_1_sent())
 			{
-				send_stop(SLAVE_ID_1);
+//				send_stop(SLAVE_ID_1);
 				set_msg_1(true); //todo da mettere nella funzione
 			}
 			if (!get_msg_2_sent())
 			{
-				send_stop(SLAVE_ID_2);
+//				send_stop(SLAVE_ID_2);
 				set_msg_2(true);
 			}
-			HAL_Delay(5);
-			if ((!get_stop_1()) && (!get_stop_2()))
+			HAL_Delay(1000);
+			if (!get_stop_1() && (!get_stop_2()))
 				set_machine_state(RUNNING);
 			break;
 		case SEND_PARAMS:

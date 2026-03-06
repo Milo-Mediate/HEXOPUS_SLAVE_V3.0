@@ -21,6 +21,7 @@
 #include "app_DSP_algorithm.h"
 #include "machine_state.h"
 #include "logging.h"
+#include "flash_management.h"
 //#include "can_DAC.h"
 
 
@@ -161,9 +162,9 @@ void send_slave_status(const uint16_t CAN_ID)
 	FDCANTx(CAN_ID, TxData, sizeof(TxData));
 }
 
-void send_stop(const uint16_t CAN_ID)
+void send_stop(const uint16_t CAN_ID, bool stop_1, bool stop_2)
 {
-	uint8_t TxData[2] = { CMD_STOP };
+	uint8_t TxData[3] = { CMD_STOP, stop_1, stop_2};
 	FDCANTx(CAN_ID, TxData, sizeof(TxData));
 }
 
@@ -381,17 +382,16 @@ void FDCAN_parse(FDCAN_HandleTypeDef *hfdcan, uint16_t CAN_ID, const uint8_t *Rx
 		break;
 	case CMD_ROBOT_SET_TH:
 		for (uint8_t i = 0; i < NUM_DSP; i++) {
-			set_sensor_delta(2*i, 33);
+			set_sensor_delta(2*i, 5);
 		}
 		break;
 	case CMD_ROBOT_RESET_TH:
 		for (uint8_t i = 0; i < NUM_DSP; i++) {
-			set_sensor_delta(2*i, 1);
+			set_sensor_delta(2*i, flash_data_write_.deltas[i]);
 		}
 		break;
 	case CMD_RESET_SLAVE:
 		set_machine_state(SLAVE_RESET);
-
 		break;
 //	case CMD_:
 //		// TODO: template new command
